@@ -16,7 +16,7 @@ public class MapManager : MonoBehaviour
     private int _height;                      // マップの立幅
 
 
-    private const int KEYSELECTNUM = 10;
+    private const int KEY_SELECT_NUM = 10;
 
     // ステージ用のPrefab
     [SerializeField] private GameObject[] _groundPrefab;     // 歩行可能マス key: 0～9
@@ -27,7 +27,7 @@ public class MapManager : MonoBehaviour
     /// <summary>
     /// マップのブロックごとの設定
     /// </summary>
-    private class MapBlockData
+    public class MapBlockData
     {
         public int key;             // オブジェクトの属性キー
         public string name;         // オブジェクトの名称
@@ -85,8 +85,8 @@ public class MapManager : MonoBehaviour
                 string name = "Unknown";
 
                 // ブロックのカテゴリーとタイプの設定
-                int category = key / KEYSELECTNUM;
-                int type = key % KEYSELECTNUM;
+                int category = key / KEY_SELECT_NUM;
+                int type = key % KEY_SELECT_NUM;
 
 
                 // ブロック生成
