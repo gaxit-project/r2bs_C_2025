@@ -42,7 +42,7 @@ public class MapManager : MonoBehaviour
     {
         Instance = this;
         // ステージ作成
-        //LoadMap();
+        CreateMap();
     }
 
 
@@ -93,7 +93,8 @@ public class MapManager : MonoBehaviour
                 switch (category)
                 {
                     // 通路ブロック
-                    case 0: 
+                    case 0:
+                        position = new Vector3(reversedX * _tileSize + _tileSize / 2f, -0.5f, y * _tileSize + _tileSize / 2f);
                         obj = Instantiate(_groundPrefab[0], position, Quaternion.identity, TileParent);
                         name = "GroundObject";
                         isWalkable = true;

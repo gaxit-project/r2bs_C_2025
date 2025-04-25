@@ -2,7 +2,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerControllerSclipt : MonoBehaviour
+public class ShimoDebugController : MonoBehaviour
 {
     public float playerSpeed = 10f; //プレイヤーの速度
     private Vector2 moveInput = Vector2.zero; //入力格納

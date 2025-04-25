@@ -1,10 +1,12 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using static MapManager;
 
 public class PlayerBase : MonoBehaviour
 {
     // プレイヤー関連の変数
-    protected float Speed;   // プレイヤーのスピード
+    protected float playerSpeed = 10f; //プレイヤーの速度
+    protected Vector2 moveInput = Vector2.zero; //入力格納
     // 爆弾関連の変数
     [SerializeField] private GameObject _standardBomb;  // 爆弾を入れる配列
     private Transform BombParent;                  // 爆弾の生成先オブジェクト
@@ -17,8 +19,14 @@ public class PlayerBase : MonoBehaviour
         _standardBomb = Resources.Load<GameObject>("Prefab/StandardBomb");
         GameObject bombParentObj = GameObject.Find("BombGenerate");
         BombParent = bombParentObj.transform;
+        //初期位置の設定
+        this.transform.position = new Vector3(1.5f, 0f, 1.5f);
     }
 
+    protected void Update()
+    {
+        PlayerMove();
+    }
 
 
 
@@ -45,6 +53,29 @@ public class PlayerBase : MonoBehaviour
         }
 
         return blockData;
+    }
+    //プレイヤーの移動
+    protected void PlayerMove()
+    {
+        var move = new Vector3(moveInput.x, 0f, moveInput.y) * playerSpeed * Time.deltaTime; //Timeはポーズ画面時止まるよう
+        transform.Translate(move);
+    }
+
+    //プレイヤーの移動入力
+    public void OnMove(InputAction.CallbackContext context)
+    {
+        moveInput = context.ReadValue<Vector2>();
+    }
+    //プレイヤーの退出
+    public void OnLeft()
+    {
+        Destroy(this.gameObject);
+    }
+
+    //爆弾設置
+    public void Onbomb()
+    {
+        BombPlacement(CatchPlayerPos());
     }
 
 
