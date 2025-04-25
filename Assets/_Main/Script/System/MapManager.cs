@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using UnityEngine;
 
-public class MapData : MonoBehaviour
+public class MapManager : MonoBehaviour
 {
     private string _csvFileName = "stage1";       // csv読み込み
     public Transform TileParent;      // 床オブジェクトの生成先オブジェクト
@@ -27,7 +27,7 @@ public class MapData : MonoBehaviour
     /// <summary>
     /// マップのブロックごとの設定
     /// </summary>
-    public class MapBlockData
+    private class MapBlockData
     {
         public int key;             // オブジェクトの属性キー
         public string name;         // オブジェクトの名称
@@ -37,7 +37,7 @@ public class MapData : MonoBehaviour
     }
     public int Width => _width;   // ボム用のタイルの横幅をpublic化
 
-    public static MapData Instance;
+    public static MapManager Instance;
     private void Awake()
     {
         Instance = this;
@@ -52,7 +52,7 @@ public class MapData : MonoBehaviour
     /// <summary>
     /// マップを出現させる
     /// </summary>
-    public void LoadMap()
+    public void CreateMap()
     {
         if (_csvFileName == null)
         {
@@ -182,7 +182,7 @@ public class MapData : MonoBehaviour
     /// </summary>
     /// <param name="key"></param>
     /// <returns></returns>
-    string GetNameByKey(int key)
+    private string GetNameByKey(int key)
     {
         switch (key)
         {
@@ -199,7 +199,7 @@ public class MapData : MonoBehaviour
     /// </summary>
     /// <param name="key"></param>
     /// <returns></returns>
-    bool IsWalkableTile(int key)
+    private bool IsWalkableTile(int key)
     {
         return key == 0;
     }
