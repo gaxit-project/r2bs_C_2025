@@ -30,14 +30,25 @@ public class MapData : MonoBehaviour
         public int key;             // オブジェクトの属性キー
         public string name;         // オブジェクトの名称
         public bool isWalkable;     // 歩行可能かどうかのフラグ
+        public Vector3 tilePosition;
         public GameObject instance; // 生成されたオブジェクトの参照
     }
+    public int Width => _width;
 
-
+    public static MapData Instance;
     void Awake()
     {
+        Instance = this;
         // ステージ作成
         LoadMap();
+    }
+    private void Update()
+    {
+        MapBlockData data = GetBlockData(1, 1);
+        Debug.Log("position"+data.tilePosition);
+        Debug.Log("key"+data.key);
+        Debug.Log("name"+data.name);
+        Debug.Log("walk"+data.isWalkable);
     }
 
     # region マップを生成する関数
@@ -118,6 +129,7 @@ public class MapData : MonoBehaviour
                     key = key,
                     name = name,
                     isWalkable = isWalkable,
+                    tilePosition = position,
                     instance = obj
                 };
             }
