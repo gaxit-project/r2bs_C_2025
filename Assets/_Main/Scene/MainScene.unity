@@ -400,6 +400,11 @@ MonoBehaviour:
   TileParent: {fileID: 1341301055}
   WallParent: {fileID: 656226868}
   BreakWallParent: {fileID: 840774267}
+  parentObject:
+  - {fileID: 1341301054}
+  - {fileID: 656226867}
+  - {fileID: 840774266}
+  - {fileID: 278267712}
   _groundPrefab:
   - {fileID: 3455758424205611846, guid: f9e316afa553f174f8af4d935fb815e1, type: 3}
   _wallPrefab:

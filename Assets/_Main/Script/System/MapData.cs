@@ -2,10 +2,11 @@
 
 public class MapData : MonoBehaviour
 {
-    string csvFileName = "map";       // csv読み込み
+    string _csvFileName = "stage1";       // csv読み込み
     public Transform TileParent;      // 床オブジェクトの生成先オブジェクト
     public Transform WallParent;      // 壁オブジェクトの生成先オブジェクト
     public Transform BreakWallParent; // 壊れる壁オブジェクトの生成先オブジェクト
+    [SerializeField] GameObject[] parentObject; // ゲームリセット時の消す親オブジェクト
 
     float _tileSize = 1f;             // 1マスのサイズ
     MapBlockData[,] _mapGrid;         // 保存先の二次元配列
@@ -20,8 +21,6 @@ public class MapData : MonoBehaviour
     [SerializeField] private GameObject[] _breakablePrefab;  // 壊れる壁マス key: 20～29
     [SerializeField] private GameObject[] _itemBoxPrefab;    // アイテムマス key: 30～39
 
-
-
     /// <summary>
     /// マップのブロックごとの設定
     /// </summary>
@@ -30,10 +29,10 @@ public class MapData : MonoBehaviour
         public int key;             // オブジェクトの属性キー
         public string name;         // オブジェクトの名称
         public bool isWalkable;     // 歩行可能かどうかのフラグ
-        public Vector3 tilePosition;
+        public Vector3 tilePosition;// オブジェクトのポジション
         public GameObject instance; // 生成されたオブジェクトの参照
     }
-    public int Width => _width;
+    public int Width => _width;   // ボム用のタイルの横幅をpublic化
 
     public static MapData Instance;
     void Awake()
@@ -42,14 +41,8 @@ public class MapData : MonoBehaviour
         // ステージ作成
         LoadMap();
     }
-    private void Update()
-    {
-        MapBlockData data = GetBlockData(1, 1);
-        Debug.Log("position"+data.tilePosition);
-        Debug.Log("key"+data.key);
-        Debug.Log("name"+data.name);
-        Debug.Log("walk"+data.isWalkable);
-    }
+
+
 
     # region マップを生成する関数
 
@@ -58,7 +51,7 @@ public class MapData : MonoBehaviour
     /// </summary>
     public void LoadMap()
     {
-        TextAsset csvData = Resources.Load<TextAsset>(csvFileName);
+        TextAsset csvData = Resources.Load<TextAsset>(_csvFileName);
         string[] lines = csvData.text.Trim().Split('\n');
 
         _height = lines.Length;
@@ -140,6 +133,53 @@ public class MapData : MonoBehaviour
 
 
 
+    #region マップを選択する関数
+    /// <summary>
+    /// マップ選択用関数
+    /// </summary>
+    /// <param name="i"></param>
+    public void SelectMap(int i)
+    {
+        switch (i)
+        {
+            case 0:
+                _csvFileName = "stage1";
+                Debug.Log("ステージ1を設定");
+                break;
+            case 1:
+                _csvFileName = "stage2";
+                break;
+            case 2:
+                _csvFileName = "stage3";
+                break;
+            default:
+                _csvFileName = "stage4";
+                break;
+        }
+    }
+    #endregion
+
+
+
+    #region マップを初期化する関数
+    /// <summary>
+    /// マップを初期化
+    /// </summary>
+    public void ResetMap()
+    {
+        for (int i = 0; i < parentObject.Length; i++)
+        {
+            int count = parentObject[i].transform.childCount;
+            for (int j = count - 1; j >= 0; j--)
+            {
+                Transform child = parentObject[i].transform.GetChild(j);
+                GameObject.Destroy(child.gameObject);
+            }
+        }
+    }
+    #endregion
+
+
 
     #region マップの状態を確認する関数
 
@@ -154,7 +194,7 @@ public class MapData : MonoBehaviour
         {
             case 0: return "Ground";
             case 1: return "Wall";
-            case 2: return "Crate";
+            case 2: return "BreakWall";
             default: return "Unknown";
         }
     }
@@ -178,6 +218,14 @@ public class MapData : MonoBehaviour
     /// <param name="x"></param>
     /// <param name="y"></param>
     /// <returns></returns>
+    #region 関数の使い方
+    // こう使う
+    // MapBlockData data = GetBlockData(1, 1);
+    // Debug.Log("position"+data.tilePosition);
+    // Debug.Log("key"+data.key);
+    // Debug.Log("name"+data.name);
+    // Debug.Log("walk"+data.isWalkable);
+    #endregion
     public MapBlockData GetBlockData(int x, int y)
     {
         if (x >= 0 && x < _width && y >= 0 && y < _height)

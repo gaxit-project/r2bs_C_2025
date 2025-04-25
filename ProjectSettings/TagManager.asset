@@ -6,7 +6,7 @@ TagManager:
   tags:
   - Wall
   - BreakWall
-  - Grand
+  - Ground
   layers:
   - Default
   - TransparentFX
