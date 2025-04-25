@@ -27,7 +27,7 @@ public class MapManager : MonoBehaviour
     /// <summary>
     /// マップのブロックごとの設定
     /// </summary>
-    public class MapBlockData
+    private class MapBlockData
     {
         public int key;             // オブジェクトの属性キー
         public string name;         // オブジェクトの名称
@@ -182,7 +182,7 @@ public class MapManager : MonoBehaviour
     /// </summary>
     /// <param name="key"></param>
     /// <returns></returns>
-    string GetNameByKey(int key)
+    private string GetNameByKey(int key)
     {
         switch (key)
         {
@@ -199,7 +199,7 @@ public class MapManager : MonoBehaviour
     /// </summary>
     /// <param name="key"></param>
     /// <returns></returns>
-    bool IsWalkableTile(int key)
+    private bool IsWalkableTile(int key)
     {
         return key == 0;
     }
