@@ -1,19 +1,22 @@
-﻿using UnityEngine;
+﻿using System.Globalization;
+using UnityEngine;
 
 public class MapData : MonoBehaviour
 {
-    string _csvFileName = "stage1";       // csv読み込み
+    private string _csvFileName = "stage1";       // csv読み込み
     public Transform TileParent;      // 床オブジェクトの生成先オブジェクト
     public Transform WallParent;      // 壁オブジェクトの生成先オブジェクト
     public Transform BreakWallParent; // 壊れる壁オブジェクトの生成先オブジェクト
-    [SerializeField] GameObject[] parentObject; // ゲームリセット時の消す親オブジェクト
+    [SerializeField] private GameObject[] parentObject; // ゲームリセット時の消す親オブジェクト
 
-    float _tileSize = 1f;             // 1マスのサイズ
-    MapBlockData[,] _mapGrid;         // 保存先の二次元配列
+    private float _tileSize = 1f;             // 1マスのサイズ
+    private MapBlockData[,] _mapGrid;         // 保存先の二次元配列
 
-    int _width;                       // マップの横幅
-    int _height;                      // マップの立幅
+    private int _width;                       // マップの横幅
+    private int _height;                      // マップの立幅
 
+
+    private const int KEYSELECTNUM = 10;
 
     // ステージ用のPrefab
     [SerializeField] private GameObject[] _groundPrefab;     // 歩行可能マス key: 0～9
@@ -35,11 +38,11 @@ public class MapData : MonoBehaviour
     public int Width => _width;   // ボム用のタイルの横幅をpublic化
 
     public static MapData Instance;
-    void Awake()
+    private void Awake()
     {
         Instance = this;
         // ステージ作成
-        LoadMap();
+        //LoadMap();
     }
 
 
@@ -51,6 +54,12 @@ public class MapData : MonoBehaviour
     /// </summary>
     public void LoadMap()
     {
+        if (_csvFileName == null)
+        {
+            Debug.LogError("csvファイルが存在しません");
+            return;
+        }
+        
         TextAsset csvData = Resources.Load<TextAsset>(_csvFileName);
         string[] lines = csvData.text.Trim().Split('\n');
 
@@ -76,8 +85,8 @@ public class MapData : MonoBehaviour
                 string name = "Unknown";
 
                 // ブロックのカテゴリーとタイプの設定
-                int category = key / 10;
-                int type = key % 10;
+                int category = key / KEYSELECTNUM;
+                int type = key % KEYSELECTNUM;
 
 
                 // ブロック生成
@@ -140,22 +149,7 @@ public class MapData : MonoBehaviour
     /// <param name="i"></param>
     public void SelectMap(int i)
     {
-        switch (i)
-        {
-            case 0:
-                _csvFileName = "stage1";
-                Debug.Log("ステージ1を設定");
-                break;
-            case 1:
-                _csvFileName = "stage2";
-                break;
-            case 2:
-                _csvFileName = "stage3";
-                break;
-            default:
-                _csvFileName = "stage4";
-                break;
-        }
+        _csvFileName = "stage" + i;
     }
     #endregion
 
