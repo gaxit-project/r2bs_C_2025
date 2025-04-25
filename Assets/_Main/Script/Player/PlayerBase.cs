@@ -12,6 +12,8 @@ public class PlayerBase : MonoBehaviour
     private Transform BombParent;                  // 爆弾の生成先オブジェクト
     protected int BombRange = 1; // ボムの爆発範囲
     protected int BombCnt = 1;   // ボムの所持数
+    //プレイヤーを格納する配列
+    private GameObject[] players = null;
 
     private void Start()
     {
@@ -19,12 +21,14 @@ public class PlayerBase : MonoBehaviour
         _standardBomb = Resources.Load<GameObject>("Prefab/StandardBomb");
         GameObject bombParentObj = GameObject.Find("BombGenerate");
         BombParent = bombParentObj.transform;
-        //初期位置の設定
-        this.transform.position = new Vector3(1.5f, 0f, 1.5f);
+
+        //チーム分け
+        TeamSplit();
     }
 
     protected void Update()
     {
+        //プレイヤーの移動
         PlayerMove();
     }
 
@@ -54,12 +58,6 @@ public class PlayerBase : MonoBehaviour
 
         return blockData;
     }
-    //プレイヤーの移動
-    protected void PlayerMove()
-    {
-        var move = new Vector3(moveInput.x, 0f, moveInput.y) * playerSpeed * Time.deltaTime; //Timeはポーズ画面時止まるよう
-        transform.Translate(move);
-    }
 
     //プレイヤーの移動入力
     public void OnMove(InputAction.CallbackContext context)
@@ -73,9 +71,34 @@ public class PlayerBase : MonoBehaviour
     }
 
     //爆弾設置
-    public void Onbomb()
+    public void OnBomb()
     {
         BombPlacement(CatchPlayerPos());
+    }
+
+
+    //プレイヤーの移動
+    protected void PlayerMove()
+    {
+        var move = new Vector3(moveInput.x, 0f, moveInput.y) * playerSpeed * Time.deltaTime; //Timeはポーズ画面時止まるよう
+        transform.Translate(move);
+    }
+
+    //チーム分け
+    protected void TeamSplit()
+    {
+        players = GameObject.FindGameObjectsWithTag("Player"); //playerの配列
+        if(players.Length % 2 == 1)
+        {
+            this.transform.position = new Vector3(10.5f, 0, 1.5f);  //リス地
+            this.GetComponent<MeshRenderer>().material.color = Color.blue;  //色変更
+        }
+        else
+        {
+            this.transform.position = new Vector3(10.5f, 0, 23.5f);  //リス地
+            this.transform.rotation = new Quaternion(0f, 180f, 0f, 0f);  //アングル
+            this.GetComponent<MeshRenderer>().material.color = Color.red;  //色変更
+        }
     }
 
 

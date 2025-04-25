@@ -145,7 +145,7 @@ GameObject:
   - component: {fileID: 7016805920249312871}
   m_Layer: 0
   m_Name: player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -385,7 +385,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 4471666625021846875}
         m_TargetAssemblyTypeName: PlayerBase, Assembly-CSharp
-        m_MethodName: Onbomb
+        m_MethodName: OnBomb
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
