@@ -8,8 +8,8 @@ public class PlayerBase : MonoBehaviour
     // 爆弾関連の変数
     [SerializeField] private GameObject _standardBomb;  // 爆弾を入れる配列
     private Transform BombParent;                  // 爆弾の生成先オブジェクト
-    protected int BombRange; // ボムの爆発範囲
-    protected int BombCnt;   // ボムの所持数
+    protected int BombRange = 1; // ボムの爆発範囲
+    protected int BombCnt = 1;   // ボムの所持数
 
     private void Start()
     {
@@ -58,7 +58,7 @@ public class PlayerBase : MonoBehaviour
     {
         Vector3 position = blockData.tilePosition; // 現在のポジション取得
         GameObject obj = Instantiate(_standardBomb, position, Quaternion.identity, BombParent);
-        // ボムを起爆させる外部関数.Instance.関数名(BombRange);
+        // BombProcess.Instance.BombSetting(BombRange);
     }
     #endregion
 }
