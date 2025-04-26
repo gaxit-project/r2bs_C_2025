@@ -9,24 +9,13 @@ public class PlayerBase : MonoBehaviour
     protected float playerSpeed = 10f; //プレイヤーの速度
     protected Vector2 moveInput = Vector2.zero; //入力格納
     // 爆弾関連の変数
-    [SerializeField] private GameObject _standardBomb;  // 爆弾を入れる配列
-    private Transform BombParent;                  // 爆弾の生成先オブジェクト
-    protected int BombRange = 1; // ボムの爆発範囲
+    [SerializeField] protected GameObject _standardBomb;  // 爆弾を入れる配列
+    protected Transform BombParent;                  // 爆弾の生成先オブジェクト
+    protected int BombRange = 5; // ボムの爆発範囲
     protected int BombCnt = 1;   // ボムの所持数
-    protected string BombColor = "pink";
+    protected Color BombColor = Color.black;
     //プレイヤーを格納する配列
     private GameObject[] players = null;
-
-    private void Awake()
-    {
-        // ボムのPrefabと生成先オブジェクトの取得
-        _standardBomb = Resources.Load<GameObject>("Prefab/StandardBomb");
-        GameObject bombParentObj = GameObject.Find("BombGenerate");
-        BombParent = bombParentObj.transform;
-
-        //チーム分け
-        TeamSplit();
-    }
 
     protected void Update()
     {
@@ -66,18 +55,27 @@ public class PlayerBase : MonoBehaviour
     public void OnMove(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
+        Debug.Log("こんちくわ");
     }
-    //プレイヤーの退出
-    public void OnLeft()
-    {
-        Destroy(this.gameObject);
-    }
+
+
 
     //爆弾設置
     public void OnBomb()
     {
         BombPlacement(CatchPlayerPos());
     }
+
+
+
+
+    //プレイヤーの退出
+    public void OnLeft()
+    {
+        Destroy(this.gameObject);
+    }
+
+
 
 
     //プレイヤーの移動
@@ -94,15 +92,15 @@ public class PlayerBase : MonoBehaviour
         if(players.Length % 2 == 1)
         {
             this.transform.position = new Vector3(10.5f, 0, 1.5f);  //リス地
-            this.GetComponent<MeshRenderer>().material.color = Color.blue;  //色変更
-            BombColor = "red";
+            this.GetComponent<MeshRenderer>().material.color = Color.blue;  //
+            BombColor = Color.blue;
         }
         else
         {
             this.transform.position = new Vector3(10.5f, 0, 23.5f);  //リス地
             this.transform.rotation = new Quaternion(0f, 180f, 0f, 0f);  //アングル
             this.GetComponent<MeshRenderer>().material.color = Color.red;  //色変更
-            BombColor = "blue";
+            BombColor = Color.red;
         }
     }
 

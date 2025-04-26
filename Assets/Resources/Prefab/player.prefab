@@ -141,8 +141,8 @@ GameObject:
   - component: {fileID: 7929552435427572301}
   - component: {fileID: 3152102344726859111}
   - component: {fileID: 8993606735029404778}
-  - component: {fileID: 4471666625021846875}
   - component: {fileID: 7016805920249312871}
+  - component: {fileID: 3993149253078274515}
   m_Layer: 0
   m_Name: player
   m_TagString: Player
@@ -279,7 +279,7 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4471666625021846875}
+      - m_Target: {fileID: 3993149253078274515}
         m_TargetAssemblyTypeName: PlayerBase, Assembly-CSharp
         m_MethodName: OnMove
         m_Mode: 0
@@ -367,9 +367,9 @@ MonoBehaviour:
     m_ActionName: UI/TrackedDeviceOrientation
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 9212116415459464979}
-        m_TargetAssemblyTypeName: ShimoDebugController, Assembly-CSharp
-        m_MethodName: 
+      - m_Target: {fileID: 3993149253078274515}
+        m_TargetAssemblyTypeName: PlayerBase, Assembly-CSharp
+        m_MethodName: OnLeft
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -383,7 +383,7 @@ MonoBehaviour:
     m_ActionName: 'Player/Left[/Keyboard/l,/XInputControllerWindows/start,/XInputControllerWindows1/start]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4471666625021846875}
+      - m_Target: {fileID: 3993149253078274515}
         m_TargetAssemblyTypeName: PlayerBase, Assembly-CSharp
         m_MethodName: OnBomb
         m_Mode: 1
@@ -402,19 +402,6 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 6910077737753811832}
---- !u!114 &4471666625021846875
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9212116415459464979}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e545d41e0bf638f45a8e8bf4ed469916, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _standardBomb: {fileID: 0}
 --- !u!54 &7016805920249312871
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -442,3 +429,16 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
+--- !u!114 &3993149253078274515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9212116415459464979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44f8d01a7b478d348a8763cd4d4d33e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _standardBomb: {fileID: 0}
