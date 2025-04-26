@@ -33,6 +33,7 @@ public class MapManager : MonoBehaviour
         public string name;         // オブジェクトの名称
         public bool isWalkable;     // 歩行可能かどうかのフラグ
         public Vector3 tilePosition;// オブジェクトのポジション
+        public Vector2Int gridPosition; // オブジェクトの二次元配列の位置を参照できる
         public GameObject instance; // 生成されたオブジェクトの参照
     }
     public int Width => _width;   // ボム用のタイルの横幅をpublic化
@@ -133,6 +134,7 @@ public class MapManager : MonoBehaviour
                     name = name,
                     isWalkable = isWalkable,
                     tilePosition = position,
+                    gridPosition = new Vector2Int(x, y),
                     instance = obj
                 };
             }

@@ -1,3 +1,4 @@
+using System.Globalization;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static MapManager;
@@ -12,10 +13,11 @@ public class PlayerBase : MonoBehaviour
     private Transform BombParent;                  // 爆弾の生成先オブジェクト
     protected int BombRange = 1; // ボムの爆発範囲
     protected int BombCnt = 1;   // ボムの所持数
+    protected string BombColor = "pink";
     //プレイヤーを格納する配列
     private GameObject[] players = null;
 
-    private void Start()
+    private void Awake()
     {
         // ボムのPrefabと生成先オブジェクトの取得
         _standardBomb = Resources.Load<GameObject>("Prefab/StandardBomb");
@@ -59,6 +61,7 @@ public class PlayerBase : MonoBehaviour
         return blockData;
     }
 
+
     //プレイヤーの移動入力
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -92,12 +95,14 @@ public class PlayerBase : MonoBehaviour
         {
             this.transform.position = new Vector3(10.5f, 0, 1.5f);  //リス地
             this.GetComponent<MeshRenderer>().material.color = Color.blue;  //色変更
+            BombColor = "red";
         }
         else
         {
             this.transform.position = new Vector3(10.5f, 0, 23.5f);  //リス地
             this.transform.rotation = new Quaternion(0f, 180f, 0f, 0f);  //アングル
             this.GetComponent<MeshRenderer>().material.color = Color.red;  //色変更
+            BombColor = "blue";
         }
     }
 
@@ -112,7 +117,8 @@ public class PlayerBase : MonoBehaviour
     {
         Vector3 position = blockData.tilePosition; // 現在のポジション取得
         GameObject obj = Instantiate(_standardBomb, position, Quaternion.identity, BombParent);
-        // BombProcess.Instance.BombSetting(BombRange);
+        BombProcess BP = obj.GetComponent<BombProcess>();
+        BP.startBombCoutDownCoroutine(BombRange, BombColor, blockData);
     }
     #endregion
 }
