@@ -116,7 +116,7 @@ public class PlayerBase : MonoBehaviour
         Vector3 position = blockData.tilePosition; // Œ»İ‚Ìƒ|ƒWƒVƒ‡ƒ“æ“¾
         GameObject obj = Instantiate(_standardBomb, position, Quaternion.identity, BombParent);
         BombProcess BP = obj.GetComponent<BombProcess>();
-        BP.StartBombCoutDownCoroutine(BombRange, BombColor, blockData);
+        BP.startBombCoutDownCoroutine(BombRange, BombColor, blockData);
     }
     #endregion
 }
