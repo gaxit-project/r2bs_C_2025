@@ -13,6 +13,7 @@ public class PlayerBase : MonoBehaviour
     protected Transform BombParent;                  // 爆弾の生成先オブジェクト
     protected int BombRange = 5; // ボムの爆発範囲
     protected int BombCnt = 1;   // ボムの所持数
+    protected string TeamName;
     protected Color BombColor = Color.black;
     //プレイヤーを格納する配列
     private GameObject[] players = null;
@@ -94,6 +95,8 @@ public class PlayerBase : MonoBehaviour
             this.transform.position = new Vector3(10.5f, 0, 1.5f);  //リス地
             this.GetComponent<MeshRenderer>().material.color = Color.blue;  //
             BombColor = Color.blue;
+            TeamName = "TeamOne";
+            this.gameObject.tag = "TeamOne";
         }
         else
         {
@@ -101,6 +104,8 @@ public class PlayerBase : MonoBehaviour
             this.transform.rotation = new Quaternion(0f, 180f, 0f, 0f);  //アングル
             this.GetComponent<MeshRenderer>().material.color = Color.red;  //色変更
             BombColor = Color.red;
+            TeamName = "TeamTwo";
+            this.gameObject.tag = "TeamTwo";
         }
     }
 
@@ -116,7 +121,7 @@ public class PlayerBase : MonoBehaviour
         Vector3 position = blockData.tilePosition; // 現在のポジション取得
         GameObject obj = Instantiate(_standardBomb, position, Quaternion.identity, BombParent);
         BombProcess BP = obj.GetComponent<BombProcess>();
-        BP.StartBombCoutDownCoroutine(BombRange, BombColor, blockData);
+        BP.StartBombCoutDownCoroutine(BombRange, BombColor, blockData, TeamName);
     }
     #endregion
 }

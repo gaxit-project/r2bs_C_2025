@@ -7,6 +7,9 @@ TagManager:
   - Wall
   - BreakWall
   - Ground
+  - Grand
+  - TeamOne
+  - TeamTwo
   layers:
   - Default
   - TransparentFX
@@ -14,8 +17,8 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
+  - TeamOneTile
+  - TeamTwoTile
   - 
   - 
   - 
