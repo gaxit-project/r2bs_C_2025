@@ -7,14 +7,25 @@ using static UnityEditor.PlayerSettings;
 public class BombProcess : MonoBehaviour
 {
     //爆発終了フラグ
-    private bool isLeftPaint = true;
-    private bool isRightPaint = true;
-    private bool isUpPaint = true;
-    private bool isDownPaint = true;
+    private bool isLeftPaint = true;  // 左終了フラグ
+    private bool isRightPaint = true; // 右終了フラグ
+    private bool isUpPaint = true;    // 上終了フラグ
+    private bool isDownPaint = true;  // 下終了フラグ
 
     [SerializeField] private GameObject _hitObject;     // 当たり判定オブジェくト
     private GameObject _hitJudgementObj;// 当たり判定オブジェクトの生成先のオブジェクト
     private Transform _hitObjectParent; // 当たり判定オブジェクトの生成先オブジェクト
+
+
+    private Coroutine _currentCoroutine;
+
+
+    // 引数を保存する変数
+    private int _bombRange;   // 爆破範囲
+    private Color _bombColor; // 爆弾の色
+    private MapBlockData _blockData; // 座標
+    private string _teamName;        // チーム名
+
 
     public static BombProcess Instance;
     private void Awake()
@@ -23,6 +34,7 @@ public class BombProcess : MonoBehaviour
         _hitObject = Resources.Load<GameObject>("Prefab/HitObject");
         _hitJudgementObj = GameObject.Find("HitObjGenerate");
         _hitObjectParent = _hitJudgementObj.transform;
+        this.gameObject.tag = "FlowerBomb";
     }
 
     private void Update()
@@ -39,11 +51,10 @@ public class BombProcess : MonoBehaviour
     /// <summary>
     /// コルーチン呼び出し関数
     /// </summary>
-    /// <param name="bombRange"></param>
-    /// <param name="blockData"></param>
     public void StartBombCoutDownCoroutine(int bombRange, Color BombColor, MapBlockData blockData, string teamName)
     {
-        StartCoroutine(StartBombCountDown(bombRange, BombColor, blockData, teamName));
+        VarSetting(bombRange, BombColor, blockData, teamName);
+        _currentCoroutine = StartCoroutine(StartBombCountDown());
     }
 
 
@@ -51,13 +62,11 @@ public class BombProcess : MonoBehaviour
     /// <summary>
     /// 爆破までのカウントダウンコルーチン
     /// </summary>
-    /// <param name="bombRange"></param>
-    /// <param name="blockData"></param>
     /// <returns></returns>
-    IEnumerator StartBombCountDown(int bombRange, Color BombColor, MapBlockData blockData, string teamName)
+    IEnumerator StartBombCountDown()
     {
         yield return new WaitForSeconds(2.5f);
-        MapSetting(bombRange, BombColor, blockData, teamName);
+        MapSetting();
     }
 
 
@@ -68,12 +77,13 @@ public class BombProcess : MonoBehaviour
     /// </summary>
     /// <param name="bombRange"></param>
     /// <param name="blockData"></param>
-    private void MapSetting(int bombRange, Color BombColor, MapBlockData blockData, string teamName)
+    private void MapSetting()
     {
-        StartCoroutine(PaintJudge(Vector2Int.left, bombRange, BombColor, blockData, teamName));
-        StartCoroutine(PaintJudge(Vector2Int.right, bombRange, BombColor, blockData, teamName));
-        StartCoroutine(PaintJudge(Vector2Int.up, bombRange, BombColor, blockData, teamName));
-        StartCoroutine(PaintJudge(Vector2Int.down, bombRange, BombColor, blockData, teamName));
+        this.gameObject.tag = "Untagged";
+        StartCoroutine(PaintJudge(Vector2Int.left));
+        StartCoroutine(PaintJudge(Vector2Int.right));
+        StartCoroutine(PaintJudge(Vector2Int.up));
+        StartCoroutine(PaintJudge(Vector2Int.down));
         #region もし即座に起爆したいときにここをコメント外す
         //Vector2Int pos = blockData.gridPosition;
 
@@ -140,15 +150,12 @@ public class BombProcess : MonoBehaviour
     /// 塗れるかの判定を取る
     /// </summary>
     /// <param name="direction"></param>
-    /// <param name="bombRange"></param>
-    /// <param name="BombColor"></param>
-    /// <param name="blockData"></param>
     /// <returns></returns>
-    IEnumerator PaintJudge(Vector2Int direction, int bombRange, Color BombColor, MapBlockData blockData, string teamName)
+    IEnumerator PaintJudge(Vector2Int direction)
     {
-        Vector2Int pos = blockData.gridPosition;
+        Vector2Int pos = _blockData.gridPosition;
         // 右を確かめる
-        for (int i = 0; i <= bombRange; i++)
+        for (int i = 0; i <= _bombRange; i++)
         {
             int targetX = pos.x + direction.x * i;
             int targetY = pos.y + direction.y * i;
@@ -157,7 +164,7 @@ public class BombProcess : MonoBehaviour
             if (MapManager.Instance.GetBlockData(targetX, targetY).name == "GroundObject")
             {
 
-                PaintMap(targetX, targetY, BombColor, teamName);
+                PaintMap(targetX, targetY);
             }
             else if (MapManager.Instance.GetBlockData(targetX, targetY).name == "BreakWallObject")
             {
@@ -185,24 +192,63 @@ public class BombProcess : MonoBehaviour
     /// </summary>
     /// <param name="x"></param>
     /// <param name="y"></param>
-    /// <param name="BombColor"></param>
-    public void PaintMap(int x, int y, Color BombColor, string teamName)
+    public void PaintMap(int x, int y)
     {
         Renderer renderer = MapManager.Instance.GetBlockData(x, y).instance.GetComponent<Renderer>();
         // 当たり判定の生成
         Vector3 position = MapManager.Instance.GetBlockData(x, y).tilePosition;
         GameObject obj = Instantiate(_hitObject, position, Quaternion.identity, _hitObjectParent);
         BloomHitJudgment BHJ = obj.GetComponent<BloomHitJudgment>();
-        BHJ.StartJudgementCountDownCoroutine(teamName);
-        switch (teamName)
+        BHJ.StartJudgementCountDownCoroutine(_teamName);
+        switch (_teamName)
         {
             case "TeamOne":
+                // レンダーが違うときに塗り割合を変更する
+                if (renderer.gameObject.layer == LayerMask.NameToLayer("TeamTwoTile")) BloomJudgement.Instance.RemoveBloomJudge(_teamName);
+                // 白紙の時は塗り割合を加算する
+                else if(renderer.gameObject.layer != LayerMask.NameToLayer("TeamOneTile"))BloomJudgement.Instance.AddBloomJudge(_teamName);
+                // レンダー変更
                 renderer.gameObject.layer = LayerMask.NameToLayer("TeamOneTile");
                 break;
             case "TeamTwo":
+                // レンダーが違うときに塗り割合を変更する
+                if (renderer.gameObject.layer == LayerMask.NameToLayer("TeamOneTile")) BloomJudgement.Instance.RemoveBloomJudge(_teamName);
+                // 白紙の時は塗り割合を加算する
+                else if(renderer.gameObject.layer != LayerMask.NameToLayer("TeamTwoTile"))BloomJudgement.Instance.AddBloomJudge(_teamName);
+                // レンダー変更
                 renderer.gameObject.layer = LayerMask.NameToLayer("TeamTwoTile");
                 break;
         }
-        renderer.material.color = BombColor;
+        renderer.material.color = _bombColor;
+    }
+
+
+    /// <summary>
+    /// 引数のセッティング
+    /// </summary>
+    /// <param name="bombRange"></param>
+    /// <param name="BombColor"></param>
+    /// <param name="blockData"></param>
+    /// <param name="teamName"></param>
+    public void VarSetting(int bombRange, Color BombColor, MapBlockData blockData, string teamName)
+    {
+        _bombRange = bombRange;
+        _bombColor = BombColor;
+        _blockData = blockData;
+        _teamName = teamName;
+    }
+
+
+
+    /// <summary>
+    /// 連鎖用の関数
+    /// </summary>
+    public void ChainBloom()
+    {
+        if (_currentCoroutine != null)
+        {
+            StopCoroutine(_currentCoroutine);
+        }
+        MapSetting();
     }
 }

@@ -10,6 +10,7 @@ TagManager:
   - Grand
   - TeamOne
   - TeamTwo
+  - FlowerBomb
   layers:
   - Default
   - TransparentFX

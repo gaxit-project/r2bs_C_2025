@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class BloomHitJudgment : MonoBehaviour
 {
-    private string _teamName;           // ƒ`[ƒ€–¼‚Ì•Ï”‚ğ“ü‚ê‚é
+    private string _teamName;           // ï¿½`ï¿½[ï¿½ï¿½ï¿½ï¿½ï¿½Ì•Ïï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 
     public static BloomHitJudgment Instance;
     private void Awake()
@@ -28,11 +28,18 @@ public class BloomHitJudgment : MonoBehaviour
     {
         if(other.tag == "TeamOne" && _teamName == "TeamTwo")
         {
-            Debug.Log("ƒ_ƒ[ƒW‚ğó‚¯‚½");
+            Debug.Log("ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’å—ã‘ãŸ");
         }
         else if (other.tag == "TeamTwo" && _teamName == "TeamOne")
         {
-            Debug.Log("ƒ_ƒ[ƒW‚ğó‚¯‚½");
+            Debug.Log("ãƒ€ãƒ¡ãƒ¼ã‚¸ã‚’å—ã‘ãŸ");
+        }
+        if (other.tag == "FlowerBomb")
+        {
+            GameObject obj = other.gameObject;
+            BombProcess BP = obj.GetComponent<BombProcess>();
+            // é€£é–é–¢æ•°ã®å‘¼ã³å‡ºã—
+            BP.ChainBloom();
         }
     }
 

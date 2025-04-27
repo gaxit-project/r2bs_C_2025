@@ -22,14 +22,18 @@ public class PlayerBase : MonoBehaviour
     {
         //プレイヤーの移動
         PlayerMove();
+        if (Input.GetButtonUp("Fire1"))
+        {
+            BombPlacement(CatchPlayerPos());
+        }
     }
 
 
 
-    /// <summary>
-    /// プレイヤーの現在いるマップタイルの情報を取得
-    /// </summary>
-    protected MapBlockData CatchPlayerPos()
+        /// <summary>
+        /// プレイヤーの現在いるマップタイルの情報を取得
+        /// </summary>
+        protected MapBlockData CatchPlayerPos()
     {
         MapBlockData blockData = null;  // データ保存用変数
         RaycastHit hit;                 // レイの変数

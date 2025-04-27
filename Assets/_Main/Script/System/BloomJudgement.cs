@@ -31,7 +31,6 @@ public class BloomJudgement : MonoBehaviour
                 TeamTwoBloomPercent++;
                 break;
         }
-        Debug.Log("塗を加算:  青：" + TeamOneBloomPercent + "　　赤:" + TeamTwoBloomPercent);
     }
 
 
@@ -53,6 +52,5 @@ public class BloomJudgement : MonoBehaviour
                 TeamTwoBloomPercent++;
                 break;
         }
-        Debug.Log("塗り引き算:  青：" + TeamOneBloomPercent + "　　赤:" + TeamTwoBloomPercent);
     }
 }
