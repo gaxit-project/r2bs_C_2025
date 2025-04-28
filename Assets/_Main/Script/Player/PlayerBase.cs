@@ -8,7 +8,7 @@ using static MapManager;
 public class PlayerBase : MonoBehaviour
 {
     // プレイヤー関連の変数
-    protected float playerSpeed = 10f; //プレイヤーの速度
+    protected float PlayerSpeed = 10f; //プレイヤーの速度
     protected Vector2 moveInput = Vector2.zero; //入力格納
     protected Team TeamName;   // チーム名の保存
     protected Vector3 StartPosition;
@@ -20,7 +20,7 @@ public class PlayerBase : MonoBehaviour
     }
     public PlayerState currentState;
     // 爆弾関連の変数
-    [SerializeField] protected GameObject _standardBomb;  // 爆弾を入れる配列
+    [SerializeField] protected GameObject StandardBomb;  // 爆弾を入れる配列
     protected Transform BombParent;                  // 爆弾の生成先オブジェクト
     protected int BombRange = 5; // ボムの爆発範囲
     protected int BombCnt = 1;   // ボムの所持数 
@@ -103,7 +103,7 @@ public class PlayerBase : MonoBehaviour
     //プレイヤーの移動
     protected void PlayerMove()
     {
-        var move = new Vector3(moveInput.x, 0f, moveInput.y) * playerSpeed * Time.deltaTime; //Timeはポーズ画面時止まるよう
+        var move = new Vector3(moveInput.x, 0f, moveInput.y) * PlayerSpeed * Time.deltaTime; //Timeはポーズ画面時止まるよう
         transform.Translate(move);
     }
 
@@ -213,7 +213,7 @@ public class PlayerBase : MonoBehaviour
     {
         for (int i = 0; i < BloomBombMax; i++)
         {
-            GameObject BloomBomb = Instantiate(_standardBomb, BombParent);
+            GameObject BloomBomb = Instantiate(StandardBomb, BombParent);
             BloomBomb.SetActive(false);
             BloomBombPool.Add(BloomBomb);
         }

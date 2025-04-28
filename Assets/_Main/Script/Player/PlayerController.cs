@@ -6,7 +6,7 @@ public class PlayerController : PlayerBase
     private void Awake()
     {
         // ボムのPrefabと生成先オブジェクトの取得
-        _standardBomb = Resources.Load<GameObject>("Prefab/StandardBomb");
+        StandardBomb = Resources.Load<GameObject>("Prefab/StandardBomb");
         GameObject bombParentObj = GameObject.Find("BombGenerate");
         BombParent = bombParentObj.transform;
 
