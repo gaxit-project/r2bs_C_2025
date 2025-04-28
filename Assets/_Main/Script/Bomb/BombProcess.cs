@@ -24,7 +24,7 @@ public class BombProcess : MonoBehaviour
     private int _bombRange;   // 爆破範囲
     private Color _bombColor; // 爆弾の色
     private MapBlockData _blockData; // 座標
-    private string _teamName;        // チーム名
+    private Team _teamName;        // チーム名
 
     [SerializeField] private float _spreadTime = 0.2f;       // 起爆範囲が1マス広がるまでの秒数
     [SerializeField] private float _startSpreadTime = 2.5f;  // 起爆開始までの秒数
@@ -68,7 +68,7 @@ public class BombProcess : MonoBehaviour
     /// <summary>
     /// コルーチン呼び出し関数
     /// </summary>
-    public void StartBombCoutDownCoroutine(int bombRange, Color BombColor, MapBlockData blockData, string teamName)
+    public void StartBombCoutDownCoroutine(int bombRange, Color BombColor, MapBlockData blockData, Team teamName)
     {
         VarSetting(bombRange, BombColor, blockData, teamName);
         _currentCoroutine = StartCoroutine(StartBombCountDown());
@@ -187,7 +187,7 @@ public class BombProcess : MonoBehaviour
             {
                 // 破壊処理＋床生成処理
                 yield return new WaitForSeconds(_spreadTime);
-                MapManager.Instance.ChageBlock(targetX, targetY);
+                MapManager.Instance.ChangeBlock(targetX, targetY);
 
                 break;
             }
@@ -219,7 +219,7 @@ public class BombProcess : MonoBehaviour
         BHJ.StartJudgementCountDownCoroutine(_teamName);
         switch (_teamName)
         {
-            case "TeamOne":
+            case Team.TeamOne:
                 // レンダーが違うときに塗り割合を変更する
                 if (renderer.gameObject.layer == LayerMask.NameToLayer("TeamTwoTile")) BloomJudgement.Instance.RemoveBloomJudge(_teamName);
                 // 白紙の時は塗り割合を加算する
@@ -227,7 +227,7 @@ public class BombProcess : MonoBehaviour
                 // レンダー変更
                 renderer.gameObject.layer = LayerMask.NameToLayer("TeamOneTile");
                 break;
-            case "TeamTwo":
+            case Team.TeamTwo:
                 // レンダーが違うときに塗り割合を変更する
                 if (renderer.gameObject.layer == LayerMask.NameToLayer("TeamOneTile")) BloomJudgement.Instance.RemoveBloomJudge(_teamName);
                 // 白紙の時は塗り割合を加算する
@@ -247,7 +247,7 @@ public class BombProcess : MonoBehaviour
     /// <param name="BombColor"></param>
     /// <param name="blockData"></param>
     /// <param name="teamName"></param>
-    public void VarSetting(int bombRange, Color BombColor, MapBlockData blockData, string teamName)
+    public void VarSetting(int bombRange, Color BombColor, MapBlockData blockData, Team teamName)
     {
         _bombRange = bombRange;
         _bombColor = BombColor;

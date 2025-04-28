@@ -227,7 +227,7 @@ public class MapManager : MonoBehaviour
     /// </summary>
     /// <param name="x"></param>
     /// <param name="y"></param>
-    public void ChageBlock(int x, int y)
+    public void ChangeBlock(int x, int y)
     {
         MapBlockData blockPosition = GetBlockData(x, y);
         Vector3 position = new Vector3(blockPosition.tilePosition.x, -0.5f, blockPosition.tilePosition.z);

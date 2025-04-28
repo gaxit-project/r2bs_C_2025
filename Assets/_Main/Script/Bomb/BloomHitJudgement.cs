@@ -1,9 +1,10 @@
 using System.Collections;
 using UnityEngine;
+using static BloomJudgement;
 
 public class BloomHitJudgment : MonoBehaviour
 {
-    private string _teamName;           // チーム名
+    private Team _teamName;           // チーム名
 
     public static BloomHitJudgment Instance;
     private void Awake()
@@ -11,7 +12,7 @@ public class BloomHitJudgment : MonoBehaviour
         Instance = this;
     }
 
-    public void StartJudgementCountDownCoroutine(string teamName)
+    public void StartJudgementCountDownCoroutine(Team teamName)
     {
         _teamName = teamName;
         StartCoroutine(StartJudgementCoutDown());
@@ -26,13 +27,13 @@ public class BloomHitJudgment : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "TeamOne" && _teamName == "TeamTwo")
+        if(other.tag == "TeamOne" && _teamName == Team.TeamTwo)
         {
             GameObject obj = other.gameObject;
             PlayerController PC = obj.GetComponent<PlayerController>();
             PC.RespawnPlayer();
         }
-        else if (other.tag == "TeamTwo" && _teamName == "TeamOne")
+        else if (other.tag == "TeamTwo" && _teamName == Team.TeamOne)
         {
             GameObject obj = other.gameObject;
             PlayerController PC = obj.GetComponent<PlayerController>();

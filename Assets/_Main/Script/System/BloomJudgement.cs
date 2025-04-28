@@ -6,6 +6,7 @@ public class BloomJudgement : MonoBehaviour
     private int TeamTwoBloomPercent = 0;  // 一つ目のチームの咲き誇りパーセンテージ
 
 
+
     public static BloomJudgement Instance;
     private void Awake()
     {
@@ -20,14 +21,14 @@ public class BloomJudgement : MonoBehaviour
     /// パーセントを増やす関数
     /// </summary>
     /// <param name="teamName"></param>
-    public void AddBloomJudge(string teamName)
+    public void AddBloomJudge(Team teamName)
     {
         switch(teamName)
         {
-            case "TeamOne":
+            case Team.TeamOne:
                 TeamOneBloomPercent++;
                 break;
-            case "TeamTwo":
+            case Team.TeamTwo:
                 TeamTwoBloomPercent++;
                 break;
         }
@@ -39,15 +40,15 @@ public class BloomJudgement : MonoBehaviour
     /// 敵のパーセントを減らしながら自身のパーセントを増やす関数
     /// </summary>
     /// <param name="teamName"></param>
-    public void RemoveBloomJudge(string teamName)
+    public void RemoveBloomJudge(Team teamName)
     {
         switch (teamName)
         {
-            case "TeamOne":
+            case Team.TeamOne:
                 TeamTwoBloomPercent--;
                 TeamOneBloomPercent++;
                 break;
-            case "TeamTwo":
+            case Team.TeamTwo:
                 TeamOneBloomPercent--;
                 TeamTwoBloomPercent++;
                 break;

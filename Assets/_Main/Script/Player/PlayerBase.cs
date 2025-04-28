@@ -10,10 +10,15 @@ public class PlayerBase : MonoBehaviour
     // プレイヤー関連の変数
     protected float playerSpeed = 10f; //プレイヤーの速度
     protected Vector2 moveInput = Vector2.zero; //入力格納
-    protected string TeamName;   // チーム名の保存
+    protected Team TeamName;   // チーム名の保存
     protected Vector3 StartPosition;
     // プレイヤーの状態を管理する (0: 生存, 1: 死亡)
-    public int playerStatus = 0;
+    public enum PlayerState
+    {
+        Alive,
+        Death
+    }
+    public PlayerState currentState;
     // 爆弾関連の変数
     [SerializeField] protected GameObject _standardBomb;  // 爆弾を入れる配列
     protected Transform BombParent;                  // 爆弾の生成先オブジェクト
@@ -68,7 +73,7 @@ public class PlayerBase : MonoBehaviour
     //プレイヤーの移動入力
     public void OnMove(InputAction.CallbackContext context)
     {
-        if(playerStatus != 1)
+        if(currentState != PlayerState.Alive)
         {
             moveInput = context.ReadValue<Vector2>();
         }
@@ -112,7 +117,7 @@ public class PlayerBase : MonoBehaviour
             this.transform.position = StartPosition;  //リス地
             this.GetComponent<MeshRenderer>().material.color = Color.blue;
             BombColor = Color.blue;
-            TeamName = "TeamOne";
+            TeamName = Team.TeamOne;
             this.gameObject.tag = "TeamOne";
         }
         else
@@ -121,7 +126,7 @@ public class PlayerBase : MonoBehaviour
             this.transform.rotation = new Quaternion(0f, 180f, 0f, 0f);  //アングル
             this.GetComponent<MeshRenderer>().material.color = Color.red;  //色変更
             BombColor = Color.red;
-            TeamName = "TeamTwo";
+            TeamName = Team.TeamTwo;
             this.gameObject.tag = "TeamTwo";
         }
         
@@ -143,7 +148,7 @@ public class PlayerBase : MonoBehaviour
     private IEnumerator StartRespawnRoutine()
     {
         // 動けなくする（死亡）
-        playerStatus = 1;
+        currentState = PlayerState.Death;
 
         // フェードイン処理（仮）
         Debug.Log("Fade In Start");
@@ -157,17 +162,17 @@ public class PlayerBase : MonoBehaviour
         // リスポーン処理（仮）
         switch(TeamName)
         {
-            case "TeamOne":
+            case Team.TeamOne:
                 transform.position = StartPosition;
                 break;
-            case "TeamTwo":
+            case Team.TeamTwo:
                 transform.position = StartPosition;
                 break;
         }
         
 
         // 動けるようにする（生存）
-        playerStatus = 0;
+        currentState = PlayerState.Alive;
     }
 
 
