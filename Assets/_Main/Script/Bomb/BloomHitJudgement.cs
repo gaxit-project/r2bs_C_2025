@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class BloomHitJudgment : MonoBehaviour
 {
-    private string _teamName;           // �`�[�����̕ϐ�������
+    private string _teamName;           // チーム名
 
     public static BloomHitJudgment Instance;
     private void Awake()

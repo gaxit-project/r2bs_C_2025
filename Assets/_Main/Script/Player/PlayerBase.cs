@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Globalization;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -8,15 +9,23 @@ public class PlayerBase : MonoBehaviour
     // プレイヤー関連の変数
     protected float playerSpeed = 10f; //プレイヤーの速度
     protected Vector2 moveInput = Vector2.zero; //入力格納
+    protected string TeamName;   // チーム名の保存
     // 爆弾関連の変数
     [SerializeField] protected GameObject _standardBomb;  // 爆弾を入れる配列
     protected Transform BombParent;                  // 爆弾の生成先オブジェクト
     protected int BombRange = 5; // ボムの爆発範囲
-    protected int BombCnt = 1;   // ボムの所持数
-    protected string TeamName;
-    protected Color BombColor = Color.black;
+    protected int BombCnt = 1;   // ボムの所持数 
+    protected Color BombColor = Color.black; // 爆弾の色の設定
+    protected int BloomBombMax = 5;          // 爆弾の所持数のマックスの設定
+    protected List<GameObject> BloomBombPool = new List<GameObject>(); // ボムを入れるリスト
     //プレイヤーを格納する配列
     private GameObject[] players = null;
+
+
+    protected void Start()
+    {
+        InitializePool();
+    }
 
     protected void Update()
     {
@@ -30,10 +39,10 @@ public class PlayerBase : MonoBehaviour
 
 
 
-        /// <summary>
-        /// プレイヤーの現在いるマップタイルの情報を取得
-        /// </summary>
-        protected MapBlockData CatchPlayerPos()
+    /// <summary>
+    /// プレイヤーの現在いるマップタイルの情報を取得
+    /// </summary>
+    protected MapBlockData CatchPlayerPos()
     {
         MapBlockData blockData = null;  // データ保存用変数
         RaycastHit hit;                 // レイの変数
@@ -60,7 +69,6 @@ public class PlayerBase : MonoBehaviour
     public void OnMove(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
-        Debug.Log("こんちくわ");
     }
 
 
@@ -122,10 +130,59 @@ public class PlayerBase : MonoBehaviour
     /// <param name="blockData"></param>
     protected void BombPlacement(MapBlockData blockData)
     {
-        Vector3 position = blockData.tilePosition; // 現在のポジション取得
-        GameObject obj = Instantiate(_standardBomb, position, Quaternion.identity, BombParent);
+        Vector3 position = blockData.tilePosition;
+
+        GameObject obj = GetBomb();
+        if (obj == null)
+        {
+            return;
+        }
+
+        // ここでリセット！
+        obj.transform.SetParent(BombParent);
+        obj.transform.position = position;
+        obj.transform.rotation = Quaternion.identity;
+        obj.SetActive(true); // 再利用だから必ず有効化
+        obj.tag = "FlowerBomb";
         BombProcess BP = obj.GetComponent<BombProcess>();
+        BP.VarSetting(BombRange, BombColor, blockData, TeamName);
         BP.StartBombCoutDownCoroutine(BombRange, BombColor, blockData, TeamName);
     }
+
+
+
+
+
+    /// <summary>
+    /// 爆弾の個数を初期設定する
+    /// </summary>
+    private void InitializePool()
+    {
+        for (int i = 0; i < BloomBombMax; i++)
+        {
+            GameObject BloomBomb = Instantiate(_standardBomb, BombParent);
+            BloomBomb.SetActive(false);
+            BloomBombPool.Add(BloomBomb);
+        }
+    }
+
+
+    /// <summary>
+    /// 爆弾を取得してくる
+    /// </summary>
+    /// <returns></returns>
+    public GameObject GetBomb()
+    {
+        foreach (var bomb in BloomBombPool)
+        {
+            if (!bomb.activeInHierarchy)
+            {
+                return bomb;
+            }
+        }
+
+        return null;
+    }
+
     #endregion
 }

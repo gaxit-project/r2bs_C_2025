@@ -26,6 +26,9 @@ public class BombProcess : MonoBehaviour
     private MapBlockData _blockData; // 座標
     private string _teamName;        // チーム名
 
+    [SerializeField] private float _spreadTime = 0.2f;       // 起爆範囲が1マス広がるまでの秒数
+    [SerializeField] private float _startSpreadTime = 2.5f;  // 起爆開始までの秒数
+
 
     public static BombProcess Instance;
     private void Awake()
@@ -37,14 +40,28 @@ public class BombProcess : MonoBehaviour
         this.gameObject.tag = "FlowerBomb";
     }
 
+
     private void Update()
     {
         if(!isLeftPaint && !isRightPaint && !isUpPaint && !isDownPaint)
         {
             //時間があればオブジェクトプールへ変更
-            Destroy(this.gameObject);
+            this.gameObject.SetActive(false);
+            ResetBomb();
         }
     }
+
+    /// <summary>
+    /// 爆弾を元の位置に戻す
+    /// </summary>
+    public void ResetBomb()
+    {
+        transform.localPosition = Vector3.zero;
+        transform.localRotation = Quaternion.identity;
+        _currentCoroutine = null;
+        isLeftPaint = isRightPaint = isUpPaint = isDownPaint = true;
+    }
+
 
 
 
@@ -65,7 +82,7 @@ public class BombProcess : MonoBehaviour
     /// <returns></returns>
     IEnumerator StartBombCountDown()
     {
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(_startSpreadTime);
         MapSetting();
     }
 
@@ -169,7 +186,7 @@ public class BombProcess : MonoBehaviour
             else if (MapManager.Instance.GetBlockData(targetX, targetY).name == "BreakWallObject")
             {
                 // 破壊処理＋床生成処理
-                yield return new WaitForSeconds(0.2f);
+                yield return new WaitForSeconds(_spreadTime);
                 MapManager.Instance.ChageBlock(targetX, targetY);
 
                 break;
@@ -178,7 +195,7 @@ public class BombProcess : MonoBehaviour
             {
                 break;
             }
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(_spreadTime);
         }
         if (direction == Vector2Int.left) isLeftPaint = false;
         else if (direction == Vector2Int.right) isRightPaint = false;
@@ -249,6 +266,7 @@ public class BombProcess : MonoBehaviour
         {
             StopCoroutine(_currentCoroutine);
         }
+        Debug.Log("ばいよえーーーん");
         MapSetting();
     }
 }
