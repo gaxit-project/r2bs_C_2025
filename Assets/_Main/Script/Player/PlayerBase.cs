@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using UnityEngine;
@@ -10,6 +11,8 @@ public class PlayerBase : MonoBehaviour
     protected float playerSpeed = 10f; //プレイヤーの速度
     protected Vector2 moveInput = Vector2.zero; //入力格納
     protected string TeamName;   // チーム名の保存
+    // プレイヤーの状態を管理する (0: 生存, 1: 死亡)
+    public int playerStatus = 0;
     // 爆弾関連の変数
     [SerializeField] protected GameObject _standardBomb;  // 爆弾を入れる配列
     protected Transform BombParent;                  // 爆弾の生成先オブジェクト
@@ -68,7 +71,10 @@ public class PlayerBase : MonoBehaviour
     //プレイヤーの移動入力
     public void OnMove(InputAction.CallbackContext context)
     {
-        moveInput = context.ReadValue<Vector2>();
+        if(playerStatus != 1)
+        {
+            moveInput = context.ReadValue<Vector2>();
+        }
     }
 
 
@@ -121,6 +127,48 @@ public class PlayerBase : MonoBehaviour
         }
     }
 
+
+
+    /// <summary>
+    /// プレイヤーのリスポーンを開始する
+    /// </summary>
+    protected void Respawn()
+    {
+        StartCoroutine(StartRespawnRoutine());
+    }
+
+    /// <summary>
+    /// リスポーン処理を行うコルーチン
+    /// </summary>
+    private IEnumerator StartRespawnRoutine()
+    {
+        // 動けなくする（死亡）
+        playerStatus = 1;
+
+        // フェードイン処理（仮）
+        Debug.Log("Fade In Start");
+
+        // 4秒間待機
+        yield return new WaitForSeconds(4f);
+
+        // フェードアウト処理（仮）
+        Debug.Log("Fade Out Start");
+
+        // リスポーン処理（仮）
+        switch(TeamName)
+        {
+            case "TeamOne":
+                transform.position = new Vector3(10.5f, 0, 1.5f);
+                break;
+            case "TeamTwo":
+                transform.position = new Vector3(10.5f, 0, 1.5f);
+                break;
+        }
+        
+
+        // 動けるようにする（生存）
+        playerStatus = 0;
+    }
 
 
     #region 爆弾関連

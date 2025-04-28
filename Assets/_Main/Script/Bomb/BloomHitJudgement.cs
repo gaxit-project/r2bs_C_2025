@@ -28,11 +28,17 @@ public class BloomHitJudgment : MonoBehaviour
     {
         if(other.tag == "TeamOne" && _teamName == "TeamTwo")
         {
-            Debug.Log("ダメージを受けた");
+            GameObject obj = other.gameObject;
+            PlayerController PC = obj.GetComponent<PlayerController>();
+            Debug.Log("ヒット");
+            PC.RespawnPlayer();
         }
         else if (other.tag == "TeamTwo" && _teamName == "TeamOne")
         {
-            Debug.Log("ダメージを受けた");
+            GameObject obj = other.gameObject;
+            PlayerController PC = obj.GetComponent<PlayerController>();
+            Debug.Log("ヒット");
+            PC.RespawnPlayer();
         }
         if (other.tag == "FlowerBomb")
         {

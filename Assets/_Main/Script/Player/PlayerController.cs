@@ -13,4 +13,10 @@ public class PlayerController : PlayerBase
         //ƒ`[ƒ€•ª‚¯
         TeamSplit();
     }
+
+
+    public void RespawnPlayer()
+    {
+        Respawn();
+    }
 }
