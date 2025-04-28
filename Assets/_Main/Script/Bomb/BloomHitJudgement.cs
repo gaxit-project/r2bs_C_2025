@@ -30,14 +30,12 @@ public class BloomHitJudgment : MonoBehaviour
         {
             GameObject obj = other.gameObject;
             PlayerController PC = obj.GetComponent<PlayerController>();
-            Debug.Log("ヒット");
             PC.RespawnPlayer();
         }
         else if (other.tag == "TeamTwo" && _teamName == "TeamOne")
         {
             GameObject obj = other.gameObject;
             PlayerController PC = obj.GetComponent<PlayerController>();
-            Debug.Log("ヒット");
             PC.RespawnPlayer();
         }
         if (other.tag == "FlowerBomb")

@@ -722,6 +722,7 @@ Transform:
   - {fileID: 656226868}
   - {fileID: 840774267}
   - {fileID: 278267713}
+  - {fileID: 1374619782}
   - {fileID: 1164746483}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -740,6 +741,7 @@ MonoBehaviour:
   TileParent: {fileID: 1341301055}
   WallParent: {fileID: 656226868}
   BreakWallParent: {fileID: 840774267}
+  StartTileParent: {fileID: 1374619782}
   parentObject:
   - {fileID: 1341301054}
   - {fileID: 656226867}
@@ -753,6 +755,20 @@ MonoBehaviour:
   _breakWallPrefab:
   - {fileID: 4154266544721403260, guid: 9f8690fd600dab54c94941cfddd4c5ac, type: 3}
   _itemBoxPrefab: []
+  _startTilePrefab:
+  - {fileID: 3455758424205611846, guid: f9e316afa553f174f8af4d935fb815e1, type: 3}
+  - {fileID: 3455758424205611846, guid: f4d4ddc75231d9e48ac7a5de6a3c6091, type: 3}
+  _startPosition:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
 --- !u!1 &1341301054
 GameObject:
   m_ObjectHideFlags: 0
@@ -784,6 +800,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1243405409}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1374619781
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1374619782}
+  m_Layer: 0
+  m_Name: StartPositionGenerate
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1374619782
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1374619781}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1243405409}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1418838103 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9212116415459464979, guid: 77e6f236d71b5e64d8805f33242c53e5, type: 3}
@@ -801,6 +848,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44f8d01a7b478d348a8763cd4d4d33e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerStatus: 0
   _standardBomb: {fileID: 0}
 --- !u!114 &1418838112 stripped
 MonoBehaviour:

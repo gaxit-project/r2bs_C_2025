@@ -386,7 +386,7 @@ MonoBehaviour:
       - m_Target: {fileID: 3993149253078274515}
         m_TargetAssemblyTypeName: PlayerBase, Assembly-CSharp
         m_MethodName: OnBomb
-        m_Mode: 1
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -441,4 +441,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44f8d01a7b478d348a8763cd4d4d33e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerStatus: 0
   _standardBomb: {fileID: 0}

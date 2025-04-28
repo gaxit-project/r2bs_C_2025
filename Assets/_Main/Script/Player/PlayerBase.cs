@@ -11,6 +11,7 @@ public class PlayerBase : MonoBehaviour
     protected float playerSpeed = 10f; //プレイヤーの速度
     protected Vector2 moveInput = Vector2.zero; //入力格納
     protected string TeamName;   // チーム名の保存
+    protected Vector3 StartPosition;
     // プレイヤーの状態を管理する (0: 生存, 1: 死亡)
     public int playerStatus = 0;
     // 爆弾関連の変数
@@ -34,10 +35,6 @@ public class PlayerBase : MonoBehaviour
     {
         //プレイヤーの移動
         PlayerMove();
-        if (Input.GetButtonUp("Fire1"))
-        {
-            BombPlacement(CatchPlayerPos());
-        }
     }
 
 
@@ -80,8 +77,9 @@ public class PlayerBase : MonoBehaviour
 
 
     //爆弾設置
-    public void OnBomb()
+    public void OnBomb(InputAction.CallbackContext context)
     {
+        if (!context.performed) return;
         BombPlacement(CatchPlayerPos());
     }
 
@@ -108,23 +106,25 @@ public class PlayerBase : MonoBehaviour
     protected void TeamSplit()
     {
         players = GameObject.FindGameObjectsWithTag("Player"); //playerの配列
-        if(players.Length % 2 == 1)
+        StartPosition = MapManager.Instance.GetStartPosition(players.Length);
+        if (players.Length % 2 == 1)
         {
-            this.transform.position = new Vector3(10.5f, 0, 1.5f);  //リス地
-            this.GetComponent<MeshRenderer>().material.color = Color.blue;  //
+            this.transform.position = StartPosition;  //リス地
+            this.GetComponent<MeshRenderer>().material.color = Color.blue;
             BombColor = Color.blue;
             TeamName = "TeamOne";
             this.gameObject.tag = "TeamOne";
         }
         else
         {
-            this.transform.position = new Vector3(10.5f, 0, 23.5f);  //リス地
+            this.transform.position = StartPosition;  //リス地
             this.transform.rotation = new Quaternion(0f, 180f, 0f, 0f);  //アングル
             this.GetComponent<MeshRenderer>().material.color = Color.red;  //色変更
             BombColor = Color.red;
             TeamName = "TeamTwo";
             this.gameObject.tag = "TeamTwo";
         }
+        
     }
 
 
@@ -158,10 +158,10 @@ public class PlayerBase : MonoBehaviour
         switch(TeamName)
         {
             case "TeamOne":
-                transform.position = new Vector3(10.5f, 0, 1.5f);
+                transform.position = StartPosition;
                 break;
             case "TeamTwo":
-                transform.position = new Vector3(10.5f, 0, 1.5f);
+                transform.position = StartPosition;
                 break;
         }
         

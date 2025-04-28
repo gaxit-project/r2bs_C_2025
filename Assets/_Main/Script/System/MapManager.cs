@@ -9,6 +9,7 @@ public class MapManager : MonoBehaviour
     public Transform TileParent;      // 床オブジェクトの生成先オブジェクト
     public Transform WallParent;      // 壁オブジェクトの生成先オブジェクト
     public Transform BreakWallParent; // 壊れる壁オブジェクトの生成先オブジェクト
+    public Transform StartTileParent; // 壊れる壁オブジェクトの生成先オブジェクト
     [SerializeField] private GameObject[] parentObject; // ゲームリセット時の消す親オブジェクト
 
     private float _tileSize = 1f;             // 1マスのサイズ
@@ -25,6 +26,9 @@ public class MapManager : MonoBehaviour
     [SerializeField] private GameObject[] _wallPrefab;       // ブロックマス key: 10～19
     [SerializeField] private GameObject[] _breakWallPrefab;  // 壊れる壁マス key: 20～29
     [SerializeField] private GameObject[] _itemBoxPrefab;    // アイテムマス key: 30～39
+    [SerializeField] private GameObject[] _startTilePrefab;    // アイテムマス key: 30～39
+
+    [SerializeField] private Vector3[] _startPosition;    // スタートポジションを入れる配列
 
     /// <summary>
     /// マップのブロックごとの設定
@@ -130,6 +134,30 @@ public class MapManager : MonoBehaviour
                         generatePrefab = _itemBoxPrefab[type];
                         CreateMap(generatePrefab, WallParent, x, y, key, name, isWalkable, position);
                         break;
+
+
+
+
+                    // リスポブロック
+                    case 9:
+                        name = $"StartObject";
+                        generatePrefab = _startTilePrefab[0];
+                        if(type == 5)
+                        {
+                            generatePrefab = _startTilePrefab[1];
+                        }
+                        // スタートポジションを保存
+                        StartPosition(type, position);
+                        isWalkable = true;
+                        position = new Vector3(reversedX * _tileSize + _tileSize / 2f, -0.5f, y * _tileSize + _tileSize / 2f);
+                        CreateMap(generatePrefab, StartTileParent, x, y, key, name, isWalkable, position);
+                        break;
+
+
+
+                    // それ以外は読み込まない
+                    default:
+                        break;
                 }
 
 
@@ -194,7 +222,11 @@ public class MapManager : MonoBehaviour
     #endregion
 
 
-
+    /// <summary>
+    /// 壊れる壁から床ブロックに変更する
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
     public void ChageBlock(int x, int y)
     {
         MapBlockData blockPosition = GetBlockData(x, y);
@@ -207,6 +239,16 @@ public class MapManager : MonoBehaviour
 
         // 床ブロックの生成
         CreateMap(_groundPrefab[0], WallParent, x, y, 0, "GroundObject", true, position);
+    }
+
+
+    public void StartPosition(int i,Vector3 startPosition)
+    {
+        _startPosition[i - 1] = startPosition;
+    }
+    public Vector3 GetStartPosition(int i)
+    {
+        return _startPosition[i];
     }
 
 
