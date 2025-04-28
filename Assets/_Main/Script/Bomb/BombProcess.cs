@@ -221,17 +221,17 @@ public class BombProcess : MonoBehaviour
         {
             case Team.TeamOne:
                 // レンダーが違うときに塗り割合を変更する
-                if (renderer.gameObject.layer == LayerMask.NameToLayer("TeamTwoTile")) BloomJudgement.Instance.RemoveBloomJudge(_teamName);
+                if (renderer.gameObject.layer == LayerMask.NameToLayer("TeamTwoTile")) BloomJudgement.Instance.RemoveBloomJudgement(_teamName);
                 // 白紙の時は塗り割合を加算する
-                else if(renderer.gameObject.layer != LayerMask.NameToLayer("TeamOneTile"))BloomJudgement.Instance.AddBloomJudge(_teamName);
+                else if(renderer.gameObject.layer != LayerMask.NameToLayer("TeamOneTile"))BloomJudgement.Instance.AddBloomJudgement(_teamName);
                 // レンダー変更
                 renderer.gameObject.layer = LayerMask.NameToLayer("TeamOneTile");
                 break;
             case Team.TeamTwo:
                 // レンダーが違うときに塗り割合を変更する
-                if (renderer.gameObject.layer == LayerMask.NameToLayer("TeamOneTile")) BloomJudgement.Instance.RemoveBloomJudge(_teamName);
+                if (renderer.gameObject.layer == LayerMask.NameToLayer("TeamOneTile")) BloomJudgement.Instance.RemoveBloomJudgement(_teamName);
                 // 白紙の時は塗り割合を加算する
-                else if(renderer.gameObject.layer != LayerMask.NameToLayer("TeamTwoTile"))BloomJudgement.Instance.AddBloomJudge(_teamName);
+                else if(renderer.gameObject.layer != LayerMask.NameToLayer("TeamTwoTile"))BloomJudgement.Instance.AddBloomJudgement(_teamName);
                 // レンダー変更
                 renderer.gameObject.layer = LayerMask.NameToLayer("TeamTwoTile");
                 break;

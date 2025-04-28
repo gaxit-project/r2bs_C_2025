@@ -21,7 +21,7 @@ public class BloomJudgement : MonoBehaviour
     /// パーセントを増やす関数
     /// </summary>
     /// <param name="teamName"></param>
-    public void AddBloomJudge(Team teamName)
+    public void AddBloomJudgement(Team teamName)
     {
         switch(teamName)
         {
@@ -40,7 +40,7 @@ public class BloomJudgement : MonoBehaviour
     /// 敵のパーセントを減らしながら自身のパーセントを増やす関数
     /// </summary>
     /// <param name="teamName"></param>
-    public void RemoveBloomJudge(Team teamName)
+    public void RemoveBloomJudgement(Team teamName)
     {
         switch (teamName)
         {
