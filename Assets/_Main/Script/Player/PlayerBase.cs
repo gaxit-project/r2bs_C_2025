@@ -73,7 +73,7 @@ public class PlayerBase : MonoBehaviour
     //ƒvƒŒƒCƒ„[‚ÌˆÚ“®“ü—Í
     public void OnMove(InputAction.CallbackContext context)
     {
-        if(currentState != PlayerState.Alive)
+        if(currentState == PlayerState.Alive)
         {
             moveInput = context.ReadValue<Vector2>();
         }
