@@ -7,6 +7,10 @@ TagManager:
   - Wall
   - BreakWall
   - Ground
+  - Grand
+  - TeamOne
+  - TeamTwo
+  - FlowerBomb
   layers:
   - Default
   - TransparentFX
@@ -14,8 +18,8 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
+  - TeamOneTile
+  - TeamTwoTile
   - 
   - 
   - 

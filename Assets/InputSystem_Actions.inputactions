@@ -20,7 +20,7 @@
                     "id": "909e25b7-bbbd-4bc9-beb0-266ed2bad8ea",
                     "expectedControlType": "",
                     "processors": "",
-                    "interactions": "",
+                    "interactions": "Press",
                     "initialStateCheck": false
                 },
                 {
@@ -530,7 +530,7 @@
                     "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": ";Keyboard&Mouse",
                     "action": "Bomb",
                     "isComposite": false,
                     "isPartOfComposite": false

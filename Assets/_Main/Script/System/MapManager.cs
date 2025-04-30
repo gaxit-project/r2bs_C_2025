@@ -1,5 +1,7 @@
 ﻿using System.Globalization;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 public class MapManager : MonoBehaviour
 {
@@ -7,6 +9,7 @@ public class MapManager : MonoBehaviour
     public Transform TileParent;      // 床オブジェクトの生成先オブジェクト
     public Transform WallParent;      // 壁オブジェクトの生成先オブジェクト
     public Transform BreakWallParent; // 壊れる壁オブジェクトの生成先オブジェクト
+    public Transform StartTileParent; // 壊れる壁オブジェクトの生成先オブジェクト
     [SerializeField] private GameObject[] parentObject; // ゲームリセット時の消す親オブジェクト
 
     private float _tileSize = 1f;             // 1マスのサイズ
@@ -21,8 +24,11 @@ public class MapManager : MonoBehaviour
     // ステージ用のPrefab
     [SerializeField] private GameObject[] _groundPrefab;     // 歩行可能マス key: 0～9
     [SerializeField] private GameObject[] _wallPrefab;       // ブロックマス key: 10～19
-    [SerializeField] private GameObject[] _breakablePrefab;  // 壊れる壁マス key: 20～29
+    [SerializeField] private GameObject[] _breakWallPrefab;  // 壊れる壁マス key: 20～29
     [SerializeField] private GameObject[] _itemBoxPrefab;    // アイテムマス key: 30～39
+    [SerializeField] private GameObject[] _startTilePrefab;    // アイテムマス key: 30～39
+
+    [SerializeField] private Vector3[] _startPosition;    // スタートポジションを入れる配列
 
     /// <summary>
     /// マップのブロックごとの設定
@@ -79,11 +85,11 @@ public class MapManager : MonoBehaviour
                 // ブロックを設置するマスを計算
                 int reversedX = (_width - 1) - x;
                 Vector3 position = new Vector3(reversedX * _tileSize + _tileSize / 2f, 0f, y * _tileSize + _tileSize / 2f);
-    
-                // ブロックの状態の宣言
-                GameObject obj = null;
-                bool isWalkable = false;
+
+
                 string name = "Unknown";
+                GameObject generatePrefab = null;
+                bool isWalkable = false;
 
                 // ブロックのカテゴリーとタイプの設定
                 int category = key / KEY_SELECT_NUM;
@@ -96,49 +102,88 @@ public class MapManager : MonoBehaviour
                     // 通路ブロック
                     case 0:
                         position = new Vector3(reversedX * _tileSize + _tileSize / 2f, -0.5f, y * _tileSize + _tileSize / 2f);
-                        obj = Instantiate(_groundPrefab[0], position, Quaternion.identity, TileParent);
                         name = "GroundObject";
                         isWalkable = true;
+                        generatePrefab = _groundPrefab[type];
+                        CreateMap(generatePrefab, TileParent, x, y, key, name, isWalkable, position);
                         break;
 
 
 
                     // 壁ブロック
                     case 1: 
-                        obj = Instantiate(_wallPrefab[type], position, Quaternion.identity, WallParent);
                         name = $"WallObject";
+                        generatePrefab = _wallPrefab[type];
+                        CreateMap(generatePrefab, WallParent, x, y, key, name, isWalkable, position);
                         break;
 
 
 
                     // 壊せるブロック
                     case 2: 
-                        obj = Instantiate(_breakablePrefab[type], position, Quaternion.identity, BreakWallParent);
                         name = $"BreakWallObject";
+                        generatePrefab = _breakWallPrefab[type];
+                        CreateMap(generatePrefab, BreakWallParent, x, y, key, name, isWalkable, position);
                         break;
 
 
 
                     // アイテム付きブロック
                     case 3:
-                        obj = Instantiate(_itemBoxPrefab[type], position, Quaternion.identity, TileParent);
                         name = $"ItemWallObject";
+                        generatePrefab = _itemBoxPrefab[type];
+                        CreateMap(generatePrefab, WallParent, x, y, key, name, isWalkable, position);
+                        break;
+
+
+
+
+                    // リスポブロック
+                    case 9:
+                        name = $"StartObject";
+                        generatePrefab = _startTilePrefab[0];
+                        if(type == 5)
+                        {
+                            generatePrefab = _startTilePrefab[1];
+                        }
+                        // スタートポジションを保存
+                        StartPosition(type, position);
+                        isWalkable = true;
+                        position = new Vector3(reversedX * _tileSize + _tileSize / 2f, -0.5f, y * _tileSize + _tileSize / 2f);
+                        CreateMap(generatePrefab, StartTileParent, x, y, key, name, isWalkable, position);
+                        break;
+
+
+
+                    // それ以外は読み込まない
+                    default:
                         break;
                 }
 
 
-                // ブロックの情報を二次元配列に保存
-                _mapGrid[x, y] = new MapBlockData
-                {
-                    key = key,
-                    name = name,
-                    isWalkable = isWalkable,
-                    tilePosition = position,
-                    gridPosition = new Vector2Int(x, y),
-                    instance = obj
-                };
+
             }
         }
+    }
+
+
+    private void CreateMap(GameObject prefaba,Transform parentName, int x, int y, int key, string name, bool isWalkable, Vector3 position)
+    {
+        // ブロックの生成
+        GameObject obj = null;
+        obj = Instantiate(prefaba, position, Quaternion.identity, parentName);
+
+
+        // ブロックの情報を二次元配列に保存
+        _mapGrid[x, y] = new MapBlockData
+        {
+            key = key,
+            name = name,
+            isWalkable = isWalkable,
+            tilePosition = position,
+            gridPosition = new Vector2Int(x, y),
+            instance = obj
+        };
     }
 
     #endregion
@@ -176,6 +221,35 @@ public class MapManager : MonoBehaviour
     }
     #endregion
 
+
+    /// <summary>
+    /// 壊れる壁から床ブロックに変更する
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    public void ChangeBlock(int x, int y)
+    {
+        MapBlockData blockPosition = GetBlockData(x, y);
+        Vector3 position = new Vector3(blockPosition.tilePosition.x, -0.5f, blockPosition.tilePosition.z);
+        // ブロックの削除
+        MapBlockData blockData = _mapGrid[x, y];
+        Destroy(blockData.instance);
+        blockData.instance = null;
+
+
+        // 床ブロックの生成
+        CreateMap(_groundPrefab[0], WallParent, x, y, 0, "GroundObject", true, position);
+    }
+
+
+    public void StartPosition(int i,Vector3 startPosition)
+    {
+        _startPosition[i - 1] = startPosition;
+    }
+    public Vector3 GetStartPosition(int i)
+    {
+        return _startPosition[i];
+    }
 
 
     #region マップの状態を確認する関数

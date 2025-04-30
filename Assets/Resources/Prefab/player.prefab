@@ -160,8 +160,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 1.9, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5146323811228776539}
   m_Father: {fileID: 0}
@@ -226,7 +226,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9212116415459464979}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 6f3a86177e08c774ca4578d6c3261d3f, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -386,7 +386,7 @@ MonoBehaviour:
       - m_Target: {fileID: 3993149253078274515}
         m_TargetAssemblyTypeName: PlayerBase, Assembly-CSharp
         m_MethodName: OnBomb
-        m_Mode: 1
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -441,4 +441,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44f8d01a7b478d348a8763cd4d4d33e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _standardBomb: {fileID: 0}
+  currentState: 0
+  StandardBomb: {fileID: 0}
