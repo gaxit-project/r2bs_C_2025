@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 using static MapManager;
+using static UnityEditor.PlayerSettings;
 
 public class BombProcess : MonoBehaviour
 {
