@@ -30,6 +30,8 @@ public class ShowCountDown : MonoBehaviour
         {
             Debug.LogError("Timer オブジェクトが見つかりません。名前を確認してください。");
         }
+
+        _gameTimer.StartTimer(); //デバック用！！！！！！！！！！！！！！！！！！！！！
     }
 
     private void Update()

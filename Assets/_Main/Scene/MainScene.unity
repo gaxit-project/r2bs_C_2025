@@ -625,6 +625,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: TimerPrefab
       objectReference: {fileID: 0}
+    - target: {fileID: 4325835910139446264, guid: 62647b9c8ec24a3448a915429a259dae, type: 3}
+      propertyPath: _startTime
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 4875578274565370431, guid: 62647b9c8ec24a3448a915429a259dae, type: 3}
+      propertyPath: m_text
+      value: 000
+      objectReference: {fileID: 0}
     - target: {fileID: 5275788313347554683, guid: 62647b9c8ec24a3448a915429a259dae, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1184,9 +1192,9 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 967652305}
   - {fileID: 468792916}
   - {fileID: 1113248097}
+  - {fileID: 967652305}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
