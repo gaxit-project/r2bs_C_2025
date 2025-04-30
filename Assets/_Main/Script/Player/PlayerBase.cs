@@ -8,7 +8,7 @@ using static MapManager;
 public class PlayerBase : MonoBehaviour
 {
     // プレイヤー関連の変数
-    protected float PlayerSpeed = 10f; //プレイヤーの速度
+    protected float PlayerSpeed = 5f; //プレイヤーの速度
     protected Vector2 moveInput = Vector2.zero; //入力格納
     protected Team TeamName;   // チーム名の保存
     protected Vector3 StartPosition;
@@ -103,8 +103,7 @@ public class PlayerBase : MonoBehaviour
     //プレイヤーの移動
     protected void PlayerMove()
     {
-        var move = new Vector3(moveInput.x, 0f, moveInput.y) * PlayerSpeed * Time.deltaTime; //Timeはポーズ画面時止まるよう
-        transform.Translate(move);
+        this.GetComponent<Rigidbody>().linearVelocity = new Vector3(moveInput.x * PlayerSpeed, 0f, moveInput.y * PlayerSpeed);
     }
 
     //チーム分け
@@ -123,7 +122,7 @@ public class PlayerBase : MonoBehaviour
         else
         {
             this.transform.position = StartPosition;  //リス地
-            this.transform.rotation = new Quaternion(0f, 180f, 0f, 0f);  //アングル
+            //this.transform.rotation = new Quaternion(0f, 180f, 0f, 0f);  //アングル
             this.GetComponent<MeshRenderer>().material.color = Color.red;  //色変更
             BombColor = Color.red;
             TeamName = Team.TeamTwo;
