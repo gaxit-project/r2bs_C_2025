@@ -13,9 +13,9 @@ public class PlayerBase : MonoBehaviour
     protected Team TeamName;   // チーム名の保存
     protected Vector3 StartPosition;
 
-    protected int SpecialBombCnt = 2;
-    protected int SpecialBombRange = 2;
-    protected float SpecialPlayerSpeed = 1.5f;
+    protected int SpecialBombCnt = 0;
+    protected int SpecialBombRange = 0;
+    protected float SpecialPlayerSpeed = 1f;
     // プレイヤーの状態を管理する (0: 生存, 1: 死亡)
     public enum PlayerState
     {

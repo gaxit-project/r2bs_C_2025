@@ -6,7 +6,7 @@ public class GatiHoko : MonoBehaviour
     // 蒼が当たったら-10，赤が当たったら+10で先に-100か+100溜まった人の勝ち
 
     private int _gatiHokoGauge = 0;
-    private const int _GATIHOKOMAX = 100;
+    private const int GATIHOKO_MAX = 100;
 
     public static GatiHoko Instance;
     private void Awake()
@@ -19,7 +19,7 @@ public class GatiHoko : MonoBehaviour
         {
             case Team.TeamOne:
                 _gatiHokoGauge += 10;
-                if(_gatiHokoGauge >= _GATIHOKOMAX)
+                if(_gatiHokoGauge >= GATIHOKO_MAX)
                 {
                     // チーム1に能力付与
                     CheckMode(teamName);
@@ -27,7 +27,7 @@ public class GatiHoko : MonoBehaviour
                 break;
             case Team.TeamTwo:
                 _gatiHokoGauge -= 10;
-                if (_gatiHokoGauge >= -_GATIHOKOMAX)
+                if (_gatiHokoGauge >= -GATIHOKO_MAX)
                 {
                     // チーム2に能力付与
                     CheckMode(teamName);    
@@ -70,7 +70,7 @@ public class GatiHoko : MonoBehaviour
         // ホコを壊したチームのステータスを向上させる
         for(int i = 0; i < playerScript.Length; i++)
         {
-            Team currentTeamName = playerScript[i].CurrentTeamName();
+            Team currentTeamName = playerScript[i].CurrentTeamName;
             if(teamName == currentTeamName)
             {
                 playerScript[i].SpecialStatusUP();

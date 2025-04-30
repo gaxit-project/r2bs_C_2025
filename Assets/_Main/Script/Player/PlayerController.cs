@@ -12,7 +12,7 @@ public class PlayerController : PlayerBase
 
         //チーム分け
         TeamSplit();
-        InitSpeciaStatusDown();
+        InitSpeciaStatus();
     }
 
     public void RespawnPlayer()
@@ -24,10 +24,7 @@ public class PlayerController : PlayerBase
     /// <summary>
     /// 自身のチーム名を返す関数
     /// </summary>
-    public Team CurrentTeamName()
-    {
-        return TeamName;
-    }
+    public Team CurrentTeamName => TeamName;
 
 
 
@@ -43,7 +40,7 @@ public class PlayerController : PlayerBase
     /// <summary>
     /// 特殊ステータスを元に戻す
     /// </summary>
-    public void InitSpeciaStatusDown()
+    public void InitSpeciaStatus()
     {
         SpecialBombCnt = 0;
         SpecialBombRange = 0;
