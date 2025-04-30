@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class PlayerStatus : MonoBehaviour
 {
-    private Dictionary<StatusType, int> _status = new Dictionary<StatusType, int>();
+    private Dictionary<StatusType, int> _status = new();
     
     private void Awake()
     {
-        initStatus();
+        InitStatus();
     }
 
-    private void initStatus()
+    private void InitStatus()
     {
         foreach (StatusType type in System.Enum.GetValues(typeof(StatusType)))
         {
