@@ -12,7 +12,7 @@ public class PlayerController : PlayerBase
 
         //チーム分け
         TeamSplit();
-        InitSpeciaStatus();
+        InitSpecialStatus();
     }
 
     public void RespawnPlayer()
@@ -40,7 +40,7 @@ public class PlayerController : PlayerBase
     /// <summary>
     /// 特殊ステータスを元に戻す
     /// </summary>
-    public void InitSpeciaStatus()
+    public void InitSpecialStatus()
     {
         SpecialBombCnt = 0;
         SpecialBombRange = 0;
