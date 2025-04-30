@@ -26,7 +26,7 @@ public class PlayerBase : MonoBehaviour
     protected int BombCnt = 1;   // ボムの所持数 
     protected Color BombColor = Color.black; // 爆弾の色の設定
     protected int BloomBombMax = 5;          // 爆弾の所持数のマックスの設定
-    protected List<GameObject> BloomBombPool = new List<GameObject>(); // ボムを入れるリスト
+    protected List<GameObject> BloomBombPool = new(); // ボムを入れるリスト
     //プレイヤーを格納する配列
     private GameObject[] players = null;
 
