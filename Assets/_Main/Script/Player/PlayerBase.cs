@@ -12,6 +12,10 @@ public class PlayerBase : MonoBehaviour
     protected Vector2 moveInput = Vector2.zero; //入力格納
     protected Team TeamName;   // チーム名の保存
     protected Vector3 StartPosition;
+
+    protected int SpecialBombCnt = 2;
+    protected int SpecialBombRange = 2;
+    protected float SpecialPlayerSpeed = 1.5f;
     // プレイヤーの状態を管理する (0: 生存, 1: 死亡)
     public enum PlayerState
     {
@@ -103,7 +107,7 @@ public class PlayerBase : MonoBehaviour
     //プレイヤーの移動
     protected void PlayerMove()
     {
-        this.GetComponent<Rigidbody>().linearVelocity = new Vector3(moveInput.x * PlayerSpeed, 0f, moveInput.y * PlayerSpeed);
+        this.GetComponent<Rigidbody>().linearVelocity = new Vector3(moveInput.x * PlayerSpeed * SpecialPlayerSpeed, 0f, moveInput.y * PlayerSpeed * SpecialPlayerSpeed);
     }
 
     //チーム分け
@@ -197,8 +201,8 @@ public class PlayerBase : MonoBehaviour
         obj.SetActive(true); // 再利用だから必ず有効化
         obj.tag = "FlowerBomb";
         BombProcess BP = obj.GetComponent<BombProcess>();
-        BP.VarSetting(BombRange, BombColor, blockData, TeamName);
-        BP.StartBombCoutDownCoroutine(BombRange, BombColor, blockData, TeamName);
+        BP.VarSetting(BombRange + SpecialBombRange, BombColor, blockData, TeamName);
+        BP.StartBombCoutDownCoroutine(BombRange + SpecialBombRange, BombColor, blockData, TeamName);
     }
 
 

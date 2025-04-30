@@ -11,6 +11,8 @@ TagManager:
   - TeamOne
   - TeamTwo
   - FlowerBomb
+  - GameTimer
+  - GatiHoko
   layers:
   - Default
   - TransparentFX

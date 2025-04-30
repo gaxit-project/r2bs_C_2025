@@ -31,12 +31,14 @@ public class BloomHitJudgment : MonoBehaviour
         {
             GameObject obj = other.gameObject;
             PlayerController PC = obj.GetComponent<PlayerController>();
+            PC.InitSpeciaStatusDown();
             PC.RespawnPlayer();
         }
         else if (other.tag == "TeamTwo" && _teamName == Team.TeamOne)
         {
             GameObject obj = other.gameObject;
             PlayerController PC = obj.GetComponent<PlayerController>();
+            PC.InitSpeciaStatusDown();
             PC.RespawnPlayer();
         }
         if (other.tag == "FlowerBomb")
@@ -45,6 +47,10 @@ public class BloomHitJudgment : MonoBehaviour
             BombProcess BP = obj.GetComponent<BombProcess>();
             // 連鎖関数の呼び出し
             BP.ChainBloom();
+        }
+        if (other.tag == "GatiHoko")
+        {
+            GatiHoko.Instance.AddHokoValue(_teamName);
         }
     }
 

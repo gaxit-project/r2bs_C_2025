@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.Scripting;
 using UnityEngine.UIElements;
 using static MapManager;
-using static UnityEditor.PlayerSettings;
+
 
 public class BombProcess : MonoBehaviour
 {
@@ -188,7 +189,6 @@ public class BombProcess : MonoBehaviour
                 // 破壊処理＋床生成処理
                 yield return new WaitForSeconds(_spreadTime);
                 MapManager.Instance.ChangeBlock(targetX, targetY);
-
                 break;
             }
             else
