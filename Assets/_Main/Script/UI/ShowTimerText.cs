@@ -5,7 +5,7 @@ using TMPro;
 public class ShowTimerText : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _textTimer; //時間を表示する用
-    [SerializeField] private GameTimer GameTimer;
+    [SerializeField] private GameTimer GameTimer; //ゲームタイマーを入れる用
     void Start()
     {
         GameTimer.StartTimer();
