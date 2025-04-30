@@ -2,16 +2,16 @@ using UnityEngine;
 
 public class GameTimer : MonoBehaviour
 {
-    private float _myTimer; //プライベートタイマー
-    public float CurrentTime { get { return _myTimer; } } //現在の時間を返す(読み取り専用)
+    private float _timer; //プライベートタイマー
+    public float CurrentTime { get { return _timer; } } //現在の時間を返す(読み取り専用)
 
-    public bool _activeTime = false; //タイマーを進めるかどうか判断する
+    [SerializeField] private bool _isActiveTime = false; //タイマーを進めるかどうか判断する
 
     private void Update()
     {
-        if (_activeTime)
+        if (_isActiveTime)
         {
-            _myTimer += Time.deltaTime;
+            _timer += Time.deltaTime;
         }
     }
 
@@ -20,7 +20,7 @@ public class GameTimer : MonoBehaviour
     /// </summary>
     public void StartTimer()
     {
-        _activeTime = true;
+        _isActiveTime = true;
     }
 
     /// <summary>
@@ -28,7 +28,7 @@ public class GameTimer : MonoBehaviour
     /// </summary>
     public void StopTimer()
     {
-        _activeTime = false;
+        _isActiveTime = false;
     }
 
     /// <summary>
@@ -36,7 +36,7 @@ public class GameTimer : MonoBehaviour
     /// </summary>
     public void ResetTimer()
     {
-        _myTimer = 0f;
+        _timer = 0f;
         StopTimer();
     }
 }

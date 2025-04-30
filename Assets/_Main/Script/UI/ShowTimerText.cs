@@ -4,8 +4,8 @@ using TMPro;
 
 public class ShowTimerText : MonoBehaviour
 {
-    public TextMeshProUGUI MytextTimer; //時間を表示する用
-    public GameTimer GameTimer;
+    [SerializeField] private TextMeshProUGUI _textTimer; //時間を表示する用
+    [SerializeField] private GameTimer GameTimer;
     void Start()
     {
         GameTimer.StartTimer();
@@ -13,10 +13,11 @@ public class ShowTimerText : MonoBehaviour
 
     void Update()
     {
-        MytextTimer.text = string.Format("{0:D2}:{1:D2}:{2:D2}",
-            (int)GameTimer.CurrentTime / 60,
-            (int)GameTimer.CurrentTime % 60,
-            (int)(GameTimer.CurrentTime * 100) % 100
+        float currentTime = GameTimer.CurrentTime;
+        _textTimer.text = string.Format("{0:D2}:{1:D2}:{2:D2}",
+            (int)currentTime / 60,
+            (int)currentTime % 60,
+            (int)(currentTime * 100) % 100
             );
     }
 }
