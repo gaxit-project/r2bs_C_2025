@@ -1,11 +1,12 @@
 using UnityEngine;
 
-public class DecideTeam : PlayerBase
+public class DecideTeam : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
+    [SerializeField] PlayerController PC = null;  // プレイヤーコントローラーを入れる変数
 
+    private void Start()
+    {
+        PC = GetComponentInParent<PlayerController>();
     }
 
     // Update is called once per frame
@@ -16,12 +17,10 @@ public class DecideTeam : PlayerBase
 
     public void TeamDecideOne()
     {
-        TeamName = Team.TeamOne;
-        transform.parent.tag = "TeamOne";
+        PC.ChangeTeam(Team.TeamOne);
     }
     public void TeamDecideTwo()
     {
-        TeamName = Team.TeamTwo;
-        transform.parent.tag = "TeamTwo";
+        PC.ChangeTeam(Team.TeamTwo);
     }
 }

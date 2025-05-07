@@ -29,6 +29,26 @@ public class PlayerController : PlayerBase
 
 
     /// <summary>
+    /// チーム変更用の関数
+    /// </summary>
+    /// <param name="teamName"></param>
+    public void ChangeTeam(Team teamName)
+    {
+        switch (teamName)
+        {
+            case Team.TeamOne:
+                TeamName = Team.TeamOne;
+                transform.tag = "TeamOne";
+                break;
+            case Team.TeamTwo:
+                TeamName = Team.TeamTwo;
+                transform.tag = "TeamTwo";
+                break;
+        }
+
+    }
+
+    /// <summary>
     /// 特殊ステータスをアップさせる
     /// </summary>
     public void SpecialStatusUP()
