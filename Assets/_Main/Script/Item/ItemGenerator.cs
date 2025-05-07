@@ -1,16 +1,23 @@
-using UnityEngine;
+ï»¿using UnityEngine;
+using System.Collections.Generic;
 
 public class ItemGenerator : MonoBehaviour
 {
-    private const int FIXED_SEED = 1; //—”‚ÌƒV[ƒh’l
-    private const int BASE_EXP = 10;
+    private const int FIXED_SEED = 1; // ä¹±æ•°ã®ã‚·ãƒ¼ãƒ‰å€¤ï¼ˆãƒ‡ãƒãƒƒã‚°ç”¨ã«å›ºå®šï¼‰
+    private const int BASE_EXP = 10; // çµŒé¨“å€¤ã®åŸºæœ¬å€¤
 
     [SerializeField] private GameObject _itemPrefab;
-    [SerializeField] private float _dropRate = 0.7f; // 0.0f‚©‚ç1.0fiŠm—¦j
-    [SerializeField] private bool _debugSeed = false; //ƒfƒoƒbƒNƒ‚[ƒh—p
+    [SerializeField] private float _dropRate = 0.7f; // 0.0fã‹ã‚‰1.0fï¼ˆç¢ºç‡ï¼‰
+    [SerializeField] private bool _debugSeed = false; // ãƒ‡ãƒãƒƒã‚¯ãƒ¢ãƒ¼ãƒ‰ç”¨
+    [SerializeField] private int _boxCount = 0; // ãƒ‰ãƒ­ãƒƒãƒ—å¯¾è±¡ã®ç·æ•°ï¼ˆãƒœãƒƒã‚¯ã‚¹ã®æ•°ï¼‰
+
+    [SerializeField] private MapManager _mapManager; //ã‚¢ã‚¤ãƒ†ãƒ ãƒœãƒƒã‚¯ã‚¹ã®æ•°ã‚’çŸ¥ã‚‹ãŸã‚
+
+    private bool[] _dropFlags; // å‡ºç¾åˆ¤å®šã®é…åˆ—
+    private int _currentDropIndex = 0; // TryDropExpãŒå‘¼ã°ã‚ŒãŸå›æ•°ã‚’ã‚«ã‚¦ãƒ³ãƒˆ
 
     /// <summary>
-    /// ƒfƒoƒbƒNƒ‚[ƒh‚Ì‚ÍƒV[ƒh’l‚ğŒÅ’è‚·‚é
+    /// ãƒ‡ãƒãƒƒã‚¯ãƒ¢ãƒ¼ãƒ‰ã®æ™‚ã¯ã‚·ãƒ¼ãƒ‰å€¤ã‚’å›ºå®šã™ã‚‹
     /// </summary>
     private void Awake()
     {
@@ -18,51 +25,85 @@ public class ItemGenerator : MonoBehaviour
         {
             Random.InitState(FIXED_SEED);
         }
+
+        // ç¢ºç‡ã«åŸºã¥ã„ã¦ã€ã‚¢ã‚¤ãƒ†ãƒ ãŒå‡ºç¾ã™ã‚‹é…åˆ—ã‚’åˆæœŸåŒ–ã™ã‚‹
+        _boxCount = _mapManager.GetBreakWallPrefabLength();
+        int itemCount = Mathf.RoundToInt(_boxCount * _dropRate);
+        _dropFlags = GenerateDropFlags(_boxCount, itemCount);
     }
+
     /// <summary>
-    /// ƒuƒƒbƒN‚ğ‰ó‚µ‚½‚Æ‚«‚ÉƒAƒCƒeƒ€‚ğƒ‰ƒ“ƒ_ƒ€‚Å¶¬‚·‚é
+    /// ãƒ–ãƒ­ãƒƒã‚¯ã‚’å£Šã—ãŸã¨ãã«ã‚¢ã‚¤ãƒ†ãƒ ã‚’ãƒ©ãƒ³ãƒ€ãƒ ã§ç”Ÿæˆã™ã‚‹
+    /// å‡ºç¾æ•°ã¯å›ºå®šã—ã€ä½ç½®ã ã‘ãŒãƒ©ãƒ³ãƒ€ãƒ ã«ãªã‚‹
     /// </summary>
     public void TryDropExp(Vector3 position)
     {
-        Debug.Log("—”‚Í" + Random.value);
-
-        if (Random.value <= _dropRate)
+        // ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ãŒé…åˆ—ã‚µã‚¤ã‚ºã‚’è¶…ãˆãŸå ´åˆã¯ç„¡è¦–ï¼ˆå®‰å…¨ç­–ï¼‰
+        if (_dropFlags == null || _currentDropIndex >= _dropFlags.Length)
         {
-
-            //position‚ğó‚¯æ‚Á‚ÄC‚»‚Ìê‚É¶¬‚·‚é
-            //Instantiate(_itemPrefab, position, Quaternion.identity);
+            Debug.LogWarning("ãƒ‰ãƒ­ãƒƒãƒ—é…åˆ—ã®ç¯„å›²ã‚’è¶…ãˆã¾ã—ãŸ");
+            return;
         }
 
+        // ãƒ‰ãƒ­ãƒƒãƒ—é…åˆ—ã«åŸºã¥ã„ã¦å‡ºç¾åˆ¤å®š
+        if (_dropFlags[_currentDropIndex])
+        {
+            Instantiate(_itemPrefab, position, Quaternion.identity);
+        }
+
+        _currentDropIndex++; // å‘¼ã³å‡ºã—ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹ã‚’é€²ã‚ã‚‹
     }
 
-    
     /// <summary>
-    /// “G‚ğ“|‚µ‚½‚Æ‚«‚ÉƒAƒCƒeƒ€‚ğŠm’è‚Å¶¬‚·‚é
-    /// iŒã‚ÉŒoŒ±’lŒvZ‚È‚Ç‚ÉŠg’£‰Â”\‚ÈİŒvj
+    /// æ•µã‚’å€’ã—ãŸã¨ãã«ã‚¢ã‚¤ãƒ†ãƒ ã‚’ç¢ºå®šã§ç”Ÿæˆã™ã‚‹
+    /// ï¼ˆå¾Œã«çµŒé¨“å€¤è¨ˆç®—ãªã©ã«æ‹¡å¼µå¯èƒ½ãªè¨­è¨ˆï¼‰
     /// </summary>
     public void DropExp(Vector3 position, int enemyLevel, int playerLevel)
     {
-        // Šg’£«‚ğ‚½‚¹‚½İŒvi‰¼‚ÌŒoŒ±’lŒvZj
+        // æ‹¡å¼µæ€§ã‚’æŒãŸã›ãŸè¨­è¨ˆï¼ˆä»®ã®çµŒé¨“å€¤è¨ˆç®—ï¼‰
         int exp = CalcExp(enemyLevel, playerLevel);
-        Debug.Log("ŒoŒ±’lŠl“¾: " + exp);
+        Debug.Log("çµŒé¨“å€¤ç²å¾—: " + exp);
 
-        //position‚ğó‚¯æ‚Á‚ÄC‚»‚Ìê‚É¶¬‚·‚é(“¯‚¶ƒAƒCƒeƒ€‚ğ¶¬‚·‚é‚©‚Í–¢’è)
+        // positionã‚’å—ã‘å–ã£ã¦ã€ãã®å ´ã«ç”Ÿæˆã™ã‚‹ï¼ˆåŒã˜ã‚¢ã‚¤ãƒ†ãƒ ã‚’ç”Ÿæˆã™ã‚‹ã‹ã¯æœªå®šï¼‰
         Instantiate(_itemPrefab, position, Quaternion.identity);
     }
 
     /// <summary>
-    /// ƒŒƒxƒ‹·‚É‰‚¶‚ÄŒoŒ±’l‚ğŒvZ‚·‚éi¡ŒãŠg’£‰Â”\j
+    /// ãƒ¬ãƒ™ãƒ«å·®ã«å¿œã˜ã¦çµŒé¨“å€¤ã‚’è¨ˆç®—ã™ã‚‹ï¼ˆä»Šå¾Œæ‹¡å¼µå¯èƒ½ï¼‰
     /// </summary>
     private int CalcExp(int enemyLevel, int playerLevel)
     {
         int baseExp = BASE_EXP;
         int levelDifference = enemyLevel - playerLevel;
-        float multiplier = 1.0f + (levelDifference * 0.1f); //‰¼ŒvZ—p
-        return Mathf.Max(1, Mathf.RoundToInt(baseExp * multiplier)); //1‚ÆƒŒƒxƒ‹·‚É‚æ‚Á‚Äo‚³‚ê‚½’l‚Ì‚¤‚¿C‘å‚«‚¢•û(®”)‚ğ•Ô‚·
+        float multiplier = 1.0f + (levelDifference * 0.1f); // ä»®è¨ˆç®—ç”¨
+        return Mathf.Max(1, Mathf.RoundToInt(baseExp * multiplier)); // 1ã¨ãƒ¬ãƒ™ãƒ«å·®ã«ã‚ˆã£ã¦å‡ºã•ã‚ŒãŸå€¤ã®ã†ã¡ã€å¤§ãã„æ–¹ï¼ˆæ•´æ•°ï¼‰ã‚’è¿”ã™
     }
 
+    /// <summary>
+    /// å›ºå®šå€‹æ•°ã®trueã‚’ãƒ©ãƒ³ãƒ€ãƒ ãªä½ç½®ã«é…ç½®ã™ã‚‹boolé…åˆ—ã‚’ç”Ÿæˆ
+    /// å‡ºç¾å ´æ‰€ã‚’ãƒ©ãƒ³ãƒ€ãƒ ã«ã—ã¦ã€å€‹æ•°ã¯å›ºå®šã™ã‚‹
+    /// </summary>
+    private bool[] GenerateDropFlags(int totalBoxes, int totalItems)
+    {
+        List<bool> list = new List<bool>();
 
-    //ƒfƒoƒbƒN—p
+        // trueï¼ˆã‚¢ã‚¤ãƒ†ãƒ ã‚ã‚Šï¼‰ã¨falseï¼ˆãªã—ï¼‰ã‚’æŒ‡å®šæ•°è¿½åŠ 
+        for (int i = 0; i < totalItems; i++) list.Add(true);
+        for (int i = totalItems; i < totalBoxes; i++) list.Add(false);
+
+        // Fisherâ€“Yatesã‚¢ãƒ«ã‚´ãƒªã‚ºãƒ é¢¨ã®ã‚·ãƒ£ãƒƒãƒ•ãƒ«
+        for (int i = 0; i < list.Count; i++)
+        {
+            int randIndex = Random.Range(i, list.Count);
+            bool temp = list[i];
+            list[i] = list[randIndex];
+            list[randIndex] = temp;
+        }
+
+        return list.ToArray();
+    }
+
+    // ãƒ‡ãƒãƒƒã‚¯ç”¨
     /*private void Start()
     {
         for (int i = 0; i < 10; i++)
