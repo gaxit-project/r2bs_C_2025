@@ -5,12 +5,16 @@ public class ScreenSplit : MonoBehaviour
 {
     public GameObject tateFrame;
     public GameObject yokoFrame;
+    public GameObject SoloMap;
+    public GameObject MultiMap;
 
 
     private void Start()
     {
         tateFrame.SetActive(false);
         yokoFrame.SetActive(false);
+        SoloMap.SetActive(true);
+        MultiMap.SetActive(false);
     }
 
     // プレイヤー入室時に起きる関数
@@ -18,6 +22,8 @@ public class ScreenSplit : MonoBehaviour
     {
         if(playerInput.user.index == 1)
         {
+            SoloMap.SetActive(false);
+            MultiMap.SetActive(true);
             tateFrame.SetActive(true);
         }else if(playerInput.user.index == 2)
         {
@@ -32,6 +38,8 @@ public class ScreenSplit : MonoBehaviour
         if (playerInput.user.index == 1)
         {
             tateFrame.SetActive(false);
+            SoloMap.SetActive(true);
+            MultiMap.SetActive(false);
         }
         else if (playerInput.user.index == 2)
         {
