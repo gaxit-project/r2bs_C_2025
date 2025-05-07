@@ -15,6 +15,15 @@ public class BloomJudgement : MonoBehaviour
         TeamTwoBloomPercent = 0;
     }
 
+    public int GetTeamOneBloomPer()
+    {
+        return TeamOneBloomPercent;
+    }
+    public int GetTeamTwoBloomPer()
+    {
+        return TeamTwoBloomPercent;
+    }
+
 
 
     /// <summary>
