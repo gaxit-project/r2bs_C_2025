@@ -31,6 +31,15 @@ public class MapManager : MonoBehaviour
     [SerializeField] private Vector3[] _startPosition;    // スタートポジションを入れる配列
 
     /// <summary>
+    /// アイテムボックスの数を取得する関数
+    /// </summary>
+    /// <returns></returns>
+    public int GetBreakWallPrefabLength()
+    {
+        return _wallPrefab.Length;
+    }
+
+    /// <summary>
     /// マップのブロックごとの設定
     /// </summary>
     public class MapBlockData
