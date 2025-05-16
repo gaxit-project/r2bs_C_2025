@@ -29,7 +29,7 @@ public class GatiHoko : MonoBehaviour
                 break;
             case Team.TeamTwo:
                 _gatiHokoGauge -= 10;
-                if (_gatiHokoGauge >= -GATIHOKO_MAX)
+                if (_gatiHokoGauge <= -GATIHOKO_MAX)
                 {
                     // チーム2に能力付与
                     CheckMode(teamName);
