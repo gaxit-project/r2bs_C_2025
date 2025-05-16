@@ -14,7 +14,7 @@ public class MenuManager : MonoBehaviour
 
     public void OnStart()Å@//TeamSelectSceneÇ÷
     {
-        PitariSceneManager.Instance.ToTeamSelect();
+        FBSceneManager.Instance.ToTeamSelect();
     }
 
     public void OnOption()

@@ -3,9 +3,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 
-public class PitariSceneManager : MonoBehaviour
+public class FBSceneManager : MonoBehaviour
 {
-    public static PitariSceneManager Instance;
+    public static FBSceneManager Instance;
 
     private void Awake()
     {
