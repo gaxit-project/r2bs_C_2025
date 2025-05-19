@@ -179,9 +179,8 @@ public class BombProcess : MonoBehaviour
             int targetY = pos.y + direction.y * i;
 
 
-            if (MapManager.Instance.GetBlockData(targetX, targetY).name == "GroundObject")
+            if (MapManager.Instance.GetBlockData(targetX, targetY).name == "GroundObject"　|| MapManager.Instance.GetBlockData(targetX, targetY).name == "GatiAreaObject" || MapManager.Instance.GetBlockData(targetX, targetY).name == "GatiHokoObject")
             {
-
                 PaintMap(targetX, targetY);
             }
             else if (MapManager.Instance.GetBlockData(targetX, targetY).name == "BreakWallObject")
@@ -220,6 +219,15 @@ public class BombProcess : MonoBehaviour
         switch (_teamName)
         {
             case Team.TeamOne:
+                // 床がガチエリアだった場合
+                if (MapManager.Instance.GetBlockData(x, y).name == "GatiAreaObject")
+                {
+                    Debug.Log("ここはエリアです");
+                    // レンダーが違うときに塗り割合を変更する
+                    if (renderer.gameObject.layer == LayerMask.NameToLayer("TeamTwoTile")) GatiArea.Instance.RemoveGatiArea(_teamName);
+                    // 白紙の時は塗り割合を加算する
+                    else if (renderer.gameObject.layer != LayerMask.NameToLayer("TeamOneTile")) GatiArea.Instance.AddGatiArea(_teamName);
+                }
                 // レンダーが違うときに塗り割合を変更する
                 if (renderer.gameObject.layer == LayerMask.NameToLayer("TeamTwoTile")) BloomJudgement.Instance.RemoveBloomJudgement(_teamName);
                 // 白紙の時は塗り割合を加算する
@@ -228,6 +236,15 @@ public class BombProcess : MonoBehaviour
                 renderer.gameObject.layer = LayerMask.NameToLayer("TeamOneTile");
                 break;
             case Team.TeamTwo:
+                // 床がガチエリアだった場合
+                if (MapManager.Instance.GetBlockData(x, y).name == "GatiAreaObject")
+                {
+                    Debug.Log("ここはエリアです");
+                    // レンダーが違うときに塗り割合を変更する
+                    if (renderer.gameObject.layer == LayerMask.NameToLayer("TeamOneTile")) GatiArea.Instance.RemoveGatiArea(_teamName);
+                    // 白紙の時は塗り割合を加算する
+                    else if (renderer.gameObject.layer != LayerMask.NameToLayer("TeamTwoTile")) GatiArea.Instance.AddGatiArea(_teamName);
+                }
                 // レンダーが違うときに塗り割合を変更する
                 if (renderer.gameObject.layer == LayerMask.NameToLayer("TeamOneTile")) BloomJudgement.Instance.RemoveBloomJudgement(_teamName);
                 // 白紙の時は塗り割合を加算する
@@ -266,7 +283,6 @@ public class BombProcess : MonoBehaviour
         {
             StopCoroutine(_currentCoroutine);
         }
-        Debug.Log("ばいよえーーーん");
         MapSetting();
     }
 }
