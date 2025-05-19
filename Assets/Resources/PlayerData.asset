@@ -13,11 +13,15 @@ MonoBehaviour:
   m_Name: PlayerData
   m_EditorClassIdentifier: 
   PlayerTable:
-  - playerInput: {fileID: 0}
+  - playerIndex: 0
+    controlScheme: Keyboard&Mouse(<Keyboard>,<Mouse>)
     Team: TeamOne
-  - playerInput: {fileID: 0}
+  - playerIndex: 0
+    controlScheme: Gamepad(<Gamepad>)
+    Team: TeamOne
+  - playerIndex: 0
+    controlScheme: 
     Team: 
-  - playerInput: {fileID: 0}
-    Team: 
-  - playerInput: {fileID: 0}
+  - playerIndex: 0
+    controlScheme: 
     Team: 

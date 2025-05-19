@@ -9,10 +9,17 @@ public class PlayerTeamData : ScriptableObject
     public List<PlayerData> PlayerTable;
 }
 
-    [System.Serializable]
+[System.Serializable]
 
 public class PlayerData
-{
-    public PlayerInput playerInput; //コントローラーデバイス情報
+{ 
+    public string controlScheme;
+    public List<SavedDeviceInfo> devices = new List<SavedDeviceInfo>();
     public string Team; //チーム情報
+}
+
+[System.Serializable]
+public class SavedDeviceInfo
+{
+    public string descriptionJson; // InputDeviceDescription を JSON で保存
 }

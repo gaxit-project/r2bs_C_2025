@@ -4,6 +4,7 @@ using System.Globalization;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static MapManager;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class PlayerBase : MonoBehaviour
 {
@@ -12,10 +13,16 @@ public class PlayerBase : MonoBehaviour
     protected Vector2 moveInput = Vector2.zero; //入力格納
     protected Team TeamName;   // チーム名の保存
     protected Vector3 StartPosition;
+    protected int teamLocal; //playerのアングル調整
 
     protected int SpecialBombCnt = 0;
     protected int SpecialBombRange = 0;
     protected float SpecialPlayerSpeed = 1f;
+
+    protected static int playerIndex = -1;
+    protected static int teamOneIndex = -1;
+    protected static int teamTwoIndex = 1;
+
     // プレイヤーの状態を管理する (0: 生存, 1: 死亡)
     public enum PlayerState
     {
@@ -23,6 +30,7 @@ public class PlayerBase : MonoBehaviour
         Death
     }
     public PlayerState currentState;
+    protected PlayerTeamData playerData;
     // 爆弾関連の変数
     [SerializeField] protected GameObject StandardBomb;  // 爆弾を入れる配列
     protected Transform BombParent;                  // 爆弾の生成先オブジェクト
@@ -31,8 +39,6 @@ public class PlayerBase : MonoBehaviour
     protected Color BombColor = Color.black; // 爆弾の色の設定
     protected int BloomBombMax = 5;          // 爆弾の所持数のマックスの設定
     protected List<GameObject> BloomBombPool = new(); // ボムを入れるリスト
-    //プレイヤーを格納する配列
-    private GameObject[] players = null;
 
 
     protected void Start()
@@ -107,32 +113,37 @@ public class PlayerBase : MonoBehaviour
     //プレイヤーの移動
     protected void PlayerMove()
     {
-        this.GetComponent<Rigidbody>().linearVelocity = new Vector3(moveInput.x * PlayerSpeed * SpecialPlayerSpeed, 0f, moveInput.y * PlayerSpeed * SpecialPlayerSpeed);
+        this.GetComponent<Rigidbody>().linearVelocity = new Vector3(moveInput.x * PlayerSpeed * SpecialPlayerSpeed * teamLocal, 0f, moveInput.y * PlayerSpeed * SpecialPlayerSpeed * teamLocal);
     }
 
     //チーム分け
     protected void TeamSplit()
     {
-        players = GameObject.FindGameObjectsWithTag("Player"); //playerの配列
-        StartPosition = MapManager.Instance.GetStartPosition(players.Length);
-        if (players.Length % 2 == 1)
+        if (this.gameObject.tag == "TeamOne")
         {
+            teamOneIndex++;
+            StartPosition = MapManager.Instance.GetStartPosition(teamOneIndex);
+
             this.transform.position = StartPosition;  //リス地
-            this.GetComponent<MeshRenderer>().material.color = Color.blue;
+            this.GetComponent<MeshRenderer>().material.color = Color.blue; //色変更
             BombColor = Color.blue;
             TeamName = Team.TeamOne;
-            this.gameObject.tag = "TeamOne";
+            teamLocal = 1; //座標の向き修正
+
         }
         else
         {
+            teamTwoIndex++;
+            StartPosition = MapManager.Instance.GetStartPosition(teamTwoIndex);
+
             this.transform.position = StartPosition;  //リス地
-            //this.transform.rotation = new Quaternion(0f, 180f, 0f, 0f);  //アングル
+            this.transform.rotation = new Quaternion(0f, 180f, 0f, 0f);  //アングル
             this.GetComponent<MeshRenderer>().material.color = Color.red;  //色変更
             BombColor = Color.red;
             TeamName = Team.TeamTwo;
-            this.gameObject.tag = "TeamTwo";
+            teamLocal = -1; //座標の向き修正
         }
-        
+
     }
 
 

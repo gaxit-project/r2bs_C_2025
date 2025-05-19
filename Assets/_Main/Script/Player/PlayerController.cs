@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,7 +12,11 @@ public class PlayerController : PlayerBase
         BombParent = bombParentObj.transform;
 
         //É`Å[ÉÄï™ÇØ
+        playerData = Resources.Load<PlayerTeamData>("PlayerData");
+        playerIndex++;
+        this.gameObject.tag = playerData.PlayerTable[playerIndex].Team;
         TeamSplit();
+
         InitSpecialStatus();
     }
 
@@ -46,4 +51,5 @@ public class PlayerController : PlayerBase
         SpecialBombRange = 0;
         SpecialPlayerSpeed = 1f;
     }
+
 }

@@ -17,7 +17,8 @@ public class TeamSelectScenePlayer : MonoBehaviour
     private void Start()
     {
         playerData = Resources.Load<PlayerTeamData>("PlayerData");
-        OnTeamSelect();
+        playerIndex = TeamSelectManager.playerSum;
+        TeamSelectManager.playerSum++;
     }
 
     private void Update()
@@ -26,12 +27,7 @@ public class TeamSelectScenePlayer : MonoBehaviour
         PlayerMove();
     }
 
-    public void GetPlayerIndex(PlayerInput playerInput)
-    {
-        playerIndex = playerInput.user.index;
-        playerData.PlayerTable.Add(null);
-        playerData.PlayerTable[playerIndex].playerInput = playerInput;
-    }
+    
 
     public void OnMove(InputAction.CallbackContext context)
     {
@@ -44,8 +40,9 @@ public class TeamSelectScenePlayer : MonoBehaviour
         Destroy(this.gameObject);
     }
 
-    public void OnTeamSelect()
+    public void OnTeamSelect(InputAction.CallbackContext context)
     {
+        if (!context.performed) return;
         if (isTeamOne)
         {
             playerData.PlayerTable[playerIndex].Team = "TeamTwo";

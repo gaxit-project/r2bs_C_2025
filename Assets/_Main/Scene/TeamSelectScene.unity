@@ -413,20 +413,28 @@ PrefabInstance:
       value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 3471647568897742602, guid: 9fa7ed5aa2d64a5418b8879275651d01, type: 3}
+      propertyPath: m_PlayerJoinedEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3471647568897742602, guid: 9fa7ed5aa2d64a5418b8879275651d01, type: 3}
       propertyPath: m_PlayerJoinedEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3471647568897742602, guid: 9fa7ed5aa2d64a5418b8879275651d01, type: 3}
       propertyPath: m_PlayerJoinedEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 2995259654982147676, guid: 6e6017506e6869d4ea3797036ae3469f, type: 3}
+      objectReference: {fileID: 1638508562}
     - target: {fileID: 3471647568897742602, guid: 9fa7ed5aa2d64a5418b8879275651d01, type: 3}
       propertyPath: m_PlayerJoinedEvent.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: OnTeamSelect
+      value: SavePlayerInput
       objectReference: {fileID: 0}
     - target: {fileID: 3471647568897742602, guid: 9fa7ed5aa2d64a5418b8879275651d01, type: 3}
       propertyPath: m_PlayerJoinedEvent.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: TeamSelectScenePlayer, Assembly-CSharp
+      value: TeamSelectManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 3471647568897742602, guid: 9fa7ed5aa2d64a5418b8879275651d01, type: 3}
+      propertyPath: m_PlayerJoinedEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 5545631741686474538, guid: 9fa7ed5aa2d64a5418b8879275651d01, type: 3}
       propertyPath: m_Name
@@ -741,6 +749,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1638508561}
   - component: {fileID: 1638508560}
+  - component: {fileID: 1638508562}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -775,6 +784,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1638508562
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1638508559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3adff33f16eb1164994b01046f466e35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1946314051
 GameObject:
   m_ObjectHideFlags: 0
