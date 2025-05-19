@@ -3,11 +3,9 @@ using UnityEngine;
 
 public class ShowCountDown : MonoBehaviour
 {
-    [SerializeField] private float _startTime = 300;
 
     private TextMeshProUGUI _textTimer;
     private GameTimer _gameTimer;
-    private string _strFormat = "{0:000}";
 
     private void Start()
     {
@@ -30,15 +28,24 @@ public class ShowCountDown : MonoBehaviour
         {
             Debug.LogError("Timer オブジェクトが見つかりません。名前を確認してください。");
         }
-
-        _gameTimer.StartTimer(); //デバック用！！！！！！！！！！！！！！！！！！！！！
     }
 
     private void Update()
     {
         if (_gameTimer == null || _textTimer == null) return;
 
-        float showTime = Mathf.Clamp(_startTime - _gameTimer.CurrentTime, 0f, _startTime);
-        _textTimer.text = string.Format(_strFormat, showTime);
+        if (_gameTimer.CountDownTime <= 0.5f)
+        {
+            _textTimer.text = "GO";
+        }
+        else
+        {
+            _textTimer.text = _gameTimer.CountDownTime.ToString("F0");
+        }
+        if (_gameTimer.CountDownTime < -1)
+        {
+            _gameTimer.StartTimer();
+            Destroy(gameObject);
+        }
     }
 }
