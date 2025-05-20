@@ -5,7 +5,7 @@ using UnityEngine.UIElements;
 
 public class MapManager : MonoBehaviour
 {
-    private string _csvFileName = "stage1";       // csv読み込み
+    private string _csvFileName = "stage3";       // csv読み込み
     public Transform TileParent;      // 床オブジェクトの生成先オブジェクト
     public Transform WallParent;      // 壁オブジェクトの生成先オブジェクト
     public Transform BreakWallParent; // 壊れる壁オブジェクトの生成先オブジェクト
