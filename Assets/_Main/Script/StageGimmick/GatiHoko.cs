@@ -13,6 +13,7 @@ public class GatiHoko : MonoBehaviour
     {
         Instance = this;
     }
+
     public void AddHokoValue(Team teamName)
     {
         switch(teamName)
@@ -23,14 +24,16 @@ public class GatiHoko : MonoBehaviour
                 {
                     // チーム1に能力付与
                     CheckMode(teamName);
+                    Destroy(this.gameObject);
                 }
                 break;
             case Team.TeamTwo:
                 _gatiHokoGauge -= 10;
-                if (_gatiHokoGauge >= -GATIHOKO_MAX)
+                if (_gatiHokoGauge <= -GATIHOKO_MAX)
                 {
                     // チーム2に能力付与
-                    CheckMode(teamName);    
+                    CheckMode(teamName);
+                    Destroy(this.gameObject);
                 }
                 break;
         }
@@ -78,6 +81,7 @@ public class GatiHoko : MonoBehaviour
         }
         
     }
+
 
 
 

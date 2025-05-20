@@ -5,11 +5,13 @@ using UnityEngine.UIElements;
 
 public class MapManager : MonoBehaviour
 {
-    private string _csvFileName = "stage1";       // csv読み込み
+    private string _csvFileName = "stage3";       // csv読み込み
     public Transform TileParent;      // 床オブジェクトの生成先オブジェクト
     public Transform WallParent;      // 壁オブジェクトの生成先オブジェクト
     public Transform BreakWallParent; // 壊れる壁オブジェクトの生成先オブジェクト
     public Transform StartTileParent; // 壊れる壁オブジェクトの生成先オブジェクト
+    public Transform GatiAreaTileParent; // ガチエリアの生成先オブジェクト
+    public Transform GatiHokoTileParent; // ガチエリアの生成先オブジェクト
     [SerializeField] private GameObject[] parentObject; // ゲームリセット時の消す親オブジェクト
 
     private float _tileSize = 1f;             // 1マスのサイズ
@@ -29,6 +31,7 @@ public class MapManager : MonoBehaviour
     [SerializeField] private GameObject[] _startTilePrefab;    // アイテムマス key: 30～39
 
     [SerializeField] private Vector3[] _startPosition;    // スタートポジションを入れる配列
+    [SerializeField] private Vector3[] _gatiHokoPosition;    // ガチホコポジションを入れる配列
 
     /// <summary>
     /// アイテムボックスの数を取得する関数
@@ -147,6 +150,30 @@ public class MapManager : MonoBehaviour
 
 
 
+                    // ガチホコタイル
+                    case 7:
+                        // ガチホコのポジションを保存
+                        GatiHokoPosition(type, position);
+                        position = new Vector3(reversedX * _tileSize + _tileSize / 2f, -0.5f, y * _tileSize + _tileSize / 2f);
+                        name = "GatiHokoObject";
+                        isWalkable = true;
+                        generatePrefab = _groundPrefab[0];
+                        CreateMap(generatePrefab, GatiHokoTileParent, x, y, key, name, isWalkable, position);
+                        break;
+
+
+                    // ガチエリアタイル
+                    case 8:
+                        position = new Vector3(reversedX * _tileSize + _tileSize / 2f, -0.5f, y * _tileSize + _tileSize / 2f);
+                        name = "GatiAreaObject";
+                        isWalkable = true;
+                        generatePrefab = _groundPrefab[type];
+                        CreateMap(generatePrefab, GatiAreaTileParent, x, y, key, name, isWalkable, position);
+                        break;
+
+
+
+
                     // リスポブロック
                     case 9:
                         name = $"StartObject";
@@ -258,6 +285,27 @@ public class MapManager : MonoBehaviour
     public Vector3 GetStartPosition(int i)
     {
         return _startPosition[i];
+    }
+
+
+
+    /// <summary>
+    /// ガチホコの生成場所を設定
+    /// </summary>
+    /// <param name="i"></param>
+    /// <param name="startPosition"></param>
+    public void GatiHokoPosition(int i, Vector3 startPosition)
+    {
+        _gatiHokoPosition[i - 1] = startPosition;
+    }
+    /// <summary>
+    /// ガチホコの生成場所を返す
+    /// </summary>
+    /// <param name="i"></param>
+    /// <returns></returns>
+    public Vector3 GetGatiHokoPosition(int i)
+    {
+        return _gatiHokoPosition[i];
     }
 
 
