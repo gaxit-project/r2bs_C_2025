@@ -21,11 +21,11 @@ public class BloomResult : MonoBehaviour
         TeamTwoPer.text = _ResultData.TeamTwoBloomPercent.ToString();
         if(_ResultData.TeamOneBloomPercent > _ResultData.TeamTwoBloomPercent)
         {
-            Winner.text = "青チームの勝ち";
+            Winner.text = "TeamOneWin";
         }
         else
         {
-            Winner.text = "赤チームの勝ち";
+            Winner.text = "TeamTwoWin";
         }
     }
 }
