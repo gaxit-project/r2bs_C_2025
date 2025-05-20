@@ -364,6 +364,12 @@ PrefabInstance:
       propertyPath: _optionPanel
       value: 
       objectReference: {fileID: 1471224664}
+    - target: {fileID: 3903324076564772045, guid: bd147445763733843a5ecde7963d074d, type: 3}
+      propertyPath: m_text
+      value: 'FB
+
+'
+      objectReference: {fileID: 0}
     - target: {fileID: 4057624580680134765, guid: bd147445763733843a5ecde7963d074d, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

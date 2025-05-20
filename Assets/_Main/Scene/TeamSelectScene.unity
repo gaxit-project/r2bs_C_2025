@@ -613,9 +613,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1638508560}
-        m_TargetAssemblyTypeName: FbSceneManager, Assembly-CSharp
-        m_MethodName: LoadMainScene
+      - m_Target: {fileID: 1638508562}
+        m_TargetAssemblyTypeName: TeamSelectManager, Assembly-CSharp
+        m_MethodName: OnGameStart
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
