@@ -9,6 +9,7 @@ using static UnityEditor.Experimental.GraphView.GraphView;
 public class PlayerBase : MonoBehaviour
 {
     // プレイヤー関連の変数
+    protected PlayerStatus _status;  //レベルアップデータ
     protected float PlayerSpeed = 5f; //プレイヤーの速度
     protected Vector2 moveInput = Vector2.zero; //入力格納
     protected Team TeamName;   // チーム名の保存
@@ -44,12 +45,37 @@ public class PlayerBase : MonoBehaviour
     protected void Start()
     {
         InitializePool();
+        if (_status == null)
+        {
+            _status = GetComponent<PlayerStatus>();
+        }
+        else
+        {
+            Debug.LogError("statusがありません");
+        }
     }
 
     protected void Update()
     {
         //プレイヤーの移動
         PlayerMove();
+    }
+
+    /// <summary>
+    /// レベルの変更処理
+    /// </summary>
+
+    public void SetStatus()
+    {
+        SetStatusInternal();
+    }
+
+    protected virtual void SetStatusInternal()
+    {
+        if (_status == null) return;
+        PlayerSpeed = 2.0f + (_status.GetValue(StatusType.Speed) - 1) * 0.5f;
+        BombRange = 1 + (_status.GetValue(StatusType.Power) - 1);
+        BloomBombMax = 1 + (_status.GetValue(StatusType.BombCount) - 1);
     }
 
 
