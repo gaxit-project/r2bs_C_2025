@@ -16,11 +16,15 @@ public class ItemGenerator : MonoBehaviour
     private bool[] _dropFlags; // 出現判定の配列
     private int _currentDropIndex = 0; // TryDropExpが呼ばれた回数をカウント
 
+
+
+    public static ItemGenerator Instance;
     /// <summary>
     /// デバックモードの時はシード値を固定する
     /// </summary>
     private void Awake()
     {
+        Instance = this;
         if (_debugSeed)
         {
             Random.InitState(FIXED_SEED);
