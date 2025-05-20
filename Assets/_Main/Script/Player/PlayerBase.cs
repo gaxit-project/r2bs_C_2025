@@ -4,10 +4,12 @@ using System.Globalization;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static MapManager;
+using static PlayerBase;
 
 public class PlayerBase : MonoBehaviour
 {
     // プレイヤー関連の変数
+    protected PlayerStatus _status;  //レベルアップデータ
     protected float PlayerSpeed = 5f; //プレイヤーの速度
     protected Vector2 moveInput = Vector2.zero; //入力格納
     protected Team TeamName;   // チーム名の保存
@@ -38,6 +40,14 @@ public class PlayerBase : MonoBehaviour
     protected void Start()
     {
         InitializePool();
+        if (_status == null)
+        {
+            _status = GetComponent<PlayerStatus>();
+        }
+        else
+        {
+            Debug.LogError("ステータスが設定されていません");
+        }
     }
 
     protected void Update()
@@ -46,7 +56,23 @@ public class PlayerBase : MonoBehaviour
         PlayerMove();
     }
 
+    /// <summary>
+    /// レベルの変更処理
+    /// </summary>
+    /// 
 
+    public void SetStatus()
+    {
+        SetStatusInternal();
+    }
+
+    protected virtual void SetStatusInternal()
+    {
+        if (_status == null) return;
+        PlayerSpeed = 2.0f + (_status.GetValue(StatusType.Speed) - 1) * 0.5f;
+        BombRange = 1 + (_status.GetValue(StatusType.Power) - 1);
+        BloomBombMax = 1 + (_status.GetValue(StatusType.BombCount) - 1);
+    }
 
     /// <summary>
     /// プレイヤーの現在いるマップタイルの情報を取得
@@ -179,7 +205,6 @@ public class PlayerBase : MonoBehaviour
     }
 
 
-    #region 爆弾関連
     /// <summary>
     /// 爆弾を設置する関数
     /// </summary>
@@ -240,5 +265,4 @@ public class PlayerBase : MonoBehaviour
         return null;
     }
 
-    #endregion
 }

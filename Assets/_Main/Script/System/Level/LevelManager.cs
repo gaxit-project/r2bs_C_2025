@@ -66,5 +66,8 @@ public class LevelManager : MonoBehaviour
         {
             Debug.Log("³‚µ‚­¬’·İ’è‚µ‚Ä‚­‚¾‚³‚¢");
         }
+
+        //player‚É”½‰f
+
     }
 }
