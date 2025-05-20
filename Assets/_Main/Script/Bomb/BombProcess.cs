@@ -61,6 +61,10 @@ public class BombProcess : MonoBehaviour
         transform.localRotation = Quaternion.identity;
         _currentCoroutine = null;
         isLeftPaint = isRightPaint = isUpPaint = isDownPaint = true;
+        // 爆弾のあたり判定を消す
+        this.gameObject.GetComponent<Collider>().enabled = true;
+        // 見た目を非表示
+        this.gameObject.GetComponent<MeshRenderer>().enabled = true;
     }
 
 
@@ -98,6 +102,10 @@ public class BombProcess : MonoBehaviour
     private void MapSetting()
     {
         this.gameObject.tag = "Untagged";
+        // 爆弾のあたり判定を消す
+        this.gameObject.GetComponent<Collider>().enabled = false;
+        // 見た目を非表示
+        this.gameObject.GetComponent<MeshRenderer>().enabled = false;
         StartCoroutine(PaintJudge(Vector2Int.left));
         StartCoroutine(PaintJudge(Vector2Int.right));
         StartCoroutine(PaintJudge(Vector2Int.up));
@@ -163,7 +171,7 @@ public class BombProcess : MonoBehaviour
     }
 
 
-
+    private Vector3 _position;
     /// <summary>
     /// 塗れるかの判定を取る
     /// </summary>
@@ -188,6 +196,11 @@ public class BombProcess : MonoBehaviour
                 // 破壊処理＋床生成処理
                 yield return new WaitForSeconds(_spreadTime);
                 MapManager.Instance.ChangeBlock(targetX, targetY);
+
+                Vector3 dropPosition = MapManager.Instance.GetBlockData(targetX, targetY).tilePosition;
+                ItemGenerator.Instance.TryDropExp(dropPosition);
+
+
                 break;
             }
             else
