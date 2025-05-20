@@ -4,12 +4,12 @@ using UnityEngine.SceneManagement;
 /// <summary>
 /// シーン遷移を管理するクラス
 /// </summary>
-public class FbSceneManager : MonoBehaviour
+public class FBSceneManager : MonoBehaviour
 {
     /// <summary>
     /// シングルトンインスタンス
     /// </summary>
-    public static FbSceneManager Instance;
+    public static FBSceneManager Instance;
 
     private void Awake()
     {

@@ -23,7 +23,7 @@ public class MenuManager : MonoBehaviour
     /// </summary>
     public void OnStart()
     {
-        FbSceneManager.Instance.LoadTeamSelectScene();
+        FBSceneManager.Instance.LoadTeamSelectScene();
     }
 
     /// <summary>

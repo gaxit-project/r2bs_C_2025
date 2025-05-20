@@ -198,6 +198,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &701519402 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3033753054612155441, guid: bd147445763733843a5ecde7963d074d, type: 3}
+  m_PrefabInstance: {fileID: 1530462918}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1155057817
 GameObject:
   m_ObjectHideFlags: 0
@@ -334,6 +339,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1471224664 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3485569253802478932, guid: bd147445763733843a5ecde7963d074d, type: 3}
+  m_PrefabInstance: {fileID: 1530462918}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1530462918
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -346,6 +356,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Menu
       objectReference: {fileID: 0}
+    - target: {fileID: 3737852029561457207, guid: bd147445763733843a5ecde7963d074d, type: 3}
+      propertyPath: _titlePanel
+      value: 
+      objectReference: {fileID: 701519402}
+    - target: {fileID: 3737852029561457207, guid: bd147445763733843a5ecde7963d074d, type: 3}
+      propertyPath: _optionPanel
+      value: 
+      objectReference: {fileID: 1471224664}
     - target: {fileID: 4057624580680134765, guid: bd147445763733843a5ecde7963d074d, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

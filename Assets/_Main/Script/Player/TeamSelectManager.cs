@@ -51,4 +51,23 @@ public class TeamSelectManager : MonoBehaviour
             data.devices.Add(info);
         }
     }
+
+    /// <summary>
+    /// team‘I‘ğ‚µ‚È‚¢‚ÆƒV[ƒ“ˆÚ“®‚µ‚È‚¢
+    /// </summary>
+    public void OnGameStart()
+    {
+        bool isSelectTeam = true;
+        for (int i = 0; i < _playerData.PlayerTable.Count; i++)
+        {
+            if (_playerData.PlayerTable[i].Team == null)
+            {
+                isSelectTeam = false;
+            }
+        }
+        if(isSelectTeam)
+        {
+            FBSceneManager.Instance.LoadMainScene();
+        }
+    }
 }
