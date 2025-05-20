@@ -1,40 +1,70 @@
 using UnityEngine;
+
+/// <summary>
+/// タイトル画面のUIパネルおよびボタンの処理を管理するクラス
+/// </summary>
 public class MenuManager : MonoBehaviour
 {
     [SerializeField]
-    private GameObject TitlePanel;　//タイトルのパネル
+    private GameObject _titlePanel;
+
     [SerializeField]
-    private GameObject OptionPanel;　//オプションのパネル
+    private GameObject _optionPanel;
 
     private void Start()
     {
-        TitlePanel.SetActive(true);
-        OptionPanel.SetActive(false);
+        // 初期状態ではタイトルパネルを表示、オプションパネルを非表示にする
+        SetPanelVisibility(isTitleVisible: true, isOptionVisible: false);
     }
 
-    public void OnStart()　//TeamSelectSceneへ
+    /// <summary>
+    /// スタートボタンが押された時に呼ばれる
+    /// チーム選択シーンへ遷移する
+    /// </summary>
+    public void OnStart()
     {
-        FBSceneManager.Instance.ToTeamSelect();
+        FbSceneManager.Instance.LoadTeamSelectScene();
     }
 
+    /// <summary>
+    /// オプションボタンが押された時に呼ばれる
+    /// オプションパネルを表示し、タイトルパネルを非表示にする
+    /// </summary>
     public void OnOption()
     {
-        TitlePanel.SetActive(false);
-        OptionPanel.SetActive(true);
+        SetPanelVisibility(isTitleVisible: false, isOptionVisible: true);
     }
 
+    /// <summary>
+    /// 戻るボタンが押された時に呼ばれる
+    /// タイトルパネルを表示し、オプションパネルを非表示にする
+    /// </summary>
     public void OnBack()
     {
-        TitlePanel.SetActive(true);
-        OptionPanel.SetActive(false);
+        SetPanelVisibility(isTitleVisible: true, isOptionVisible: false);
     }
 
+    /// <summary>
+    /// 終了ボタンが押された時に呼ばれる
+    /// エディタ上では再生を停止、ビルド環境ではアプリケーションを終了する
+    /// </summary>
     public void OnQuit()
     {
 #if UNITY_EDITOR
         UnityEditor.EditorApplication.isPlaying = false;
 #else
-            Application.Quit();
+        Application.Quit();
 #endif
+    }
+
+    /// <summary>
+    /// パネルの表示・非表示を切り替える共通処理
+    /// </summary>
+    /// <param name="isTitleVisible">タイトルパネルを表示するかどうか</param>
+    /// <param name="isOptionVisible">オプションパネルを表示するかどうか</param>
+    private void SetPanelVisibility(bool isTitleVisible, bool isOptionVisible)
+    {
+        _titlePanel.SetActive(isTitleVisible);
+        _optionPanel.SetActive(isOptionVisible);
     }
 }

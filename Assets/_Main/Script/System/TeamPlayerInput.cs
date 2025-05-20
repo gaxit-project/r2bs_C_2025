@@ -4,35 +4,55 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Layouts;
 using UnityEngine.InputSystem.Users;
 
-public class PlayerSpawner : MonoBehaviour
+/// <summary>
+/// セーブデータに基づいてプレイヤーをスポーンするクラス
+/// </summary>
+public class TeamPlayerInput : MonoBehaviour
 {
-    private PlayerTeamData playerData; // ScriptableObjectをインスペクタで割り当て
-    [SerializeField] private GameObject playerPrefab;   // プレイヤープレハブ（PlayerInput付き）
+    /// <summary>
+    /// プレイヤーデータ（ScriptableObject）
+    /// </summary>
+    private PlayerTeamData _playerData;
 
-    void Start()
+    /// <summary>
+    /// プレイヤーのプレハブ（PlayerInput コンポーネント付き）
+    /// </summary>
+    [SerializeField]
+    private GameObject _playerPrefab;
+
+    private void Start()
     {
-        playerData = Resources.Load<PlayerTeamData>("PlayerData");
-        for (int i = 0; i < playerData.PlayerTable.Count; i++)
+        // Resources フォルダからプレイヤーデータを読み込む
+        _playerData = Resources.Load<PlayerTeamData>("PlayerData");
+
+        // 保存された各プレイヤー情報からプレイヤーをスポーン
+        for (int i = 0; i < _playerData.PlayerTable.Count; i++)
         {
-            SpawnPlayerFromSavedData(playerData.PlayerTable[i], i);
+            SpawnPlayerFromSavedData(_playerData.PlayerTable[i], i);
         }
     }
 
+    /// <summary>
+    /// セーブデータを元にプレイヤーをスポーンする
+    /// </summary>
+    /// <param name="data">プレイヤーデータ</param>
+    /// <param name="index">プレイヤー番号</param>
     public void SpawnPlayerFromSavedData(PlayerData data, int index)
     {
         var matchedDevices = new List<InputDevice>();
 
+        // セーブされている各デバイス情報と一致するデバイスを検索
         foreach (var saved in data.devices)
         {
-            var targetDesc = InputDeviceDescription.FromJson(saved.descriptionJson);
+            var targetDescription = InputDeviceDescription.FromJson(saved.descriptionJson);
 
             foreach (var device in InputSystem.devices)
             {
-                var desc = device.description;
+                var currentDescription = device.description;
 
-                if (desc.interfaceName == targetDesc.interfaceName &&
-                    desc.product == targetDesc.product &&
-                    desc.manufacturer == targetDesc.manufacturer)
+                if (currentDescription.interfaceName == targetDescription.interfaceName &&
+                    currentDescription.product == targetDescription.product &&
+                    currentDescription.manufacturer == targetDescription.manufacturer)
                 {
                     matchedDevices.Add(device);
                     break;
@@ -40,25 +60,27 @@ public class PlayerSpawner : MonoBehaviour
             }
         }
 
+        // デバイスが一致しなかった場合は警告ログを出力して終了
         if (matchedDevices.Count == 0)
         {
-            Debug.LogWarning($"No devices matched for player {index}.");
+            Debug.LogWarning($"プレイヤー {index} に一致するデバイスが見つかりませんでした。");
             return;
         }
 
+        // 最初のデバイスとプレイヤーをペアリングしてインスタンス化
         var playerInput = PlayerInput.Instantiate(
-            playerPrefab,
+            _playerPrefab,
             playerIndex: index,
             controlScheme: data.controlScheme,
             pairWithDevice: matchedDevices[0]
         );
 
-
+        // 2個目以降のデバイスを同じプレイヤーにペアリング
         for (int i = 1; i < matchedDevices.Count; i++)
         {
             InputUser.PerformPairingWithDevice(matchedDevices[i], user: playerInput.user);
         }
 
-        Debug.Log($"Spawned player {index} with {matchedDevices.Count} device(s).");
+        Debug.Log($"プレイヤー {index} を {matchedDevices.Count} 個のデバイスでスポーンしました。");
     }
 }

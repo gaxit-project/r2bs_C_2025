@@ -1,97 +1,98 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/// <summary>
+/// チーム選択シーンにおけるプレイヤーの操作と状態管理クラス
+/// </summary>
 public class TeamSelectScenePlayer : MonoBehaviour
 {
-    // プレイヤー関連の変数
-    private float PlayerSpeed = 5f; //プレイヤーの速度
-    private Vector2 moveInput = Vector2.zero; //入力格納
-    private Team TeamName;   // チーム名の保存
-    private bool isTeamOne = false;
-    private int teamLocal = 1; //座標の向き修正用
-    private int playerIndex;
-    private PlayerTeamData playerData;
+    /// <summary>プレイヤーの移動速度</summary>
+    private float _playerSpeed = 5f;
 
+    /// <summary>移動入力値</summary>
+    private Vector2 _moveInput = Vector2.zero;
 
+    /// <summary>現在のチーム（未使用変数）</summary>
+    private Team _teamName;
 
+    /// <summary>現在TeamOneに所属しているか</summary>
+    private bool _isTeamOne = false;
+
+    /// <summary>チームによる座標修正用の係数</summary>
+    private int _teamLocal = 1;
+
+    /// <summary>プレイヤーのインデックス（保存用）</summary>
+    private int _playerIndex;
+
+    /// <summary>プレイヤーデータ格納ScriptableObject</summary>
+    private PlayerTeamData _playerData;
+
+    /// <summary>
+    /// 初期化処理（インデックス登録とデータの読み込み）
+    /// </summary>
     private void Start()
     {
-        playerData = Resources.Load<PlayerTeamData>("PlayerData");
-        playerIndex = TeamSelectManager.playerSum;
-        TeamSelectManager.playerSum++;
+        _playerData = Resources.Load<PlayerTeamData>("PlayerData");
+        _playerIndex = TeamSelectManager.PlayerSum;
+        TeamSelectManager.PlayerSum++;
     }
 
+    /// <summary>
+    /// 毎フレーム移動処理を実行
+    /// </summary>
     private void Update()
     {
-        //プレイヤーの移動
-        PlayerMove();
+        MovePlayer();
     }
 
-    
-
+    /// <summary>
+    /// 入力イベントで移動方向を更新
+    /// </summary>
+    /// <param name="context">移動入力</param>
     public void OnMove(InputAction.CallbackContext context)
     {
-        moveInput = context.ReadValue<Vector2>();
+        _moveInput = context.ReadValue<Vector2>();
     }
 
-    //プレイヤーの退出
+    /// <summary>
+    /// プレイヤーが退出した際の処理
+    /// </summary>
     public void OnLeft()
     {
         Destroy(this.gameObject);
     }
 
+    /// <summary>
+    /// チーム選択時の処理（チームの切り替えと色変更）
+    /// </summary>
+    /// <param name="context">入力コンテキスト</param>
     public void OnTeamSelect(InputAction.CallbackContext context)
     {
-        if (!context.performed) return;
-        if (isTeamOne)
+        if (!context.performed)
         {
-            playerData.PlayerTable[playerIndex].Team = "TeamTwo";
-            this.GetComponent<MeshRenderer>().material.color = Color.red;  //色変更
-            isTeamOne = false;
+            return;
+        }
+
+        if (_isTeamOne)
+        {
+            _playerData.PlayerTable[_playerIndex].Team = "TeamTwo";
+            GetComponent<MeshRenderer>().material.color = Color.red;  // 赤に変更
+            _isTeamOne = false;
         }
         else
         {
-            playerData.PlayerTable[playerIndex].Team = "TeamOne";
-            this.GetComponent<MeshRenderer>().material.color = Color.blue; //色変更
-            isTeamOne = true;
+            _playerData.PlayerTable[_playerIndex].Team = "TeamOne";
+            GetComponent<MeshRenderer>().material.color = Color.blue; // 青に変更
+            _isTeamOne = true;
         }
     }
 
-
-
-
-    //プレイヤーの移動
-    private void PlayerMove()
+    /// <summary>
+    /// プレイヤーを入力に応じて移動させる
+    /// </summary>
+    private void MovePlayer()
     {
-        this.GetComponent<Rigidbody>().linearVelocity = new Vector3(moveInput.x * PlayerSpeed * teamLocal, 0f, moveInput.y * PlayerSpeed * teamLocal);
+        var rb = GetComponent<Rigidbody>();
+        rb.linearVelocity = new Vector3(_moveInput.x * _playerSpeed * _teamLocal, 0f, _moveInput.y * _playerSpeed * _teamLocal);
     }
-
-   /* //チーム分け
-    private void TeamSplit()
-    {
-        players = GameObject.FindGameObjectsWithTag("Player"); //playerの配列
-        if (this.gameObject.tag == "TeamOne")
-        {
-            this.transform.position = StartPosition;  //リス地
- 
-            BombColor = Color.blue;
-            TeamName = Team.TeamOne;
-            teamLocal = 1; //座標の向き修正
-
-        }
-        else
-        {
-            this.transform.position = StartPosition;  //リス地
-            this.transform.rotation = new Quaternion(0f, 180f, 0f, 0f);  //アングル
-            
-            BombColor = Color.red;
-            TeamName = Team.TeamTwo;
-            teamLocal = -1; //座標の向き修正
-        }
-
-    }*/
-
-
-
-
 }

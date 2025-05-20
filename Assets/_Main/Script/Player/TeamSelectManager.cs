@@ -1,28 +1,47 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/// <summary>
+/// チーム選択シーンでプレイヤーの入力情報を保存するマネージャー
+/// </summary>
 public class TeamSelectManager : MonoBehaviour
-{ 
-    public static int playerSum = 0;
-    private PlayerTeamData playerData;
+{
+    /// <summary>
+    /// 参加しているプレイヤーの合計数（他クラスからアクセス可能）
+    /// </summary>
+    public static int PlayerSum = 0;
+
+    /// <summary>
+    /// プレイヤー入力データを保持するScriptableObject
+    /// </summary>
+    private PlayerTeamData _playerData;
 
     private void Start()
     {
-        playerData = Resources.Load<PlayerTeamData>("PlayerData");
-        playerData.PlayerTable.Clear();
+        // プレイヤーデータを読み込み、既存のプレイヤー情報を初期化
+        _playerData = Resources.Load<PlayerTeamData>("PlayerData");
+        _playerData.PlayerTable.Clear();
     }
+
+    /// <summary>
+    /// PlayerInputからプレイヤーの入力デバイスと操作方法を保存する
+    /// </summary>
+    /// <param name="input">プレイヤーの入力情報</param>
     public void SavePlayerInput(PlayerInput input)
     {
         int index = input.user.index;
 
-        while (playerData.PlayerTable.Count <= index)
+        // インデックスが足りない場合は空のPlayerDataを追加しておく
+        while (_playerData.PlayerTable.Count <= index)
         {
-            playerData.PlayerTable.Add(new PlayerData());
+            _playerData.PlayerTable.Add(new PlayerData());
         }
-        var data = playerData.PlayerTable[input.user.index];
+
+        var data = _playerData.PlayerTable[index];
         data.controlScheme = input.currentControlScheme;
         data.devices.Clear();
 
+        // 使用中の各デバイス情報を保存
         foreach (var device in input.user.pairedDevices)
         {
             var info = new SavedDeviceInfo

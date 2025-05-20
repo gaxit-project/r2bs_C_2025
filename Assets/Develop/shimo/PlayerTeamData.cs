@@ -13,8 +13,8 @@ public class PlayerTeamData : ScriptableObject
 
 public class PlayerData
 { 
-    public string controlScheme;
-    public List<SavedDeviceInfo> devices = new List<SavedDeviceInfo>();
+    public string controlScheme;　//スキーム
+    public List<SavedDeviceInfo> devices = new List<SavedDeviceInfo>(); //デバイス情報
     public string Team; //チーム情報
 }
 

@@ -1,36 +1,50 @@
-
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-
-public class FBSceneManager : MonoBehaviour
+/// <summary>
+/// シーン遷移を管理するクラス
+/// </summary>
+public class FbSceneManager : MonoBehaviour
 {
-    public static FBSceneManager Instance;
+    /// <summary>
+    /// シングルトンインスタンス
+    /// </summary>
+    public static FbSceneManager Instance;
 
     private void Awake()
     {
         Instance = this;
     }
 
-    public void ToTitle()
+    /// <summary>
+    /// タイトルシーンに遷移する
+    /// </summary>
+    public void LoadTitleScene()
     {
         SceneManager.LoadScene("TitleScene");
     }
 
-    public void ToResult()
+    /// <summary>
+    /// リザルトシーンに遷移する
+    /// </summary>
+    public void LoadResultScene()
     {
         SceneManager.LoadScene("ResultScene");
     }
 
-    public void ToMain()
+    /// <summary>
+    /// メインシーンに遷移する
+    /// </summary>
+    public void LoadMainScene()
     {
         SceneManager.LoadScene("MainScene");
     }
 
-    public void ToTeamSelect()
+    /// <summary>
+    /// チーム選択シーンに遷移する
+    /// </summary>
+    public void LoadTeamSelectScene()
     {
         SceneManager.LoadScene("TeamSelectScene");
     }
-
-
 }
