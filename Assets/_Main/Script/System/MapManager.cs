@@ -39,7 +39,7 @@ public class MapManager : MonoBehaviour
     /// <returns></returns>
     public int GetBreakWallPrefabLength()
     {
-        return _wallPrefab.Length;
+        return BreakWallParent.childCount;
     }
 
     /// <summary>
