@@ -19,8 +19,6 @@ public class MapTimer : MonoBehaviour
         }
 
         _mapTimerImage.fillAmount = 1f; //Imageを全て表示させる
-
-        _gameTimer.StartTimer(); //デバック用!!!!!!!!!!!!!!!!!!!!!!!!!
     }
 
     // Update is called once per frame
