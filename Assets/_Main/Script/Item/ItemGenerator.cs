@@ -46,6 +46,7 @@ public class ItemGenerator : MonoBehaviour
         if (_dropFlags == null || _currentDropIndex >= _dropFlags.Length)
         {
             Debug.LogWarning("ドロップ配列の範囲を超えました");
+            Debug.Log(_currentDropIndex);
             return;
         }
 

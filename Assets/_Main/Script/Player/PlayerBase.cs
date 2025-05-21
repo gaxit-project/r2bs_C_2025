@@ -9,7 +9,11 @@ using static UnityEditor.Experimental.GraphView.GraphView;
 public class PlayerBase : MonoBehaviour
 {
     // プレイヤー関連の変数
+    protected const int EXP_SIZE = 1;    //Exp1つあたりの経験値量 
+    protected LevelManager _levelManager;    //レベルアップ管理
     protected PlayerStatus _status;  //レベルアップデータ
+
+    [SerializeField]
     protected float PlayerSpeed = 5f; //プレイヤーの速度
     protected Vector2 moveInput = Vector2.zero; //入力格納
     protected Team TeamName;   // チーム名の保存
@@ -35,24 +39,20 @@ public class PlayerBase : MonoBehaviour
     // 爆弾関連の変数
     [SerializeField] protected GameObject StandardBomb;  // 爆弾を入れる配列
     protected Transform BombParent;                  // 爆弾の生成先オブジェクト
+    [SerializeField]
     protected int BombRange = 5; // ボムの爆発範囲
     protected int BombCnt = 1;   // ボムの所持数 
     protected Color BombColor = Color.black; // 爆弾の色の設定
+    [SerializeField]
     protected int BloomBombMax = 5;          // 爆弾の所持数のマックスの設定
     protected List<GameObject> BloomBombPool = new(); // ボムを入れるリスト
 
 
     protected void Start()
     {
-        InitializePool();
-        if (_status == null)
-        {
-            _status = GetComponent<PlayerStatus>();
-        }
-        else
-        {
-            Debug.LogError("statusがありません");
-        }
+        _status = GetComponent<PlayerStatus>();
+        _levelManager = GetComponent<LevelManager>();
+        SetStatus();
     }
 
     protected void Update()
@@ -76,6 +76,7 @@ public class PlayerBase : MonoBehaviour
         PlayerSpeed = 2.0f + (_status.GetValue(StatusType.Speed) - 1) * 0.5f;
         BombRange = 1 + (_status.GetValue(StatusType.Power) - 1);
         BloomBombMax = 1 + (_status.GetValue(StatusType.BombCount) - 1);
+        InitializePool();
     }
 
 
@@ -278,4 +279,13 @@ public class PlayerBase : MonoBehaviour
     }
 
     #endregion
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.transform.tag == "Exp")
+        {
+            _levelManager.AddExp(EXP_SIZE);
+            Destroy(collision.gameObject);
+        }
+    }
 }

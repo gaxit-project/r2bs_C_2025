@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour
 {
+    private string _expName = "Natural";
+    private string _jobName = "Natural";
+
     public int CurrentLevel = 1;    //初期レベル 1Lv
     public int CurrentExp = 0;      //初期EXP
 
@@ -13,6 +16,16 @@ public class LevelManager : MonoBehaviour
 
     [Header("LevelData")]
     [SerializeField] private LevelExpData _expData;
+
+    [SerializeField] PlayerBase PlayerBase;
+
+    private void Start()
+    {
+        _status = GetComponent<PlayerStatus>();
+        PlayerBase = GetComponent<PlayerBase>();
+        _pattern = Resources.Load<JobLevelPattern>("GameData/JobExpData/"+_jobName);
+        _expData = Resources.Load<LevelExpData>("GameData/ExpData/" + _expName);
+    }
 
     /// <summary>
     /// Expを渡すコード
@@ -68,6 +81,6 @@ public class LevelManager : MonoBehaviour
         }
 
         //playerに反映
-
+        PlayerBase.SetStatus();
     }
 }
