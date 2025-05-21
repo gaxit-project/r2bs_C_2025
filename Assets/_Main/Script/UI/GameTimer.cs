@@ -8,9 +8,12 @@ public class GameTimer : MonoBehaviour
     [SerializeField] private float _countDownTime = 3; //プレイ開始時のカウントダウン用
 
     private float _timer; //プライベートタイマー
-    private float _mapTimer; //カウントダウン用のタイマー
     public float CurrentTime { get { return _timer; } } //現在の時間を返す(読み取り専用)
+
+    private float _mapTimer; //カウントダウン用のタイマー
     public float CountDownTime { get { return _countDownTime; } }
+
+    public bool _isGameStart = false; //カウントダウンが終わったらプレイ可能にするbool変数 
 
     private void Awake()
     {
@@ -76,5 +79,22 @@ public class GameTimer : MonoBehaviour
         }
 
         return false;
+    }
+
+    /// <summary>
+    /// 操作可能かどうか
+    /// </summary>
+    /// <returns></returns>
+    public bool IsGameStart()
+    {
+        return _isGameStart;
+    }
+
+    /// <summary>
+    /// カウントダウンが終わったらtrueを返してプレイ可能にする
+    /// </summary>
+    public void MainGameStart()
+    {
+        _isGameStart = true;
     }
 }

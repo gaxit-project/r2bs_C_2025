@@ -45,6 +45,7 @@ public class ShowCountDown : MonoBehaviour
         if (_gameTimer.CountDownTime < -1)
         {
             _gameTimer.StartTimer();
+            _gameTimer.MainGameStart();
             Destroy(gameObject);
         }
     }
