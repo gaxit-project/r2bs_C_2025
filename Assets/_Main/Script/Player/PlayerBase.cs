@@ -251,6 +251,11 @@ public class PlayerBase : MonoBehaviour
     /// </summary>
     private void InitializePool()
     {
+        foreach(var bloomBomb in BloomBombPool)
+        {
+            Destroy(bloomBomb);
+        }
+        BloomBombPool.Clear();
         for (int i = 0; i < BloomBombMax; i++)
         {
             GameObject BloomBomb = Instantiate(StandardBomb, BombParent);
