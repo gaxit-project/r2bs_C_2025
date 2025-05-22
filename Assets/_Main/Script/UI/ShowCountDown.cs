@@ -3,11 +3,9 @@ using UnityEngine;
 
 public class ShowCountDown : MonoBehaviour
 {
-    [SerializeField] private float _startTime = 300;
 
     private TextMeshProUGUI _textTimer;
     private GameTimer _gameTimer;
-    private string _strFormat = "{0:000}";
 
     private void Start()
     {
@@ -30,15 +28,28 @@ public class ShowCountDown : MonoBehaviour
         {
             Debug.LogError("Timer オブジェクトが見つかりません。名前を確認してください。");
         }
-
-        _gameTimer.StartTimer(); //デバック用！！！！！！！！！！！！！！！！！！！！！
     }
 
     private void Update()
     {
-        if (_gameTimer == null || _textTimer == null) return;
+        if (_gameTimer == null || _textTimer == null) return; //_gameTimerか_textTimerがなかったら何もしない
+        
+        //0秒を表示させる代わりにGoを表示させる,それ以外は秒数を表示
+        if (_gameTimer.CountDownTime <= 0.5f)
+        {
+            _textTimer.text = "GO";
+        }
+        else
+        {
+            _textTimer.text = _gameTimer.CountDownTime.ToString("F0");
+        }
 
-        float showTime = Mathf.Clamp(_startTime - _gameTimer.CurrentTime, 0f, _startTime);
-        _textTimer.text = string.Format(_strFormat, showTime);
+        //Goを表示したらこのオブジェクトを消す
+        if (_gameTimer.CountDownTime < -1)
+        {
+            _gameTimer.StartTimer();
+            _gameTimer.MainGameStart();
+            Destroy(gameObject);
+        }
     }
 }
