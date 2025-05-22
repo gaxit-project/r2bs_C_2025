@@ -32,8 +32,9 @@ public class ShowCountDown : MonoBehaviour
 
     private void Update()
     {
-        if (_gameTimer == null || _textTimer == null) return;
-
+        if (_gameTimer == null || _textTimer == null) return; //_gameTimerか_textTimerがなかったら何もしない
+        
+        //0秒を表示させる代わりにGoを表示させる,それ以外は秒数を表示
         if (_gameTimer.CountDownTime <= 0.5f)
         {
             _textTimer.text = "GO";
@@ -42,6 +43,8 @@ public class ShowCountDown : MonoBehaviour
         {
             _textTimer.text = _gameTimer.CountDownTime.ToString("F0");
         }
+
+        //Goを表示したらこのオブジェクトを消す
         if (_gameTimer.CountDownTime < -1)
         {
             _gameTimer.StartTimer();

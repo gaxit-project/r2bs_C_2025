@@ -6,7 +6,7 @@ public class MapTimer : MonoBehaviour
     [SerializeField] private Image _mapTimerImage;   //タイマーとして使うImageをいれる
     private GameTimer _gameTimer;
 
-    void Start()
+    private void Start()
     {
         
         if (GameObject.FindWithTag("GameTimer"))
@@ -21,8 +21,7 @@ public class MapTimer : MonoBehaviour
         _mapTimerImage.fillAmount = 1f; //Imageを全て表示させる
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (_gameTimer == null) return; //_gameTimerがなければ何もしない
 
