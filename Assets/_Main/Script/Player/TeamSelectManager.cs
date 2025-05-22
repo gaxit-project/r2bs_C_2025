@@ -1,3 +1,5 @@
+using UnityEditor;
+using UnityEditor.TerrainTools;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -35,6 +37,7 @@ public class TeamSelectManager : MonoBehaviour
         while (_playerData.PlayerTable.Count <= index)
         {
             _playerData.PlayerTable.Add(new PlayerData());
+            EditorUtility.SetDirty(_playerData);
         }
 
         var data = _playerData.PlayerTable[index];
