@@ -41,33 +41,52 @@ public class TeamPlayerInput : MonoBehaviour
     {
         var matchedDevices = new List<InputDevice>();
 
-        // セーブされている各デバイス情報と一致するデバイスを検索
         foreach (var saved in data.devices)
         {
-            var targetDescription = InputDeviceDescription.FromJson(saved.descriptionJson);
+            InputDevice matched = null;
 
+            // ① deviceId 優先で探す（セッション内で一意）
             foreach (var device in InputSystem.devices)
             {
-                var currentDescription = device.description;
-
-                if (currentDescription.interfaceName == targetDescription.interfaceName &&
-                    currentDescription.product == targetDescription.product &&
-                    currentDescription.manufacturer == targetDescription.manufacturer)
+                if (device.deviceId == saved.sessionDeviceId)
                 {
-                    matchedDevices.Add(device);
+                    matched = device;
                     break;
                 }
             }
+
+            // ② なければ description（型・メーカーなど）で妥協的に探す
+            if (matched == null)
+            {
+                var targetDescription = InputDeviceDescription.FromJson(saved.descriptionJson);
+
+                foreach (var device in InputSystem.devices)
+                {
+                    var currentDescription = device.description;
+
+                    if (currentDescription.interfaceName == targetDescription.interfaceName &&
+                        currentDescription.product == targetDescription.product &&
+                        currentDescription.manufacturer == targetDescription.manufacturer)
+                    {
+                        matched = device;
+                        break;
+                    }
+                }
+            }
+
+            if (matched != null)
+            {
+                matchedDevices.Add(matched);
+            }
         }
 
-        // デバイスが一致しなかった場合は警告ログを出力して終了
         if (matchedDevices.Count == 0)
         {
             Debug.LogWarning($"プレイヤー {index} に一致するデバイスが見つかりませんでした。");
             return;
         }
 
-        // 最初のデバイスとプレイヤーをペアリングしてインスタンス化
+        // 最初のデバイスでプレイヤーをスポーン
         var playerInput = PlayerInput.Instantiate(
             _playerPrefab,
             playerIndex: index,

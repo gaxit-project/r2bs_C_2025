@@ -28,6 +28,8 @@ public class PlayerBase : MonoBehaviour
     protected static int teamTwoIndex = 1;
 
     // プレイヤーの状態を管理する (0: 生存, 1: 死亡)
+
+    //マップのタイマー
     public enum PlayerState
     {
         Alive,
@@ -75,7 +77,10 @@ public class PlayerBase : MonoBehaviour
         PlayerSpeed = 2.0f + (_status.GetValue(StatusType.Speed) - 1) * 0.5f;
         BombRange = 1 + (_status.GetValue(StatusType.Power) - 1);
         BloomBombMax = 1 + (_status.GetValue(StatusType.BombCount) - 1);
-        InitializePool();
+        for (int i = BloomBombPool.Count; i < BloomBombMax; i++)
+        {
+            addSetBomb();
+        }
     }
 
 
@@ -109,7 +114,7 @@ public class PlayerBase : MonoBehaviour
     //プレイヤーの移動入力
     public void OnMove(InputAction.CallbackContext context)
     {
-        if(currentState == PlayerState.Alive)
+        if(currentState == PlayerState.Alive && GameTimer.instance.IsGameStart())
         {
             moveInput = context.ReadValue<Vector2>();
         }
@@ -251,17 +256,19 @@ public class PlayerBase : MonoBehaviour
     /// </summary>
     private void InitializePool()
     {
-        foreach(var bloomBomb in BloomBombPool)
-        {
-            Destroy(bloomBomb);
-        }
-        BloomBombPool.Clear();
         for (int i = 0; i < BloomBombMax; i++)
         {
             GameObject BloomBomb = Instantiate(StandardBomb, BombParent);
             BloomBomb.SetActive(false);
             BloomBombPool.Add(BloomBomb);
         }
+    }
+
+    private void addSetBomb()
+    {
+        GameObject BloomBomb = Instantiate(StandardBomb, BombParent);
+        BloomBomb.SetActive(false);
+        BloomBombPool.Add(BloomBomb);
     }
 
 

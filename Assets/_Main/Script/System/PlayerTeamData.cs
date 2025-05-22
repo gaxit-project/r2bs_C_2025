@@ -22,4 +22,5 @@ public class PlayerData
 public class SavedDeviceInfo
 {
     public string descriptionJson; // InputDeviceDescription を JSON で保存
+    public int sessionDeviceId; //固有デバイスID
 }

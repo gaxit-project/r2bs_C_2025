@@ -7,6 +7,8 @@ public class GameTimer : MonoBehaviour
     [SerializeField] private float _startTime = 300; //制限時間
     [SerializeField] private float _countDownTime = 3; //プレイ開始時のカウントダウン用
 
+    public static GameTimer instance;
+
     private float _timer; //プライベートタイマー
     public float CurrentTime { get { return _timer; } } //現在の時間を返す(読み取り専用)
 
@@ -17,6 +19,7 @@ public class GameTimer : MonoBehaviour
 
     private void Awake()
     {
+        instance = this;
         _mapTimer = _startTime; //マップタイマーの初期値を代入
     }
     private void Update()

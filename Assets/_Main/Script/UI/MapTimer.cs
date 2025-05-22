@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -5,6 +6,7 @@ public class MapTimer : MonoBehaviour
 {
     [SerializeField] private Image _mapTimerImage;   //タイマーとして使うImageをいれる
     private GameTimer _gameTimer;
+    private ResultData _ResultData;
 
     private void Start()
     {
@@ -19,6 +21,9 @@ public class MapTimer : MonoBehaviour
         }
 
         _mapTimerImage.fillAmount = 1f; //Imageを全て表示させる
+
+        // Resources フォルダからResultデータを読み込む
+        _ResultData = Resources.Load<ResultData>("ResultData");
     }
 
     private void Update()
@@ -35,7 +40,15 @@ public class MapTimer : MonoBehaviour
         else
         {
             _mapTimerImage.fillAmount = 0f;
-            //タイマーが0になったらここに処理を書く!!!!!!!!!!!!!!!!!!!!
+
+            //結果を保存
+            _ResultData.TeamOneBloomPercent = BloomJudgement.Instance.GetTeamOneBloomPer();
+            _ResultData.TeamOneBloomPercent = BloomJudgement.Instance.GetTeamTwoBloomPer();
+            EditorUtility.SetDirty(_ResultData);
+
+
+            //resultへ移動
+            FBSceneManager.Instance.LoadResultScene();
         }
     }
         

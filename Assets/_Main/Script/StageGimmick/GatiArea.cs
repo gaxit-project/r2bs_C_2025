@@ -14,7 +14,7 @@ public class GatiArea: MonoBehaviour
     private int _teamTwoAreaCnt = 0;  // 2つ目のチームのエリア取得数
 
     private Color _bombColor; // 爆弾の色
-    private Team _currentAreaTeamNam; // エリアを取得しているチームを保存
+    private Team? _currentAreaTeamNam; // エリアを取得しているチームを保存
 
     private bool _isAreaObtained = false; // エリアが取得されているかのフラグ
 
@@ -45,7 +45,7 @@ public class GatiArea: MonoBehaviour
     /// 塗られていないエリアを塗る
     /// </summary>
     /// <param name="teamName"></param>
-    public void AddGatiArea(Team teamName)
+    public void AddGatiArea(Team teamName, Color bombColor)
     {
         switch (teamName)
         {
@@ -56,7 +56,7 @@ public class GatiArea: MonoBehaviour
                 _teamTwoAreaCnt++;
                 break;
         }
-        SecuredGatiAreaJudge(teamName);
+        SecuredGatiAreaJudge(teamName, bombColor);
     }
 
 
@@ -65,7 +65,7 @@ public class GatiArea: MonoBehaviour
     /// エリアを上書きする
     /// </summary>
     /// <param name="teamName"></param>
-    public void RemoveGatiArea(Team teamName)
+    public void RemoveGatiArea(Team teamName, Color bombColor)
     {
         switch (teamName)
         {
@@ -78,7 +78,7 @@ public class GatiArea: MonoBehaviour
                 _teamOneAreaCnt++;
                 break;
         }
-        SecuredGatiAreaJudge(teamName);
+        SecuredGatiAreaJudge(teamName, bombColor);
     }
 
 
@@ -88,7 +88,7 @@ public class GatiArea: MonoBehaviour
     /// エリアの塗が一定の値を超えたか確認+色の付与
     /// </summary>
     /// <param name="teamName"></param>
-    private void SecuredGatiAreaJudge(Team teamName)
+    private void SecuredGatiAreaJudge(Team teamName, Color bombColor)
     {
         int areaTileCnt = 0;
         // チームごとのタイルの取得数の取得
@@ -96,11 +96,11 @@ public class GatiArea: MonoBehaviour
         {
             case Team.TeamOne:
                 areaTileCnt = _teamOneAreaCnt;
-                _bombColor = Color.blue;
+                _bombColor = bombColor;
                 break;
             case Team.TeamTwo:
                 areaTileCnt = _teamTwoAreaCnt;
-                _bombColor = Color.red;
+                _bombColor = bombColor;
                 break;
         }
 
@@ -108,7 +108,7 @@ public class GatiArea: MonoBehaviour
         // 取得数の比較
         if (areaTileCnt >= _areaSecuredCnt && !_isAreaObtained)
         {
-            BloomAllArea(teamName);
+            BloomAllArea(teamName, _bombColor);
         }
         // もしエリア取得済の場合
         else if(_isAreaObtained)
@@ -126,6 +126,7 @@ public class GatiArea: MonoBehaviour
             if(areaTileCnt >= _areaHalfCnt)
             {
                 _isAreaObtained = false;
+                _currentAreaTeamNam = null;
             }
         }
     }
@@ -135,7 +136,7 @@ public class GatiArea: MonoBehaviour
     /// <summary>
     /// エリアをすべて塗る
     /// </summary>
-    private void BloomAllArea(Team teamName)
+    private void BloomAllArea(Team teamName, Color bombColor)
     {
         _isAreaObtained = true;
         for (int i = 0; i < _areaTileMaxCnt; i++)
@@ -144,7 +145,7 @@ public class GatiArea: MonoBehaviour
             Renderer renderer = child.GetComponent<Renderer>();
             if (renderer != null)
             {
-                renderer.material.color = _bombColor;
+                renderer.material.color = bombColor;
             }
         }
         CurrentSecuredGatiArea(teamName);

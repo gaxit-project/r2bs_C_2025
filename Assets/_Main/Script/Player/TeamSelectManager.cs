@@ -49,7 +49,8 @@ public class TeamSelectManager : MonoBehaviour
         {
             var info = new SavedDeviceInfo
             {
-                descriptionJson = device.description.ToJson()
+                descriptionJson = device.description.ToJson(),
+                sessionDeviceId = device.deviceId
             };
             data.devices.Add(info);
         }

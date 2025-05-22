@@ -352,6 +352,12 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2099192707789314719, guid: bd147445763733843a5ecde7963d074d, type: 3}
+      propertyPath: m_text
+      value: 'Back
+
+'
+      objectReference: {fileID: 0}
     - target: {fileID: 2553751372846409792, guid: bd147445763733843a5ecde7963d074d, type: 3}
       propertyPath: m_Name
       value: Menu
@@ -373,6 +379,10 @@ PrefabInstance:
     - target: {fileID: 4057624580680134765, guid: bd147445763733843a5ecde7963d074d, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4532635498764290262, guid: bd147445763733843a5ecde7963d074d, type: 3}
+      propertyPath: m_Name
+      value: Back
       objectReference: {fileID: 0}
     - target: {fileID: 6822772374794239096, guid: bd147445763733843a5ecde7963d074d, type: 3}
       propertyPath: m_AnchorMax.y

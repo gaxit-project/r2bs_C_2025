@@ -237,9 +237,9 @@ public class BombProcess : MonoBehaviour
                 {
                     Debug.Log("ここはエリアです");
                     // レンダーが違うときに塗り割合を変更する
-                    if (renderer.gameObject.layer == LayerMask.NameToLayer("TeamTwoTile")) GatiArea.Instance.RemoveGatiArea(_teamName);
+                    if (renderer.gameObject.layer == LayerMask.NameToLayer("TeamTwoTile")) GatiArea.Instance.RemoveGatiArea(_teamName, _bombColor);
                     // 白紙の時は塗り割合を加算する
-                    else if (renderer.gameObject.layer != LayerMask.NameToLayer("TeamOneTile")) GatiArea.Instance.AddGatiArea(_teamName);
+                    else if (renderer.gameObject.layer != LayerMask.NameToLayer("TeamOneTile")) GatiArea.Instance.AddGatiArea(_teamName, _bombColor);
                 }
                 // レンダーが違うときに塗り割合を変更する
                 if (renderer.gameObject.layer == LayerMask.NameToLayer("TeamTwoTile")) BloomJudgement.Instance.RemoveBloomJudgement(_teamName);
@@ -254,9 +254,9 @@ public class BombProcess : MonoBehaviour
                 {
                     Debug.Log("ここはエリアです");
                     // レンダーが違うときに塗り割合を変更する
-                    if (renderer.gameObject.layer == LayerMask.NameToLayer("TeamOneTile")) GatiArea.Instance.RemoveGatiArea(_teamName);
+                    if (renderer.gameObject.layer == LayerMask.NameToLayer("TeamOneTile")) GatiArea.Instance.RemoveGatiArea(_teamName, _bombColor);
                     // 白紙の時は塗り割合を加算する
-                    else if (renderer.gameObject.layer != LayerMask.NameToLayer("TeamTwoTile")) GatiArea.Instance.AddGatiArea(_teamName);
+                    else if (renderer.gameObject.layer != LayerMask.NameToLayer("TeamTwoTile")) GatiArea.Instance.AddGatiArea(_teamName, _bombColor);
                 }
                 // レンダーが違うときに塗り割合を変更する
                 if (renderer.gameObject.layer == LayerMask.NameToLayer("TeamOneTile")) BloomJudgement.Instance.RemoveBloomJudgement(_teamName);
