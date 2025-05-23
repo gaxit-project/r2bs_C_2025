@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 /// <summary>
 /// タイトル画面のUIパネルおよびボタンの処理を管理するクラス
@@ -15,6 +17,8 @@ public class MenuManager : MonoBehaviour
     {
         // 初期状態ではタイトルパネルを表示、オプションパネルを非表示にする
         SetPanelVisibility(isTitleVisible: true, isOptionVisible: false);
+        EventSystem.current.SetSelectedGameObject(null);
+        _titlePanel.transform.Find("Start").GetComponent<Button>().Select();
     }
 
     /// <summary>
@@ -33,6 +37,7 @@ public class MenuManager : MonoBehaviour
     public void OnOption()
     {
         SetPanelVisibility(isTitleVisible: false, isOptionVisible: true);
+        _optionPanel.transform.Find("Back").GetComponent<Button>().Select();
     }
 
     /// <summary>
@@ -42,6 +47,9 @@ public class MenuManager : MonoBehaviour
     public void OnBack()
     {
         SetPanelVisibility(isTitleVisible: true, isOptionVisible: false);
+        EventSystem.current.SetSelectedGameObject(null);
+        _titlePanel.transform.Find("Start").GetComponent<Button>().Select();
+
     }
 
     /// <summary>
