@@ -33,8 +33,7 @@ public class TeamSelectScenePlayer : MonoBehaviour
     private void Start()
     {
         _playerData = Resources.Load<PlayerTeamData>("PlayerData");
-        _playerIndex = TeamSelectManager.PlayerSum;
-        TeamSelectManager.PlayerSum++;
+        _playerIndex = _playerData.PlayerTable.Count-1;
     }
 
     /// <summary>

@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dd5ff4a43ef69748a867d127a94fc8d, type: 3}
   m_Name: ResultData
   m_EditorClassIdentifier: 
-  TeamOneBloomPercent: 40
-  TeamTwoBloomPercent: 60
+  TeamOneBloomPercent: 0
+  TeamTwoBloomPercent: 0

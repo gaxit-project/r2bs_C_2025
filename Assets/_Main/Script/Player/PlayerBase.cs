@@ -23,9 +23,9 @@ public class PlayerBase : MonoBehaviour
     protected int SpecialBombRange = 0;
     protected float SpecialPlayerSpeed = 1f;
 
-    protected static int playerIndex = -1;
-    protected static int teamOneIndex = -1;
-    protected static int teamTwoIndex = 1;
+    protected int playerIndex;
+    protected int teamOneIndex;
+    protected int teamTwoIndex;
 
     // プレイヤーの状態を管理する (0: 生存, 1: 死亡)
 
@@ -152,7 +152,7 @@ public class PlayerBase : MonoBehaviour
     {
         if (this.gameObject.tag == "TeamOne")
         {
-            teamOneIndex++;
+            teamOneIndex = GameObject.FindGameObjectsWithTag("TeamOne").Length - 1;
             StartPosition = MapManager.Instance.GetStartPosition(teamOneIndex);
 
             this.transform.position = StartPosition;  //リス地
@@ -164,7 +164,7 @@ public class PlayerBase : MonoBehaviour
         }
         else
         {
-            teamTwoIndex++;
+            teamTwoIndex = GameObject.FindGameObjectsWithTag("TeamTwo").Length + 1;
             StartPosition = MapManager.Instance.GetStartPosition(teamTwoIndex);
 
             this.transform.position = StartPosition;  //リス地
