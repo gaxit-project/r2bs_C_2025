@@ -11,7 +11,6 @@ public class TeamSelectManager : MonoBehaviour
     /// <summary>
     /// 参加しているプレイヤーの合計数（他クラスからアクセス可能）
     /// </summary>
-    public static int PlayerSum = 0;
 
     /// <summary>
     /// プレイヤー入力データを保持するScriptableObject

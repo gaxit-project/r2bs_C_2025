@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,7 +14,7 @@ public class PlayerController : PlayerBase
 
         //É`Å[ÉÄï™ÇØ
         playerData = Resources.Load<PlayerTeamData>("PlayerData");
-        playerIndex++;
+        playerIndex = this.GetComponent<PlayerInput>().user.index;
         this.gameObject.tag = playerData.PlayerTable[playerIndex].Team;
         TeamSplit();
 

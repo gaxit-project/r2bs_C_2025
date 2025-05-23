@@ -24,7 +24,6 @@ public class TeamPlayerInput : MonoBehaviour
     {
         // Resources フォルダからプレイヤーデータを読み込む
         _playerData = Resources.Load<PlayerTeamData>("PlayerData");
-
         // 保存された各プレイヤー情報からプレイヤーをスポーン
         for (int i = 0; i < _playerData.PlayerTable.Count; i++)
         {
