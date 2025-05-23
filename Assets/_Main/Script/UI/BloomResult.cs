@@ -19,7 +19,11 @@ public class BloomResult : MonoBehaviour
 
         TeamOnePer.text = _ResultData.TeamOneBloomPercent.ToString();
         TeamTwoPer.text = _ResultData.TeamTwoBloomPercent.ToString();
-        if(_ResultData.TeamOneBloomPercent > _ResultData.TeamTwoBloomPercent)
+        if(_ResultData.TeamOneBloomPercent == _ResultData.TeamTwoBloomPercent)
+        {
+            Winner.text = "Draw";
+        }
+        else if(_ResultData.TeamOneBloomPercent > _ResultData.TeamTwoBloomPercent)
         {
             Winner.text = "TeamOneWin";
         }

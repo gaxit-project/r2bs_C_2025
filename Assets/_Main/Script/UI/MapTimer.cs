@@ -43,7 +43,7 @@ public class MapTimer : MonoBehaviour
 
             //Œ‹‰Ê‚ð•Û‘¶
             _ResultData.TeamOneBloomPercent = BloomJudgement.Instance.GetTeamOneBloomPer();
-            _ResultData.TeamOneBloomPercent = BloomJudgement.Instance.GetTeamTwoBloomPer();
+            _ResultData.TeamTwoBloomPercent = BloomJudgement.Instance.GetTeamTwoBloomPer();
             EditorUtility.SetDirty(_ResultData);
 
 
