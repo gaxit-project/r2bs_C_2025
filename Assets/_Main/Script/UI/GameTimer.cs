@@ -38,6 +38,7 @@ public class GameTimer : MonoBehaviour
     public void StartTimer()
     {
         _isActiveTime = true;
+        _isGameStart = true;
     }
 
     /// <summary>
@@ -46,6 +47,7 @@ public class GameTimer : MonoBehaviour
     public void StopTimer()
     {
         _isActiveTime = false;
+        _isGameStart = false;
     }
 
     /// <summary>

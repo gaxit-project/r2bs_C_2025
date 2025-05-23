@@ -29,7 +29,6 @@ public class PlayerBase : MonoBehaviour
 
     // プレイヤーの状態を管理する (0: 生存, 1: 死亡)
 
-    //マップのタイマー
     public enum PlayerState
     {
         Alive,
@@ -114,10 +113,7 @@ public class PlayerBase : MonoBehaviour
     //プレイヤーの移動入力
     public void OnMove(InputAction.CallbackContext context)
     {
-        if(currentState == PlayerState.Alive && GameTimer.instance.IsGameStart())
-        {
             moveInput = context.ReadValue<Vector2>();
-        }
     }
 
 
@@ -126,7 +122,10 @@ public class PlayerBase : MonoBehaviour
     public void OnBomb(InputAction.CallbackContext context)
     {
         if (!context.performed) return;
-        BombPlacement(CatchPlayerPos());
+        if (currentState == PlayerState.Alive && GameTimer.instance.IsGameStart())
+        {
+            BombPlacement(CatchPlayerPos());
+        }
     }
 
 
@@ -138,13 +137,27 @@ public class PlayerBase : MonoBehaviour
         Destroy(this.gameObject);
     }
 
+    public void OnPose(InputAction.CallbackContext context)
+    {
+        if (!context.performed) return;
+        MainGameManager.instance.OnSwithPosw();
+    }
+
+
 
 
 
     //プレイヤーの移動
     protected void PlayerMove()
     {
-        this.GetComponent<Rigidbody>().linearVelocity = new Vector3(moveInput.x * PlayerSpeed * SpecialPlayerSpeed * teamLocal, 0f, moveInput.y * PlayerSpeed * SpecialPlayerSpeed * teamLocal);
+        if (currentState == PlayerState.Alive && GameTimer.instance.IsGameStart())
+        {
+            this.GetComponent<Rigidbody>().linearVelocity = new Vector3(moveInput.x * PlayerSpeed * SpecialPlayerSpeed * teamLocal, 0f, moveInput.y * PlayerSpeed * SpecialPlayerSpeed * teamLocal);
+        }
+        else
+        {
+            this.GetComponent<Rigidbody>().linearVelocity = new Vector3(0, 0, 0);
+        }
     }
 
     //チーム分け
@@ -156,8 +169,8 @@ public class PlayerBase : MonoBehaviour
             StartPosition = MapManager.Instance.GetStartPosition(teamOneIndex);
 
             this.transform.position = StartPosition;  //リス地
-            this.GetComponent<MeshRenderer>().material.color = Color.blue; //色変更
-            BombColor = Color.blue;
+            this.GetComponent<MeshRenderer>().material.color = new Color32(0,0,255,50); //色変更
+            BombColor = new Color32(0, 0, 255, 100);
             TeamName = Team.TeamOne;
             teamLocal = 1; //座標の向き修正
 
@@ -169,8 +182,8 @@ public class PlayerBase : MonoBehaviour
 
             this.transform.position = StartPosition;  //リス地
             this.transform.rotation = new Quaternion(0f, 180f, 0f, 0f);  //アングル
-            this.GetComponent<MeshRenderer>().material.color = Color.red;  //色変更
-            BombColor = Color.red;
+            this.GetComponent<MeshRenderer>().material.color = new Color32(255, 0, 0, 50);  //色変更
+            BombColor = new Color32(255, 0, 0, 100);
             TeamName = Team.TeamTwo;
             teamLocal = -1; //座標の向き修正
         }
