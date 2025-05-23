@@ -40,10 +40,6 @@ public class GatiArea: MonoBehaviour
         _areaHalfCnt = (int)(_areaTileMaxCnt * GATIAREA_HALFPERCE);
     }
 
-    private void Update()
-    {
-        Debug.Log("現在のエリア取得チーム" + _currentAreaTeamNam);
-    }
 
     /// <summary>
     /// 塗られていないエリアを塗る
@@ -117,23 +113,19 @@ public class GatiArea: MonoBehaviour
         // もしエリア取得済の場合
         else if(_isAreaObtained)
         {
-            Debug.Log("ふらぐおりてるよーーん");
             switch(_currentAreaTeamNam)
             {
                 case Team.TeamOne:
                     areaTileCnt = _teamTwoAreaCnt;
-                    Debug.Log("現在の赤色" + areaTileCnt);
                     break;
                 case Team.TeamTwo:
                     areaTileCnt = _teamOneAreaCnt;
-                    Debug.Log("現在の青色" + areaTileCnt);
                     break;
             }
            
             // 現在のエリア取得チームでないチームがエリアの半分を塗ったらエリア占有解除
             if(areaTileCnt >= _areaHalfCnt)
             {
-                Debug.Log("優先解除");
                 _isAreaObtained = false;
             }
         }
