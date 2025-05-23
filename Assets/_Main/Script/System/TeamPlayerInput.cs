@@ -38,19 +38,19 @@ public class TeamPlayerInput : MonoBehaviour
         {
             switch (index)
             {
-                case 0: return new Rect(0f, 0f, 0.5f, 0.5f);     // 左下
-                case 1: return new Rect(0.5f, 0f, 0.5f, 0.5f);   // 右下
-                case 2: return new Rect(0f, 0.5f, 1f, 0.5f);     // 上全体
+                case 0: return new Rect(0f, 0.5f, 0.5f, 0.5f);   // 左上
+                case 1: return new Rect(0.5f, 0.5f, 0.5f, 0.5f); // 右上
+                case 2: return new Rect(0f, 0f, 0.5f, 0.5f);     // 左下
             }
         }
         else if (playerCount >= 4)
         {
             switch (index)
             {
-                case 0: return new Rect(0f, 0f, 0.5f, 0.5f);     // 左下
-                case 1: return new Rect(0.5f, 0f, 0.5f, 0.5f);   // 右下
-                case 2: return new Rect(0f, 0.5f, 0.5f, 0.5f);   // 左上
-                case 3: return new Rect(0.5f, 0.5f, 0.5f, 0.5f); // 右上
+                case 0: return new Rect(0f, 0.5f, 0.5f, 0.5f);   // 左上
+                case 1: return new Rect(0.5f, 0.5f, 0.5f, 0.5f); // 右上
+                case 2: return new Rect(0f, 0f, 0.5f, 0.5f);     // 左下
+                case 3: return new Rect(0.5f, 0f, 0.5f, 0.5f);   // 右下
             }
         }
 

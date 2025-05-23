@@ -37,6 +37,7 @@ public class MenuManager : MonoBehaviour
     public void OnOption()
     {
         SetPanelVisibility(isTitleVisible: false, isOptionVisible: true);
+        EventSystem.current.SetSelectedGameObject(null);
         _optionPanel.transform.Find("Back").GetComponent<Button>().Select();
     }
 

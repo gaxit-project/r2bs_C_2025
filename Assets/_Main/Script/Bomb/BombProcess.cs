@@ -87,7 +87,15 @@ public class BombProcess : MonoBehaviour
     /// <returns></returns>
     IEnumerator StartBombCountDown()
     {
+        while (!GameTimer.instance.IsGameStart())
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
         yield return new WaitForSeconds(_startSpreadTime);
+        while (!GameTimer.instance.IsGameStart())
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
         MapSetting();
     }
 
@@ -186,7 +194,10 @@ public class BombProcess : MonoBehaviour
             int targetX = pos.x + direction.x * i;
             int targetY = pos.y + direction.y * i;
 
-
+            while(!GameTimer.instance.IsGameStart())
+            {
+                yield return new WaitForSeconds(0.1f);
+            }
             if (MapManager.Instance.GetBlockData(targetX, targetY).name == "GroundObject"　|| MapManager.Instance.GetBlockData(targetX, targetY).name == "GatiAreaObject" || MapManager.Instance.GetBlockData(targetX, targetY).name == "GatiHokoObject")
             {
                 PaintMap(targetX, targetY);
