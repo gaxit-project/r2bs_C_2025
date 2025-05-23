@@ -209,6 +209,8 @@ public class BombProcess : MonoBehaviour
             }
             yield return new WaitForSeconds(_spreadTime);
         }
+
+        yield return new WaitForSeconds(0.2f);
         if (direction == Vector2Int.left) isLeftPaint = false;
         else if (direction == Vector2Int.right) isRightPaint = false;
         else if (direction == Vector2Int.up) isUpPaint = false;
@@ -235,7 +237,6 @@ public class BombProcess : MonoBehaviour
                 // 床がガチエリアだった場合
                 if (MapManager.Instance.GetBlockData(x, y).name == "GatiAreaObject")
                 {
-                    Debug.Log("ここはエリアです");
                     // レンダーが違うときに塗り割合を変更する
                     if (renderer.gameObject.layer == LayerMask.NameToLayer("TeamTwoTile")) GatiArea.Instance.RemoveGatiArea(_teamName, _bombColor);
                     // 白紙の時は塗り割合を加算する
@@ -252,7 +253,6 @@ public class BombProcess : MonoBehaviour
                 // 床がガチエリアだった場合
                 if (MapManager.Instance.GetBlockData(x, y).name == "GatiAreaObject")
                 {
-                    Debug.Log("ここはエリアです");
                     // レンダーが違うときに塗り割合を変更する
                     if (renderer.gameObject.layer == LayerMask.NameToLayer("TeamOneTile")) GatiArea.Instance.RemoveGatiArea(_teamName, _bombColor);
                     // 白紙の時は塗り割合を加算する
