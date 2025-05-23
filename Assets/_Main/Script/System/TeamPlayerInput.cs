@@ -1,41 +1,81 @@
-using System.Collections.Generic;
+ï»¿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Layouts;
 using UnityEngine.InputSystem.Users;
 
 /// <summary>
-/// ƒZ[ƒuƒf[ƒ^‚ÉŠî‚Ã‚¢‚ÄƒvƒŒƒCƒ„[‚ğƒXƒ|[ƒ“‚·‚éƒNƒ‰ƒX
+/// ã‚»ãƒ¼ãƒ–ãƒ‡ãƒ¼ã‚¿ã«åŸºã¥ã„ã¦ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’ã‚¹ãƒãƒ¼ãƒ³ã™ã‚‹ã‚¯ãƒ©ã‚¹
 /// </summary>
 public class TeamPlayerInput : MonoBehaviour
 {
     /// <summary>
-    /// ƒvƒŒƒCƒ„[ƒf[ƒ^iScriptableObjectj
+    /// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãƒ‡ãƒ¼ã‚¿ï¼ˆScriptableObjectï¼‰
     /// </summary>
     private PlayerTeamData _playerData;
 
     /// <summary>
-    /// ƒvƒŒƒCƒ„[‚ÌƒvƒŒƒnƒuiPlayerInput ƒRƒ“ƒ|[ƒlƒ“ƒg•t‚«j
+    /// ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ãƒ—ãƒ¬ãƒãƒ–ï¼ˆPlayerInput ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆä»˜ãï¼‰
     /// </summary>
     [SerializeField]
     private GameObject _playerPrefab;
 
+
+    //ã‚«ãƒ¡ãƒ©ã®åˆ†å‰²å‰²ã‚Šå½“ã¦
+    private Rect GetCameraRect(int playerCount, int index)
+    {
+        if (playerCount <= 1)
+        {
+            return new Rect(0f, 0f, 1f, 1f); // å…¨ç”»é¢
+        }
+        else if (playerCount == 2)
+        {
+            return index == 0
+                ? new Rect(0f, 0f, 0.5f, 1f)   // å·¦
+                : new Rect(0.5f, 0f, 0.5f, 1f); // å³
+        }
+        else if (playerCount == 3)
+        {
+            switch (index)
+            {
+                case 0: return new Rect(0f, 0f, 0.5f, 0.5f);     // å·¦ä¸‹
+                case 1: return new Rect(0.5f, 0f, 0.5f, 0.5f);   // å³ä¸‹
+                case 2: return new Rect(0f, 0.5f, 1f, 0.5f);     // ä¸Šå…¨ä½“
+            }
+        }
+        else if (playerCount >= 4)
+        {
+            switch (index)
+            {
+                case 0: return new Rect(0f, 0f, 0.5f, 0.5f);     // å·¦ä¸‹
+                case 1: return new Rect(0.5f, 0f, 0.5f, 0.5f);   // å³ä¸‹
+                case 2: return new Rect(0f, 0.5f, 0.5f, 0.5f);   // å·¦ä¸Š
+                case 3: return new Rect(0.5f, 0.5f, 0.5f, 0.5f); // å³ä¸Š
+            }
+        }
+
+        // 5äººä»¥ä¸Šã¯å…¨ç”»é¢ï¼ˆã¾ãŸã¯åˆ‡æ›¿UIãªã©åˆ¥å¯¾å¿œï¼‰
+        return new Rect(0f, 0f, 1f, 1f);
+    }
+
+
     private void Start()
     {
-        // Resources ƒtƒHƒ‹ƒ_‚©‚çƒvƒŒƒCƒ„[ƒf[ƒ^‚ğ“Ç‚İ‚Ş
+        // Resources ãƒ•ã‚©ãƒ«ãƒ€ã‹ã‚‰ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãƒ‡ãƒ¼ã‚¿ã‚’èª­ã¿è¾¼ã‚€
         _playerData = Resources.Load<PlayerTeamData>("PlayerData");
-        // •Û‘¶‚³‚ê‚½ŠeƒvƒŒƒCƒ„[î•ñ‚©‚çƒvƒŒƒCƒ„[‚ğƒXƒ|[ƒ“
+        // ä¿å­˜ã•ã‚ŒãŸå„ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼æƒ…å ±ã‹ã‚‰ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’ã‚¹ãƒãƒ¼ãƒ³
         for (int i = 0; i < _playerData.PlayerTable.Count; i++)
         {
             SpawnPlayerFromSavedData(_playerData.PlayerTable[i], i);
         }
     }
 
+
     /// <summary>
-    /// ƒZ[ƒuƒf[ƒ^‚ğŒ³‚ÉƒvƒŒƒCƒ„[‚ğƒXƒ|[ƒ“‚·‚é
+    /// ã‚»ãƒ¼ãƒ–ãƒ‡ãƒ¼ã‚¿ã‚’å…ƒã«ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’ã‚¹ãƒãƒ¼ãƒ³ã™ã‚‹
     /// </summary>
-    /// <param name="data">ƒvƒŒƒCƒ„[ƒf[ƒ^</param>
-    /// <param name="index">ƒvƒŒƒCƒ„[”Ô†</param>
+    /// <param name="data">ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãƒ‡ãƒ¼ã‚¿</param>
+    /// <param name="index">ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ç•ªå·</param>
     public void SpawnPlayerFromSavedData(PlayerData data, int index)
     {
         var matchedDevices = new List<InputDevice>();
@@ -44,7 +84,7 @@ public class TeamPlayerInput : MonoBehaviour
         {
             InputDevice matched = null;
 
-            // ‡@ deviceId —Dæ‚Å’T‚·iƒZƒbƒVƒ‡ƒ““à‚ÅˆêˆÓj
+            // â‘  deviceId å„ªå…ˆã§æ¢ã™ï¼ˆã‚»ãƒƒã‚·ãƒ§ãƒ³å†…ã§ä¸€æ„ï¼‰
             foreach (var device in InputSystem.devices)
             {
                 if (device.deviceId == saved.sessionDeviceId)
@@ -54,7 +94,7 @@ public class TeamPlayerInput : MonoBehaviour
                 }
             }
 
-            // ‡A ‚È‚¯‚ê‚Î descriptioniŒ^Eƒ[ƒJ[‚È‚Çj‚Å‘Ã‹¦“I‚É’T‚·
+            // â‘¡ ãªã‘ã‚Œã° descriptionï¼ˆå‹ãƒ»ãƒ¡ãƒ¼ã‚«ãƒ¼ãªã©ï¼‰ã§å¦¥å”çš„ã«æ¢ã™
             if (matched == null)
             {
                 var targetDescription = InputDeviceDescription.FromJson(saved.descriptionJson);
@@ -81,24 +121,31 @@ public class TeamPlayerInput : MonoBehaviour
 
         if (matchedDevices.Count == 0)
         {
-            Debug.LogWarning($"ƒvƒŒƒCƒ„[ {index} ‚Éˆê’v‚·‚éƒfƒoƒCƒX‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ‚Å‚µ‚½B");
+            Debug.LogWarning($"ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ {index} ã«ä¸€è‡´ã™ã‚‹ãƒ‡ãƒã‚¤ã‚¹ãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“ã§ã—ãŸã€‚");
             return;
         }
 
-        // Å‰‚ÌƒfƒoƒCƒX‚ÅƒvƒŒƒCƒ„[‚ğƒXƒ|[ƒ“
+        // æœ€åˆã®ãƒ‡ãƒã‚¤ã‚¹ã§ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’ã‚¹ãƒãƒ¼ãƒ³
         var playerInput = PlayerInput.Instantiate(
             _playerPrefab,
             playerIndex: index,
             controlScheme: data.controlScheme,
-            pairWithDevice: matchedDevices[0]
+            pairWithDevice: matchedDevices[0],
+            splitScreenIndex: index
         );
 
-        // 2ŒÂ–ÚˆÈ~‚ÌƒfƒoƒCƒX‚ğ“¯‚¶ƒvƒŒƒCƒ„[‚ÉƒyƒAƒŠƒ“ƒO
+        // 2å€‹ç›®ä»¥é™ã®ãƒ‡ãƒã‚¤ã‚¹ã‚’åŒã˜ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«ãƒšã‚¢ãƒªãƒ³ã‚°
         for (int i = 1; i < matchedDevices.Count; i++)
         {
             InputUser.PerformPairingWithDevice(matchedDevices[i], user: playerInput.user);
         }
 
-        Debug.Log($"ƒvƒŒƒCƒ„[ {index} ‚ğ {matchedDevices.Count} ŒÂ‚ÌƒfƒoƒCƒX‚ÅƒXƒ|[ƒ“‚µ‚Ü‚µ‚½B");
+        // ã‚«ãƒ¡ãƒ©ç”Ÿæˆã¨å‰²å½“ã¦
+        Camera playerCam = playerInput.gameObject.transform.GetChild(0).GetComponent<Camera>();
+        playerInput.camera = playerCam;
+
+        playerCam.rect = GetCameraRect(_playerData.PlayerTable.Count, index);
+
+        Debug.Log($"ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ {index} ã‚’ {matchedDevices.Count} å€‹ã®ãƒ‡ãƒã‚¤ã‚¹ã§ã‚¹ãƒãƒ¼ãƒ³ã—ã¾ã—ãŸã€‚");
     }
 }
