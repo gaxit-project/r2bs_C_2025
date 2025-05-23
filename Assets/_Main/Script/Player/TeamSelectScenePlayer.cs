@@ -84,6 +84,11 @@ public class TeamSelectScenePlayer : MonoBehaviour
             GetComponent<MeshRenderer>().material.color = Color.blue; // 青に変更
             _isTeamOne = true;
         }
+
+#if !UNITY_EDITOR
+    // ビルド環境なら変更後に保存
+    PlayerDataIO.Save(_playerData.PlayerTable);
+#endif
     }
 
     /// <summary>

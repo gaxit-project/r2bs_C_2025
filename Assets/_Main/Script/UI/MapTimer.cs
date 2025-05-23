@@ -1,4 +1,6 @@
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,7 +12,7 @@ public class MapTimer : MonoBehaviour
 
     private void Start()
     {
-        
+
         if (GameObject.FindWithTag("GameTimer"))
         {
             _gameTimer = GameObject.FindWithTag("GameTimer").GetComponent<GameTimer>();
@@ -28,10 +30,8 @@ public class MapTimer : MonoBehaviour
 
     private void Update()
     {
-        if (_gameTimer == null) return; //_gameTimerがなければ何もしない
+        if (_gameTimer == null) return;
 
-
-        //初期時間と経過時間の割合をImageに反映
         if (!_gameTimer.IsMapTimer0())
         {
             float fillAmount = _gameTimer.MeltTimer();
@@ -41,15 +41,18 @@ public class MapTimer : MonoBehaviour
         {
             _mapTimerImage.fillAmount = 0f;
 
-            //結果を保存
+            // 結果を保存
             _ResultData.TeamOneBloomPercent = BloomJudgement.Instance.GetTeamOneBloomPer();
             _ResultData.TeamTwoBloomPercent = BloomJudgement.Instance.GetTeamTwoBloomPer();
+
+#if UNITY_EDITOR
             EditorUtility.SetDirty(_ResultData);
+#else
+        ResultDataIO.Save(_ResultData);
+#endif
 
-
-            //resultへ移動
+            // リザルトシーンへ移動
             FBSceneManager.Instance.LoadResultScene();
         }
     }
-        
 }

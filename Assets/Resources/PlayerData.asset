@@ -12,13 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20093a90fd8ca264aa88318383b7003d, type: 3}
   m_Name: PlayerData
   m_EditorClassIdentifier: 
-  PlayerTable:
-  - controlScheme: Keyboard&Mouse
-    devices:
-    - descriptionJson: "{\n    \"interface\": \"RawInput\",\n    \"type\": \"Mouse\",\n   
-        \"product\": \"\",\n    \"serial\": \"\",\n    \"version\": \"\",\n    \"manufacturer\":
-        \"\",\n    \"capabilities\": \"\"\n}"
-    - descriptionJson: "{\n    \"interface\": \"RawInput\",\n    \"type\": \"Keyboard\",\n   
-        \"product\": \"\",\n    \"serial\": \"\",\n    \"version\": \"\",\n    \"manufacturer\":
-        \"\",\n    \"capabilities\": \"\"\n}"
-    Team: TeamOne
+  PlayerTable: []

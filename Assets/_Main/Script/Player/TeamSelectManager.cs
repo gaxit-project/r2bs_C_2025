@@ -1,49 +1,43 @@
+#if UNITY_EDITOR
 using UnityEditor;
-using UnityEditor.TerrainTools;
+#endif
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-/// <summary>
-/// チーム選択シーンでプレイヤーの入力情報を保存するマネージャー
-/// </summary>
 public class TeamSelectManager : MonoBehaviour
 {
-    /// <summary>
-    /// 参加しているプレイヤーの合計数（他クラスからアクセス可能）
-    /// </summary>
-
-    /// <summary>
-    /// プレイヤー入力データを保持するScriptableObject
-    /// </summary>
     private PlayerTeamData _playerData;
 
     private void Start()
     {
-        // プレイヤーデータを読み込み、既存のプレイヤー情報を初期化
         _playerData = Resources.Load<PlayerTeamData>("PlayerData");
         _playerData.PlayerTable.Clear();
+
+        // ビルド環境なら保存済みデータを読み込む（あれば）
+#if !UNITY_EDITOR
+    PlayerDataIO.Reset();
+#endif
     }
 
-    /// <summary>
-    /// PlayerInputからプレイヤーの入力デバイスと操作方法を保存する
-    /// </summary>
-    /// <param name="input">プレイヤーの入力情報</param>
     public void SavePlayerInput(PlayerInput input)
     {
         int index = input.user.index;
 
-        // インデックスが足りない場合は空のPlayerDataを追加しておく
         while (_playerData.PlayerTable.Count <= index)
         {
             _playerData.PlayerTable.Add(new PlayerData());
+
+#if UNITY_EDITOR
             EditorUtility.SetDirty(_playerData);
+#else
+            PlayerDataIO.Save(_playerData.PlayerTable);
+#endif
         }
 
         var data = _playerData.PlayerTable[index];
         data.controlScheme = input.currentControlScheme;
         data.devices.Clear();
 
-        // 使用中の各デバイス情報を保存
         foreach (var device in input.user.pairedDevices)
         {
             var info = new SavedDeviceInfo
@@ -53,22 +47,23 @@ public class TeamSelectManager : MonoBehaviour
             };
             data.devices.Add(info);
         }
+
+#if !UNITY_EDITOR
+        PlayerDataIO.Save(_playerData.PlayerTable);
+#endif
     }
 
-    /// <summary>
-    /// team選択しないとシーン移動しない
-    /// </summary>
     public void OnGameStart()
     {
         bool isSelectTeam = true;
         for (int i = 0; i < _playerData.PlayerTable.Count; i++)
         {
-            if (_playerData.PlayerTable[i].Team == null)
+            if (string.IsNullOrEmpty(_playerData.PlayerTable[i].Team))
             {
                 isSelectTeam = false;
             }
         }
-        if(isSelectTeam)
+        if (isSelectTeam)
         {
             FBSceneManager.Instance.LoadMainScene();
         }

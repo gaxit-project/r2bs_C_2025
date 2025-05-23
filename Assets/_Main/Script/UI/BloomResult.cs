@@ -14,16 +14,20 @@ public class BloomResult : MonoBehaviour
     private ResultData _ResultData;
     void Start()
     {
-        // Resources フォルダからResultデータを読み込む
         _ResultData = Resources.Load<ResultData>("ResultData");
+
+#if !UNITY_EDITOR
+    ResultDataIO.Load(_ResultData);
+#endif
 
         TeamOnePer.text = _ResultData.TeamOneBloomPercent.ToString();
         TeamTwoPer.text = _ResultData.TeamTwoBloomPercent.ToString();
-        if(_ResultData.TeamOneBloomPercent == _ResultData.TeamTwoBloomPercent)
+
+        if (_ResultData.TeamOneBloomPercent == _ResultData.TeamTwoBloomPercent)
         {
             Winner.text = "Draw";
         }
-        else if(_ResultData.TeamOneBloomPercent > _ResultData.TeamTwoBloomPercent)
+        else if (_ResultData.TeamOneBloomPercent > _ResultData.TeamTwoBloomPercent)
         {
             Winner.text = "TeamOneWin";
         }
