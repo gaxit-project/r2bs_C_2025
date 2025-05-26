@@ -1,5 +1,6 @@
 using System.Xml.Serialization;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class GatiArea: MonoBehaviour
 {
@@ -147,6 +148,7 @@ public class GatiArea: MonoBehaviour
             if (renderer != null)
             {
                 renderer.material.color = bombColor;
+                BloomEffect.Instance.CreateFlowerEffect(obj.transform.position, teamName);
                 switch (teamName)
                 {
                     case Team.TeamOne:

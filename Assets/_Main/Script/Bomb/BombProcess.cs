@@ -259,6 +259,7 @@ public class BombProcess : MonoBehaviour
                 else if(renderer.gameObject.layer != LayerMask.NameToLayer("TeamOneTile"))BloomJudgement.Instance.AddBloomJudgement(_teamName);
                 // レンダー変更
                 renderer.gameObject.layer = LayerMask.NameToLayer("TeamOneTile");
+                BloomEffect.Instance.CreateFlowerEffect(position, _teamName);
                 break;
             case Team.TeamTwo:
                 // 床がガチエリアだった場合
@@ -275,6 +276,7 @@ public class BombProcess : MonoBehaviour
                 else if(renderer.gameObject.layer != LayerMask.NameToLayer("TeamTwoTile"))BloomJudgement.Instance.AddBloomJudgement(_teamName);
                 // レンダー変更
                 renderer.gameObject.layer = LayerMask.NameToLayer("TeamTwoTile");
+                BloomEffect.Instance.CreateFlowerEffect(position, _teamName);
                 break;
         }
         renderer.material.color = _bombColor;
