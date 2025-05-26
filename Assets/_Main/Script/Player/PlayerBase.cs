@@ -241,23 +241,27 @@ public class PlayerBase : MonoBehaviour
     /// <param name="blockData"></param>
     protected void BombPlacement(MapBlockData blockData)
     {
-        Vector3 position = blockData.tilePosition;
-
-        GameObject obj = GetBomb();
-        if (obj == null)
+        if (!MapManager.Instance.GetBlockData(blockData.gridPosition.x, blockData.gridPosition.y).isBomb)
         {
-            return;
-        }
+            Vector3 position = blockData.tilePosition;
 
-        // ここでリセット！
-        obj.transform.SetParent(BombParent);
-        obj.transform.position = position;
-        obj.transform.rotation = Quaternion.identity;
-        obj.SetActive(true); // 再利用だから必ず有効化
-        obj.tag = "FlowerBomb";
-        BombProcess BP = obj.GetComponent<BombProcess>();
-        BP.VarSetting(BombRange + SpecialBombRange, BombColor, blockData, TeamName);
-        BP.StartBombCoutDownCoroutine(BombRange + SpecialBombRange, BombColor, blockData, TeamName);
+            GameObject obj = GetBomb();
+            if (obj == null)
+            {
+                return;
+            }
+
+            // ここでリセット！
+            obj.transform.SetParent(BombParent);
+            obj.transform.position = position;
+            obj.transform.rotation = Quaternion.identity;
+            obj.SetActive(true); // 再利用だから必ず有効化
+            obj.tag = "FlowerBomb";
+            BombProcess BP = obj.GetComponent<BombProcess>();
+            BP.VarSetting(BombRange + SpecialBombRange, BombColor, blockData, TeamName);
+            BP.StartBombCoutDownCoroutine(BombRange + SpecialBombRange, BombColor, blockData, TeamName);
+            MapManager.Instance.GetBlockData(blockData.gridPosition.x, blockData.gridPosition.y).isBomb = true;
+        }
     }
 
 

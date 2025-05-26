@@ -12,16 +12,17 @@ public class BloomHitJudgment : MonoBehaviour
         Instance = this;
     }
 
-    public void StartJudgementCountDownCoroutine(Team teamName)
+    public void StartJudgementCountDownCoroutine(Team teamName, int x, int y)
     {
         _teamName = teamName;
-        StartCoroutine(StartJudgementCoutDown());
+        StartCoroutine(StartJudgementCoutDown(x, y));
     }
 
-    IEnumerator StartJudgementCoutDown()
+    IEnumerator StartJudgementCoutDown(int x, int y)
     {
         yield return new WaitForSeconds(0.4f);
         Destroy(this.gameObject);
+        MapManager.Instance.GetBlockData(x, y).isHitJudge = false;
     }
 
 

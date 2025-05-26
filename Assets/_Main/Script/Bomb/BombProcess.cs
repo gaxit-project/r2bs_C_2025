@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Scripting;
 using UnityEngine.UIElements;
 using static MapManager;
+using static UnityEngine.GraphicsBuffer;
 
 
 public class BombProcess : MonoBehaviour
@@ -114,6 +115,7 @@ public class BombProcess : MonoBehaviour
         this.gameObject.GetComponent<Collider>().enabled = false;
         // 見た目を非表示
         this.gameObject.GetComponent<MeshRenderer>().enabled = false;
+        MapManager.Instance.GetBlockData(_blockData.gridPosition.x, _blockData.gridPosition.y).isBomb = false;
         StartCoroutine(PaintJudge(Vector2Int.left));
         StartCoroutine(PaintJudge(Vector2Int.right));
         StartCoroutine(PaintJudge(Vector2Int.up));
@@ -198,7 +200,11 @@ public class BombProcess : MonoBehaviour
             {
                 yield return new WaitForSeconds(0.1f);
             }
-            if (MapManager.Instance.GetBlockData(targetX, targetY).name == "GroundObject"　|| MapManager.Instance.GetBlockData(targetX, targetY).name == "GatiAreaObject" || MapManager.Instance.GetBlockData(targetX, targetY).name == "GatiHokoObject")
+            if (i != 0 && MapManager.Instance.GetBlockData(targetX, targetY).isHitJudge)
+            {
+                break;
+            }
+            else if (MapManager.Instance.GetBlockData(targetX, targetY).name == "GroundObject" || MapManager.Instance.GetBlockData(targetX, targetY).name == "GatiAreaObject" || MapManager.Instance.GetBlockData(targetX, targetY).name == "GatiHokoObject")
             {
                 PaintMap(targetX, targetY);
             }
@@ -215,6 +221,10 @@ public class BombProcess : MonoBehaviour
                 break;
             }
             else
+            {
+                break;
+            }
+            if (i != 0 && MapManager.Instance.GetBlockData(targetX, targetY).isBomb)
             {
                 break;
             }
@@ -241,7 +251,9 @@ public class BombProcess : MonoBehaviour
         Vector3 position = MapManager.Instance.GetBlockData(x, y).tilePosition;
         GameObject obj = Instantiate(_hitObject, position, Quaternion.identity, _hitObjectParent);
         BloomHitJudgment BHJ = obj.GetComponent<BloomHitJudgment>();
-        BHJ.StartJudgementCountDownCoroutine(_teamName);
+        BHJ.StartJudgementCountDownCoroutine(_teamName, x, y);
+        // 次のマスに当たり判定の判定付与
+        MapManager.Instance.GetBlockData(x, y).isHitJudge = true;
         switch (_teamName)
         {
             case Team.TeamOne:

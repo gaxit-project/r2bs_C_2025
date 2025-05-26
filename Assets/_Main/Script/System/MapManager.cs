@@ -49,9 +49,11 @@ public class MapManager : MonoBehaviour
     {
         public int key;             // オブジェクトの属性キー
         public string name;         // オブジェクトの名称
-        public bool isWalkable;     // 歩行可能かどうかのフラグ
+        public bool isWalkable;     // 歩行可能かどうか
         public Vector3 tilePosition;// オブジェクトのポジション
         public Vector2Int gridPosition; // オブジェクトの二次元配列の位置を参照できる
+        public bool isHitJudge;     // 当たり判定があるかどうか
+        public bool isBomb;         // ボムがあるかどうか 
         public GameObject instance; // 生成されたオブジェクトの参照
     }
     public int Width => _width;   // ボム用のタイルの横幅をpublic化
