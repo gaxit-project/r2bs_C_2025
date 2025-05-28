@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static PlayerBase;
 
 /// <summary>
 /// チーム選択シーンにおけるプレイヤーの操作と状態管理クラス
@@ -26,6 +27,15 @@ public class TeamSelectScenePlayer : MonoBehaviour
 
     /// <summary>プレイヤーデータ格納ScriptableObject</summary>
     private PlayerTeamData _playerData;
+
+    private float rotateSpeed = 8f; //playerのアングルspeed
+
+    public enum PlayerState
+    {
+        Alive,
+        Death
+    }
+    public PlayerState currentState;
 
     /// <summary>
     /// 初期化処理（インデックス登録とデータの読み込み）
@@ -59,6 +69,12 @@ public class TeamSelectScenePlayer : MonoBehaviour
     public void OnLeft()
     {
         Destroy(this.gameObject);
+    }
+
+    public void OnPose(InputAction.CallbackContext context)
+    {
+        if (!context.performed) return;
+        MainGameManager.instance.OnSwithPosw();
     }
 
     /// <summary>
@@ -96,7 +112,16 @@ public class TeamSelectScenePlayer : MonoBehaviour
     /// </summary>
     private void MovePlayer()
     {
-        var rb = GetComponent<Rigidbody>();
-        rb.linearVelocity = new Vector3(_moveInput.x * _playerSpeed * _teamLocal, 0f, _moveInput.y * _playerSpeed * _teamLocal);
+        Vector3 moveValue = new Vector3(_moveInput.x * _playerSpeed * _teamLocal, 0f, _moveInput.y * _playerSpeed * _teamLocal);
+        if (currentState == PlayerState.Alive)
+        {
+            this.GetComponent<Rigidbody>().linearVelocity = moveValue;
+            transform.forward = Vector3.Slerp(transform.forward, moveValue, Time.deltaTime * rotateSpeed); //angle変更
+        }
+        else
+        {
+            this.GetComponent<Rigidbody>().linearVelocity = new Vector3(0, 0, 0);
+            transform.forward = Vector3.Slerp(transform.forward, moveValue, 0);
+        }
     }
 }

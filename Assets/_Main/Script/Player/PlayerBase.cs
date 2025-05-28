@@ -15,6 +15,7 @@ public class PlayerBase : MonoBehaviour
     [SerializeField]
     protected float PlayerSpeed = 5f; //プレイヤーの速度
     protected Vector2 moveInput = Vector2.zero; //入力格納
+    public Vector2 getMoveInput { get { return moveInput; } } //moveInput_get 
     protected Team TeamName;   // チーム名の保存
     protected Vector3 StartPosition;
     protected int teamLocal; //playerのアングル調整
@@ -150,9 +151,10 @@ public class PlayerBase : MonoBehaviour
     //プレイヤーの移動
     protected void PlayerMove()
     {
+        Vector3 moveValue = new Vector3(moveInput.x * PlayerSpeed * SpecialPlayerSpeed * teamLocal, 0f, moveInput.y * PlayerSpeed * SpecialPlayerSpeed * teamLocal);
         if (currentState == PlayerState.Alive && GameTimer.instance.IsGameStart())
         {
-            this.GetComponent<Rigidbody>().linearVelocity = new Vector3(moveInput.x * PlayerSpeed * SpecialPlayerSpeed * teamLocal, 0f, moveInput.y * PlayerSpeed * SpecialPlayerSpeed * teamLocal);
+            this.GetComponent<Rigidbody>().linearVelocity = moveValue;
         }
         else
         {
@@ -185,7 +187,7 @@ public class PlayerBase : MonoBehaviour
             this.GetComponent<MeshRenderer>().material.color = new Color32(255, 0, 0, 50);  //色変更
             BombColor = new Color32(255, 0, 0, 100);
             TeamName = Team.TeamTwo;
-            teamLocal = -1; //座標の向き修正
+            teamLocal = 1; //座標の向き修正
         }
 
     }
