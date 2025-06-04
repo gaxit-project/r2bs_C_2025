@@ -197,11 +197,11 @@ public class PlayerBase : MonoBehaviour
             StartPosition = MapManager.Instance.GetStartPosition(teamTwoIndex);
 
             this.transform.position = StartPosition;  //リス地
-            this.transform.rotation = new Quaternion(0f, 180f, 0f, 0f);  //アングル
+            this.transform.rotation = new Quaternion(0f, 0f, 0f, 0f);  //アングル
             this.GetComponent<MeshRenderer>().material.color = new Color32(255, 0, 0, 50);  //色変更
             BombColor = new Color32(255, 0, 0, 100);
             TeamName = Team.TeamTwo;
-            teamLocal = -1; //座標の向き修正
+            teamLocal = 1; //座標の向き修正
         }
 
     }
