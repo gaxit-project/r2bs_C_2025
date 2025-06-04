@@ -28,6 +28,9 @@ public class PlayerBase : MonoBehaviour
     protected int teamOneIndex;
     protected int teamTwoIndex;
 
+    [SerializeField] public Animator animator;
+    public bool isWalking;
+
     // プレイヤーの状態を管理する (0: 生存, 1: 死亡)
 
     public enum PlayerState
@@ -114,8 +117,18 @@ public class PlayerBase : MonoBehaviour
     //プレイヤーの移動入力
     public void OnMove(InputAction.CallbackContext context)
     {
-            moveInput = context.ReadValue<Vector2>();
+        moveInput = context.ReadValue<Vector2>();
+
+        if (moveInput == Vector2.zero)
+        {
+            animator.SetBool("isWalking", false);
+        }
+        else
+        {
+            animator.SetBool("isWalking", true);
+        }
     }
+
 
 
 
@@ -154,6 +167,7 @@ public class PlayerBase : MonoBehaviour
         Vector3 moveValue = new Vector3(moveInput.x * PlayerSpeed * SpecialPlayerSpeed * teamLocal, 0f, moveInput.y * PlayerSpeed * SpecialPlayerSpeed * teamLocal);
         if (currentState == PlayerState.Alive && GameTimer.instance.IsGameStart())
         {
+            animator.SetBool("isWalking", true);
             this.GetComponent<Rigidbody>().linearVelocity = moveValue;
         }
         else
