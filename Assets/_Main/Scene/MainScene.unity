@@ -240,10 +240,10 @@ MonoBehaviour:
   flowerMaterial:
   - {fileID: 2100000, guid: 5af15f73da88d524ab3fb0389c23d220, type: 2}
   - {fileID: 2100000, guid: 30d5ebdcbf1c24744af80c79fca62da8, type: 2}
-  bloomDuration: 2
+  bloomDuration: 0.4
   bloomSpeed: 2
   bloomSize: 0.75
-  bloomPetals: 20
+  bloomPetals: 3
   warpDuration: 2
   warpSpeed: 1
   warpSize: 0.75
