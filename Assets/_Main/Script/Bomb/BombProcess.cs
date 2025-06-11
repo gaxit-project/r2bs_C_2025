@@ -254,6 +254,10 @@ public class BombProcess : MonoBehaviour
         BHJ.StartJudgementCountDownCoroutine(_teamName, x, y);
         // 次のマスに当たり判定の判定付与
         MapManager.Instance.GetBlockData(x, y).isHitJudge = true;
+
+        // 色変更
+        //renderer.material.color = _bombColor;
+        BloomTile.Instance.TileChenge(_teamName, renderer, x, y);
         switch (_teamName)
         {
             case Team.TeamOne:
@@ -291,7 +295,6 @@ public class BombProcess : MonoBehaviour
                 BloomEffect.Instance.CreateFlowerEffect(position, _teamName);
                 break;
         }
-        renderer.material.color = _bombColor;
     }
 
 
