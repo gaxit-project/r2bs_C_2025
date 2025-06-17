@@ -24,7 +24,7 @@ public class BloomTile : MonoBehaviour
     /// <param name="teamName"></param>
     /// <param name="x"></param>
     /// <param name="y"></param>
-    public void TileChenge(Team teamName,Renderer renderer, int x, int y)
+    public void TileChange(Team teamName,Renderer renderer, int x, int y)
     {
         GameObject obj = null;  // オブジェクト生成用
         // オブジェクト生成時の座標
@@ -37,13 +37,11 @@ public class BloomTile : MonoBehaviour
 
         switch (teamName)
         {
-
-
             case Team.TeamOne:
                 // 同じ色なら何もしない
-                if(renderer.gameObject.layer == LayerMask.NameToLayer("TeamOneTile"))
+                if (renderer.gameObject.layer == LayerMask.NameToLayer("TeamOneTile"))
                 {
-                    return;
+                    break;
                 }
                 // 違う色なら消す
                 else if (renderer.gameObject.layer != LayerMask.NameToLayer("TeamTwoTile"))
@@ -65,7 +63,7 @@ public class BloomTile : MonoBehaviour
                 // 同じ色なら何もしない
                 else if (renderer.gameObject.layer != LayerMask.NameToLayer("TeamTwoTile"))
                 {
-                    return;
+                    break;
                 }
                 rnd = Random.Range(0, TeamTwoTile.Length);
                 obj = Instantiate(TeamTwoTile[rnd], spawnPos, Quaternion.identity, TeamTwoTileParent);
