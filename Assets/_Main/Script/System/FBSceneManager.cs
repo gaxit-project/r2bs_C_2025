@@ -21,6 +21,7 @@ public class FBSceneManager : MonoBehaviour
     /// </summary>
     public void LoadTitleScene()
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene("TitleScene");
     }
 
@@ -29,6 +30,7 @@ public class FBSceneManager : MonoBehaviour
     /// </summary>
     public void LoadResultScene()
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene("ResultScene");
     }
 
@@ -37,6 +39,7 @@ public class FBSceneManager : MonoBehaviour
     /// </summary>
     public void LoadMainScene()
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene("MainScene");
     }
 
@@ -45,6 +48,7 @@ public class FBSceneManager : MonoBehaviour
     /// </summary>
     public void LoadTeamSelectScene()
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene("TeamSelectScene");
     }
 }

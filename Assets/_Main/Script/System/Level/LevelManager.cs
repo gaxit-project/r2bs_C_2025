@@ -19,6 +19,9 @@ public class LevelManager : MonoBehaviour
 
     [SerializeField] PlayerBase PlayerBase;
 
+
+    [SerializeField] PlayerUI PlayerUI;
+
     private void Start()
     {
         _status = GetComponent<PlayerStatus>();
@@ -35,6 +38,7 @@ public class LevelManager : MonoBehaviour
     {
         CurrentExp += amount;
         Debug.Log($"経験値ゲット 現在のExp : {CurrentExp}");
+        PlayerUI.addCurrentExp(CurrentExp);
         TryLevelUp();
     }
 
@@ -47,6 +51,7 @@ public class LevelManager : MonoBehaviour
         {
             //必要経験値取得
             var exp = _expData.ExpTable.Find(e => e.Level == CurrentLevel);
+            PlayerUI.addNeedExp(exp.ExpToNextLevel);
 
             //レベル条件に満たしていない場合break
             if (exp == null || CurrentExp < exp.ExpToNextLevel) break;
@@ -54,6 +59,8 @@ public class LevelManager : MonoBehaviour
             //レベルアップ
             CurrentExp -= exp.ExpToNextLevel;
             CurrentLevel++;
+            PlayerUI.addCurrentExp(0);
+            PlayerUI.addLevel(CurrentLevel);
 
             Debug.Log($"レベルアップ! 現在のレベル:{CurrentLevel}");
 
@@ -73,6 +80,7 @@ public class LevelManager : MonoBehaviour
             foreach(var stat in growth.LevelStats)
             {
                 _status.Add(stat, 1);
+                PlayerUI.addStatusUp(stat, 1);
             }
         }
         else

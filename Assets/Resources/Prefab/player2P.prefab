@@ -442,6 +442,8 @@ MonoBehaviour:
   StandardBomb: {fileID: 0}
   BombRange: 5
   BloomBombMax: 5
+  purpleChan: {fileID: 0}
+  cyanChan: {fileID: 0}
 --- !u!114 &5625062049643754625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -472,6 +474,7 @@ MonoBehaviour:
   _pattern: {fileID: 0}
   _expData: {fileID: 0}
   PlayerBase: {fileID: 0}
+  PlayerUI: {fileID: 0}
 --- !u!136 &5814452806428727013
 CapsuleCollider:
   m_ObjectHideFlags: 0

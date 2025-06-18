@@ -51,6 +51,11 @@ public class PlayerBase : MonoBehaviour
     protected int BloomBombMax = 5;          // 爆弾の所持数のマックスの設定
     protected List<GameObject> BloomBombPool = new(); // ボムを入れるリスト
 
+    [SerializeField]
+    private GameObject purpleChan;
+    [SerializeField]
+    private GameObject cyanChan;
+
 
     protected void Start()
     {
@@ -185,7 +190,8 @@ public class PlayerBase : MonoBehaviour
             StartPosition = MapManager.Instance.GetStartPosition(teamOneIndex);
 
             this.transform.position = StartPosition;  //リス地
-            this.GetComponent<MeshRenderer>().material.color = new Color32(0,0,255,50); //色変更
+            purpleChan.SetActive(false);
+            cyanChan.SetActive(true);//チーム変更
             BombColor = new Color32(0, 0, 255, 100);
             TeamName = Team.TeamOne;
             teamLocal = 1; //座標の向き修正
@@ -198,7 +204,8 @@ public class PlayerBase : MonoBehaviour
 
             this.transform.position = StartPosition;  //リス地
             this.transform.rotation = new Quaternion(0f, 0f, 0f, 0f);  //アングル
-            this.GetComponent<MeshRenderer>().material.color = new Color32(255, 0, 0, 50);  //色変更
+            purpleChan.SetActive(true);
+            cyanChan.SetActive(false);//チーム変更
             BombColor = new Color32(255, 0, 0, 100);
             TeamName = Team.TeamTwo;
             teamLocal = 1; //座標の向き修正

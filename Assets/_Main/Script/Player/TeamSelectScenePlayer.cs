@@ -30,6 +30,11 @@ public class TeamSelectScenePlayer : MonoBehaviour
 
     private float rotateSpeed = 8f; //playerのアングルspeed
 
+    [SerializeField]
+    private GameObject purpleChan;
+    [SerializeField]
+    private GameObject cyanChan;
+
     public enum PlayerState
     {
         Alive,
@@ -91,13 +96,15 @@ public class TeamSelectScenePlayer : MonoBehaviour
         if (_isTeamOne)
         {
             _playerData.PlayerTable[_playerIndex].Team = "TeamTwo";
-            GetComponent<MeshRenderer>().material.color = Color.red;  // 赤に変更
+            purpleChan.SetActive(true);
+            cyanChan.SetActive(false);//チーム変更
             _isTeamOne = false;
         }
         else
         {
             _playerData.PlayerTable[_playerIndex].Team = "TeamOne";
-            GetComponent<MeshRenderer>().material.color = Color.blue; // 青に変更
+            purpleChan.SetActive(false);
+            cyanChan.SetActive(true);//チーム変更
             _isTeamOne = true;
         }
 
