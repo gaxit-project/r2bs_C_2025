@@ -22,13 +22,11 @@ public class BloomTile : MonoBehaviour
     /// <param name="teamName"></param>
     /// <param name="x"></param>
     /// <param name="y"></param>
-    public void TileChange(Team teamName, Renderer renderer, int x, int y)
+    public void TileChange(Team teamName, Renderer renderer, Vector3 position)
     {
         GameObject obj = null;  // オブジェクト生成用
         // オブジェクト生成時の座標
-        int reversedX = (MapManager.Instance.Width - 1) - x;
-        float tileSize = 1f;
-        Vector3 spawnPos = new Vector3(reversedX * tileSize + tileSize / 2f, -0.25f, y * tileSize + tileSize / 2f);
+        Vector3 spawnPos = new Vector3(position.x, -0.25f, position.z);
         Transform TF = renderer.transform;
 
         // オブジェクト番号の変数

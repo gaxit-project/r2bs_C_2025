@@ -147,7 +147,8 @@ public class GatiArea: MonoBehaviour
             GameObject obj = child.gameObject;
             if (renderer != null)
             {
-                renderer.material.color = bombColor;
+                // êFïœçX
+                BloomTile.Instance.TileChange(teamName, renderer, obj.transform.position);
                 BloomEffect.Instance.CreateFlowerEffect(obj.transform.position, teamName);
                 switch (teamName)
                 {
