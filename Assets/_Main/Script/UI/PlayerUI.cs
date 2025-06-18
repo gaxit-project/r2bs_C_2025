@@ -71,15 +71,15 @@ public class PlayerUI : MonoBehaviour
 
     public void addStatusUp(StatusType _status, int value)
     {
-        if(_status == StatusType.Speed)
+        if (_status == StatusType.Speed)
         {
             addSpeed(value);
         }
-        else if(_status == StatusType.Power)
+        else if (_status == StatusType.Power)
         {
             addBombRange(value);
         }
-        else if(_status==StatusType.BombCount)
+        else if (_status == StatusType.BombCount)
         {
             addBombCnt(value);
         }
