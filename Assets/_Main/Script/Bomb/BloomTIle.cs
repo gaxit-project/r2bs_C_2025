@@ -16,21 +16,20 @@ public class BloomTile : MonoBehaviour
     {
         Instance = this;
     }
-
-
     /// <summary>
     /// タイルを変更するオブジェクト
     /// </summary>
     /// <param name="teamName"></param>
     /// <param name="x"></param>
     /// <param name="y"></param>
-    public void TileChange(Team teamName,Renderer renderer, int x, int y)
+    public void TileChange(Team teamName, Renderer renderer, int x, int y)
     {
         GameObject obj = null;  // オブジェクト生成用
         // オブジェクト生成時の座標
         int reversedX = (MapManager.Instance.Width - 1) - x;
         float tileSize = 1f;
         Vector3 spawnPos = new Vector3(reversedX * tileSize + tileSize / 2f, -0.5f, y * tileSize + tileSize / 2f);
+        Transform TF = renderer.transform;
 
         // オブジェクト番号の変数
         int rnd = 0;
@@ -46,10 +45,10 @@ public class BloomTile : MonoBehaviour
                 // 違う色なら消す
                 else if (renderer.gameObject.layer != LayerMask.NameToLayer("TeamTwoTile"))
                 {
-                    GameObject.Destroy(renderer.gameObject);
+                    GameObject.Destroy(TF.GetChild(0).gameObject);
                 }
-                rnd = Random.Range(0, TeamOneTile.Length); 
-                obj = Instantiate(TeamOneTile[rnd], spawnPos, Quaternion.identity, TeamOneTileParent);
+                rnd = Random.Range(0, TeamOneTile.Length);
+                obj = Instantiate(TeamOneTile[rnd], spawnPos, Quaternion.identity, TF);
                 break;
 
 
@@ -58,7 +57,7 @@ public class BloomTile : MonoBehaviour
                 // 違う色なら消す
                 if (renderer.gameObject.layer == LayerMask.NameToLayer("TeamOneTile"))
                 {
-                    GameObject.Destroy(renderer.gameObject);
+                    GameObject.Destroy(TF.GetChild(0).gameObject);
                 }
                 // 同じ色なら何もしない
                 else if (renderer.gameObject.layer != LayerMask.NameToLayer("TeamTwoTile"))
@@ -66,7 +65,7 @@ public class BloomTile : MonoBehaviour
                     break;
                 }
                 rnd = Random.Range(0, TeamTwoTile.Length);
-                obj = Instantiate(TeamTwoTile[rnd], spawnPos, Quaternion.identity, TeamTwoTileParent);
+                obj = Instantiate(TeamTwoTile[rnd], spawnPos, Quaternion.identity, TF);
                 break;
         }
     }

@@ -256,7 +256,7 @@ public class BombProcess : MonoBehaviour
         MapManager.Instance.GetBlockData(x, y).isHitJudge = true;
 
         // 色変更
-        //BloomTile.Instance.TileChange(_teamName, renderer, x, y);
+        BloomTile.Instance.TileChange(_teamName, renderer, x, y);
         switch (_teamName)
         {
             case Team.TeamOne:
@@ -295,7 +295,7 @@ public class BombProcess : MonoBehaviour
                 break;
         }
         // 色変更
-        renderer.material.color = _bombColor;
+        //renderer.material.color = _bombColor;
     }
 
 

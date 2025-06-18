@@ -240,10 +240,10 @@ MonoBehaviour:
   flowerMaterial:
   - {fileID: 2100000, guid: 5af15f73da88d524ab3fb0389c23d220, type: 2}
   - {fileID: 2100000, guid: 30d5ebdcbf1c24744af80c79fca62da8, type: 2}
-  bloomDuration: 0.4
+  bloomDuration: 2
   bloomSpeed: 2
   bloomSize: 0.75
-  bloomPetals: 3
+  bloomPetals: 20
   warpDuration: 2
   warpSpeed: 1
   warpSize: 0.75
@@ -849,9 +849,7 @@ MonoBehaviour:
   - {fileID: 2104037998581676180, guid: 66009954481cba644a8d709c43ff9e5c, type: 3}
   - {fileID: 2087431106080161872, guid: 4eb8147365f345444a7feabe67e4e97e, type: 3}
   TeamTwoTile:
-  - {fileID: 9164380330904950743, guid: 582842ec858119246a3c11e6b8148cb0, type: 3}
-  - {fileID: 2104037998581676180, guid: 66009954481cba644a8d709c43ff9e5c, type: 3}
-  - {fileID: 2087431106080161872, guid: 4eb8147365f345444a7feabe67e4e97e, type: 3}
+  - {fileID: 3455758424205611846, guid: b0fba50dc1783d546ac2b92431a09de8, type: 3}
   TeamOneTileParent: {fileID: 1211057883}
   TeamTwoTileParent: {fileID: 1077967583}
 --- !u!4 &1057497035
