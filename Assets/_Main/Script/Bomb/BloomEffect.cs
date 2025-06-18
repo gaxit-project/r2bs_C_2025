@@ -4,24 +4,24 @@ public class BloomEffect : MonoBehaviour
 {
     public Material[] flowerMaterial;
     [Header("爆発エフェクト")]
-    public float bloomDuration = 2f;
-    public float bloomSpeed = 1.0f;
-    public float bloomSize = 0.75f;
-    public int bloomPetals = 20;
+    public float bloomDuration;
+    public float bloomSpeed;
+    public float bloomSize;
+    public int bloomPetals;
     [Space(10)]
 
     [Header("ワープゲートエフェクト")]
-    public float warpDuration = 2f;
-    public float warpSpeed = 1.0f;
-    public float warpSize = 0.75f;
-    public int warpPetals = 20;
+    public float warpDuration;
+    public float warpSpeed;
+    public float warpSize;
+    public int warpPetals;
     [Space(10)]
 
     [Header("死亡エフェクト")]
-    public float deadDuration = 2f;
-    public float deadSpeed = 1.0f;
-    public float deadSize = 0.75f;
-    public int deadPetals = 20;
+    public float deadDuration;
+    public float deadSpeed;
+    public float deadSize;
+    public int deadPetals;
     [Space(10)]
 
 
