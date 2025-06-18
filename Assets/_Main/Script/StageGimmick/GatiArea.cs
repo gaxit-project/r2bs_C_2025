@@ -149,8 +149,6 @@ public class GatiArea: MonoBehaviour
             {
                 renderer.material.color = bombColor;
                 BloomEffect.Instance.CreateFlowerEffect(obj.transform.position, teamName);
-                // êFïœçX
-                BloomTile.Instance.TileChange(teamName, renderer, obj.transform.position);
                 switch (teamName)
                 {
                     case Team.TeamOne:
