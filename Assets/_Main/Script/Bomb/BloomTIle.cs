@@ -28,7 +28,7 @@ public class BloomTile : MonoBehaviour
         // オブジェクト生成時の座標
         int reversedX = (MapManager.Instance.Width - 1) - x;
         float tileSize = 1f;
-        Vector3 spawnPos = new Vector3(reversedX * tileSize + tileSize / 2f, -0.5f, y * tileSize + tileSize / 2f);
+        Vector3 spawnPos = new Vector3(reversedX * tileSize + tileSize / 2f, -0.25f, y * tileSize + tileSize / 2f);
         Transform TF = renderer.transform;
 
         // オブジェクト番号の変数
@@ -43,7 +43,7 @@ public class BloomTile : MonoBehaviour
                     break;
                 }
                 // 違う色なら消す
-                else if (renderer.gameObject.layer != LayerMask.NameToLayer("TeamTwoTile"))
+                else if (renderer.gameObject.layer == LayerMask.NameToLayer("TeamTwoTile"))
                 {
                     GameObject.Destroy(TF.GetChild(0).gameObject);
                 }
@@ -60,7 +60,7 @@ public class BloomTile : MonoBehaviour
                     GameObject.Destroy(TF.GetChild(0).gameObject);
                 }
                 // 同じ色なら何もしない
-                else if (renderer.gameObject.layer != LayerMask.NameToLayer("TeamTwoTile"))
+                else if (renderer.gameObject.layer == LayerMask.NameToLayer("TeamTwoTile"))
                 {
                     break;
                 }
