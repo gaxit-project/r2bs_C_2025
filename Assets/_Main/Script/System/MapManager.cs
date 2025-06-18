@@ -12,6 +12,7 @@ public class MapManager : MonoBehaviour
     public Transform StartTileParent; // 壊れる壁オブジェクトの生成先オブジェクト
     public Transform GatiAreaTileParent; // ガチエリアの生成先オブジェクト
     public Transform GatiHokoTileParent; // ガチエリアの生成先オブジェクト
+    public Transform OutMapTileParent; // マップ外の生成先オブジェクト
     [SerializeField] private GameObject[] parentObject; // ゲームリセット時の消す親オブジェクト
 
     private float _tileSize = 1f;             // 1マスのサイズ
@@ -29,6 +30,7 @@ public class MapManager : MonoBehaviour
     [SerializeField] private GameObject[] _breakWallPrefab;  // 壊れる壁マス key: 20～29
     [SerializeField] private GameObject[] _itemBoxPrefab;    // アイテムマス key: 30～39
     [SerializeField] private GameObject[] _startTilePrefab;    // アイテムマス key: 30～39
+    [SerializeField] private GameObject[] _outMapPrefab;     // 歩行可能マス key: 100～109
 
     [SerializeField] private Vector3[] _startPosition;    // スタートポジションを入れる配列
     [SerializeField] private Vector3[] _gatiHokoPosition;    // ガチホコポジションを入れる配列
@@ -190,6 +192,19 @@ public class MapManager : MonoBehaviour
                         position = new Vector3(reversedX * _tileSize + _tileSize / 2f, -0.5f, y * _tileSize + _tileSize / 2f);
                         CreateMap(generatePrefab, StartTileParent, x, y, key, name, isWalkable, position);
                         break;
+
+
+
+                    // マップ外タイル
+                    case 10:
+                        position = new Vector3(reversedX * _tileSize + _tileSize / 2f, -0.5f, y * _tileSize + _tileSize / 2f);
+                        name = $"OutMap";
+                        isWalkable = false;
+                        generatePrefab = _outMapPrefab[0];
+                        CreateMap(generatePrefab, OutMapTileParent, x, y, key, name, isWalkable, position);
+                        break;
+
+
 
 
 
