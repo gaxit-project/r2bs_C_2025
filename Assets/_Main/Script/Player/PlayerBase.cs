@@ -277,7 +277,7 @@ public class PlayerBase : MonoBehaviour
             // ここでリセット！
             obj.transform.SetParent(BombParent);
             obj.transform.position = position;
-            obj.transform.rotation = Quaternion.identity;
+            obj.transform.rotation = Quaternion.Euler(-90,0,0);
             obj.SetActive(true); // 再利用だから必ず有効化
             obj.tag = "FlowerBomb";
             BombProcess BP = obj.GetComponent<BombProcess>();
