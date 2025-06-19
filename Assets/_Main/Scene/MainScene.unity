@@ -238,8 +238,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   flowerMaterial:
-  - {fileID: 2100000, guid: 5af15f73da88d524ab3fb0389c23d220, type: 2}
-  - {fileID: 2100000, guid: 30d5ebdcbf1c24744af80c79fca62da8, type: 2}
+  - {fileID: 2100000, guid: 81e4cbecf81eb684a8f659639eef46a3, type: 2}
+  - {fileID: 2100000, guid: a7939ab02ba0e7a498e2603de472eaf1, type: 2}
   bloomDuration: 0.4
   bloomSpeed: 2
   bloomSize: 0.75
