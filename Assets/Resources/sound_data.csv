@@ -1,1 +1,9 @@
 ﻿key,type,file,channel
+bloom,se,bloom,1
+cook,bgm,cook,0
+DrumRoll,se,DrumRoll,1
+ponkotsu,bgm,ponkotsu,0
+PowerUp,se,PowerUp,2
+StageSelect,bgm,StageSelect,0
+tekkit,bgm,tekkit,0
+walk,se,walk,3

@@ -178,6 +178,7 @@ public class PlayerBase : MonoBehaviour
         Vector3 moveValue = new Vector3(moveInput.x * PlayerSpeed * SpecialPlayerSpeed * teamLocal, 0f, moveInput.y * PlayerSpeed * SpecialPlayerSpeed * teamLocal * Time.timeScale);
         if (currentState == PlayerState.Alive && GameTimer.instance.IsGameStart())
         {
+            //SoundManager.PlaySE("walk");
             this.GetComponent<Rigidbody>().linearVelocity = moveValue;
         }
         else
@@ -305,7 +306,7 @@ public class PlayerBase : MonoBehaviour
             {
                 return;
             }
-
+            SoundManager.PlaySE("bloom");
             // ここでリセット！
             obj.transform.SetParent(BombParent);
             obj.transform.position = position;

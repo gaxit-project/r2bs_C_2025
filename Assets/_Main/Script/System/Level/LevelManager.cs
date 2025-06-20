@@ -61,7 +61,7 @@ public class LevelManager : MonoBehaviour
             CurrentLevel++;
             PlayerUI.addCurrentExp(0);
             PlayerUI.addLevel(CurrentLevel);
-
+            SoundManager.PlaySE("PowerUp");
             Debug.Log($"レベルアップ! 現在のレベル:{CurrentLevel}");
 
             UpStatus(CurrentLevel);

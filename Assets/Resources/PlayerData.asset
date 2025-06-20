@@ -15,19 +15,12 @@ MonoBehaviour:
   PlayerTable:
   - controlScheme: Keyboard&Mouse
     devices:
-    - descriptionJson: "{\n    \"interface\": \"RawInput\",\n    \"type\": \"Keyboard\",\n   
-        \"product\": \"\",\n    \"serial\": \"\",\n    \"version\": \"\",\n    \"manufacturer\":
-        \"\",\n    \"capabilities\": \"\"\n}"
-      sessionDeviceId: 1
     - descriptionJson: "{\n    \"interface\": \"RawInput\",\n    \"type\": \"Mouse\",\n   
         \"product\": \"\",\n    \"serial\": \"\",\n    \"version\": \"\",\n    \"manufacturer\":
         \"\",\n    \"capabilities\": \"\"\n}"
       sessionDeviceId: 2
-    Team: TeamTwo
-  - controlScheme: Gamepad
-    devices:
-    - descriptionJson: "{\n    \"interface\": \"XInput\",\n    \"type\": \"\",\n   
+    - descriptionJson: "{\n    \"interface\": \"RawInput\",\n    \"type\": \"Keyboard\",\n   
         \"product\": \"\",\n    \"serial\": \"\",\n    \"version\": \"\",\n    \"manufacturer\":
-        \"\",\n    \"capabilities\": \"{\\\"userIndex\\\":0,\\\"type\\\":1,\\\"subType\\\":1,\\\"flags\\\":4,\\\"gamepad\\\":{\\\"buttons\\\":62463,\\\"leftTrigger\\\":255,\\\"rightTrigger\\\":255,\\\"leftStickX\\\":-32768,\\\"leftStickY\\\":-32768,\\\"rightStickX\\\":-32768,\\\"rightStickY\\\":-32768},\\\"vibration\\\":{\\\"leftMotor\\\":65535,\\\"rightMotor\\\":65535}}\"\n}"
-      sessionDeviceId: 14
-    Team: TeamOne
+        \"\",\n    \"capabilities\": \"\"\n}"
+      sessionDeviceId: 1
+    Team: TeamTwo
