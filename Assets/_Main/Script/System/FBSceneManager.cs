@@ -39,8 +39,11 @@ public class FBSceneManager : MonoBehaviour
     /// </summary>
     public void LoadMainScene()
     {
-        Time.timeScale = 1f;
-        SceneManager.LoadScene("MainScene");
+        if(TeamSelectReady.Instance.GetReady())
+        {
+            Time.timeScale = 1f;
+            SceneManager.LoadScene("MainScene");
+        }
     }
 
     /// <summary>

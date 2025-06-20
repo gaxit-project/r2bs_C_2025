@@ -282,6 +282,22 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 027d3a38-07f6-48b2-8e75-9629d3e03ae0
     m_ActionName: 'UI/Pose[/Keyboard/tab,/XInputControllerWindows/select,/XInputControllerWindows1/select,/XInputControllerWindows2/select]'
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2995259654982147676}
+        m_TargetAssemblyTypeName: TeamSelectScenePlayer, Assembly-CSharp
+        m_MethodName: Ready
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 11c56a50-e242-4627-97a8-642ab912808d
+    m_ActionName: 'Player/A[/XInputControllerWindows/buttonEast,/Keyboard/enter]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -328,6 +344,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   purpleChan: {fileID: 2760675781915412178}
   cyanChan: {fileID: 5211431303280962436}
+  selectUI: {fileID: 0}
+  teamUI: {fileID: 0}
+  playerPinkUI: {fileID: 0}
+  playerBlueUI: {fileID: 0}
+  nPText: {fileID: 0}
   currentState: 0
 --- !u!1001 &2330161576770962914
 PrefabInstance:
@@ -770,7 +791,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -1728013695380148634, guid: 008a28553de84064993fc07d3c96ca06, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -1713222588880297807, guid: 008a28553de84064993fc07d3c96ca06, type: 3}
       propertyPath: m_Layer
