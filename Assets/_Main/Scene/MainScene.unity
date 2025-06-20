@@ -650,6 +650,7 @@ GameObject:
   - component: {fileID: 831258787}
   - component: {fileID: 831258786}
   - component: {fileID: 831258785}
+  - component: {fileID: 831258788}
   m_Layer: 0
   m_Name: MapCamera
   m_TagString: Untagged
@@ -767,6 +768,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!114 &831258788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 831258784}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f01758497749c504b90bc5ac4df6c3d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mapCamera: {fileID: 831258786}
 --- !u!1 &840774266
 GameObject:
   m_ObjectHideFlags: 0
@@ -1139,9 +1153,15 @@ MonoBehaviour:
   _itemBoxPrefab: []
   _startTilePrefab:
   - {fileID: 3455758424205611846, guid: f9e316afa553f174f8af4d935fb815e1, type: 3}
-  - {fileID: 3455758424205611846, guid: f4d4ddc75231d9e48ac7a5de6a3c6091, type: 3}
+  - {fileID: 2087431106080161872, guid: d1ab24f0d81eaee4b829f3bf35946595, type: 3}
   _outMapPrefab:
-  - {fileID: 9164380330904950743, guid: b4e5c4f8c3d61a44998ab90ebbc7aeb5, type: 3}
+  - {fileID: 2087431106080161872, guid: 9b70ee504db7d434ab5b8ebc46e6768d, type: 3}
+  - {fileID: 2087431106080161872, guid: bd7aba3ff8b8e8146a0b552f44802d46, type: 3}
+  - {fileID: 2087431106080161872, guid: 4ad4c38cdadb44641a4fd982fc6e32ea, type: 3}
+  - {fileID: 2087431106080161872, guid: 8ea71f595b6f64e43a80573f35b37674, type: 3}
+  - {fileID: 2087431106080161872, guid: 62f23e100be95654c86215920f039fac, type: 3}
+  - {fileID: 2087431106080161872, guid: 1ccfbcf838d12c94d8c360ae3afb961b, type: 3}
+  - {fileID: 2087431106080161872, guid: bfebf2423d12e784c973dfe11de0e8f2, type: 3}
   _startPosition:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}

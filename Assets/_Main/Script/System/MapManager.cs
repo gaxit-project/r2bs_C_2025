@@ -200,7 +200,21 @@ public class MapManager : MonoBehaviour
                         position = new Vector3(reversedX * _tileSize + _tileSize / 2f, -0.5f, y * _tileSize + _tileSize / 2f);
                         name = $"OutMap";
                         isWalkable = false;
-                        generatePrefab = _outMapPrefab[0];
+                        int rnd;
+                        if(type == 0)
+                        {
+                            generatePrefab = _outMapPrefab[0];
+                        }
+                        else if(type == 1)
+                        {
+                            rnd = Random.Range(1, 3);
+                            generatePrefab = _outMapPrefab[rnd];
+                        }
+                        else if (type == 2)
+                        {
+                            rnd = Random.Range(4, 7);
+                            generatePrefab = _outMapPrefab[rnd];
+                        }
                         CreateMap(generatePrefab, OutMapTileParent, x, y, key, name, isWalkable, position);
                         break;
 
@@ -237,6 +251,18 @@ public class MapManager : MonoBehaviour
             gridPosition = new Vector2Int(x, y),
             instance = obj
         };
+    }
+
+
+
+    /// <summary>
+    /// マップ中央のワールド座標を取得する
+    /// </summary>
+    public Vector3 GetMapCenterPosition()
+    {
+        float centerX = (_width * _tileSize) / 2f;
+        float centerZ = (_height * _tileSize) / 2f;
+        return new Vector3(centerX, 0f, centerZ);
     }
 
     #endregion
