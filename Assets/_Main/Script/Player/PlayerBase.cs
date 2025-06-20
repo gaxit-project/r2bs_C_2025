@@ -60,6 +60,10 @@ public class PlayerBase : MonoBehaviour
     [SerializeField]
     private GameObject cyanChan;
 
+    /// <summary>
+    /// 自身のチーム名を返す関数
+    /// </summary>
+    public Team CurrentTeamName => TeamName;
 
     protected void Start()
     {
@@ -68,7 +72,7 @@ public class PlayerBase : MonoBehaviour
         SetStatus();
     }
 
-    protected void Update()
+    protected virtual void Update()
     {
         //プレイヤーの移動
         PlayerMove();
@@ -124,7 +128,7 @@ public class PlayerBase : MonoBehaviour
 
 
     //プレイヤーの移動入力
-    public void OnMove(InputAction.CallbackContext context)
+    public virtual void OnMove(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
         if ((GameTimer.instance.IsGameStart()))
@@ -144,7 +148,7 @@ public class PlayerBase : MonoBehaviour
 
 
     //爆弾設置
-    public void OnBomb(InputAction.CallbackContext context)
+    public virtual void OnBomb(InputAction.CallbackContext context)
     {
         if (!context.performed) return;
         if (currentState == PlayerState.Alive && GameTimer.instance.IsGameStart())
@@ -371,5 +375,24 @@ public class PlayerBase : MonoBehaviour
             _levelManager.AddExp(EXP_SIZE);
             Destroy(collision.gameObject);
         }
+    }
+
+    /// <summary>
+    /// 特殊ステータスをアップさせる
+    /// </summary>
+    public void SpecialStatusUP()
+    {
+        SpecialBombCnt = 2;
+        SpecialBombRange = 2;
+        SpecialPlayerSpeed = 1.5f;
+    }
+    /// <summary>
+    /// 特殊ステータスを元に戻す
+    /// </summary>
+    public void InitSpecialStatus()
+    {
+        SpecialBombCnt = 0;
+        SpecialBombRange = 0;
+        SpecialPlayerSpeed = 1f;
     }
 }

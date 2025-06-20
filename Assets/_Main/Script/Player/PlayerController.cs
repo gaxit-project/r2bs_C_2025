@@ -29,30 +29,6 @@ public class PlayerController : PlayerBase
     }
 
 
-    /// <summary>
-    /// 自身のチーム名を返す関数
-    /// </summary>
-    public Team CurrentTeamName => TeamName;
-
-
-
-    /// <summary>
-    /// 特殊ステータスをアップさせる
-    /// </summary>
-    public void SpecialStatusUP()
-    {
-        SpecialBombCnt = 2;
-        SpecialBombRange = 2;
-        SpecialPlayerSpeed = 1.5f;
-    }
-    /// <summary>
-    /// 特殊ステータスを元に戻す
-    /// </summary>
-    public void InitSpecialStatus()
-    {
-        SpecialBombCnt = 0;
-        SpecialBombRange = 0;
-        SpecialPlayerSpeed = 1f;
-    }
+    
 
 }
