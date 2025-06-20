@@ -245,6 +245,7 @@ public class BombProcess : MonoBehaviour
 
         // 色変更
         BloomTile.Instance.TileChange(_teamName, renderer, position);
+        SoundManager.PlaySE("openbl");
         switch (_teamName)
         {
             case Team.TeamOne:
