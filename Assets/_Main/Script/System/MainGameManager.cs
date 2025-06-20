@@ -42,10 +42,12 @@ public class MainGameManager : MonoBehaviour
         EventSystem.current.SetSelectedGameObject(null);
         _posePanel.transform.Find("Back").GetComponent<Button>().Select();
         isPose = true;
+        Time.timeScale = 0f;
     }
 
     public void OnReStart()
     {
+        Time.timeScale = 1f;
         GameTimer.instance.StartTimer();
         _posePanel.SetActive(false);
         isPose = false;

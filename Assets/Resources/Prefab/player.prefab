@@ -438,10 +438,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerSpeed: 5
-  animator: {fileID: 4870552773557632513, guid: 008a28553de84064993fc07d3c96ca06, type: 3}
-  isWalking: 0
+  blueAnimator: {fileID: 4212520273778888187}
+  RedAnimator: {fileID: 2221465313003138516}
   currentState: 0
-  StandardBomb: {fileID: 0}
+  BlueBomb: {fileID: 7203167513803814419, guid: 58bbea785cfbba345b9741d160290da5, type: 3}
+  RedBomb: {fileID: 7203167513803814419, guid: 58bbea785cfbba345b9741d160290da5, type: 3}
   BombRange: 5
   BloomBombMax: 5
   purpleChan: {fileID: 3839120411980627379}
@@ -1536,6 +1537,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5159078012444724336, guid: 008a28553de84064993fc07d3c96ca06, type: 3}
   m_PrefabInstance: {fileID: 6720381230947587029}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &2221465313003138516 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 4870552773557632513, guid: 008a28553de84064993fc07d3c96ca06, type: 3}
+  m_PrefabInstance: {fileID: 6720381230947587029}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &3839120411980627379 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -1728013695380148634, guid: 008a28553de84064993fc07d3c96ca06, type: 3}
@@ -1732,6 +1738,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
+--- !u!95 &4212520273778888187 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 4870552773557632513, guid: 6c5301337ea7cbc449b1640b8d060473, type: 3}
+  m_PrefabInstance: {fileID: 8782667089867109370}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &4502182570628300682 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5159078012444724336, guid: 6c5301337ea7cbc449b1640b8d060473, type: 3}

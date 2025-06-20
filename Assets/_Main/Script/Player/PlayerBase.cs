@@ -28,8 +28,10 @@ public class PlayerBase : MonoBehaviour
     protected int teamOneIndex;
     protected int teamTwoIndex;
 
-    [SerializeField] public Animator animator;
-    public bool isWalking;
+    [SerializeField] private Animator blueAnimator;
+    [SerializeField] private Animator RedAnimator;
+
+    private Animator animator;
 
     // プレイヤーの状態を管理する (0: 生存, 1: 死亡)
 
@@ -125,14 +127,16 @@ public class PlayerBase : MonoBehaviour
     public void OnMove(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
-
-        if (moveInput == Vector2.zero)
+        if ((GameTimer.instance.IsGameStart()))
         {
-            animator.SetBool("isWalking", false);
-        }
-        else
-        {
-            animator.SetBool("isWalking", true);
+            if (moveInput == Vector2.zero)
+            {
+                animator.SetBool("isWalking", false);
+            }
+            else
+            {
+                animator.SetBool("isWalking", true);
+            }
         }
     }
 
@@ -171,10 +175,9 @@ public class PlayerBase : MonoBehaviour
     //プレイヤーの移動
     protected void PlayerMove()
     {
-        Vector3 moveValue = new Vector3(moveInput.x * PlayerSpeed * SpecialPlayerSpeed * teamLocal, 0f, moveInput.y * PlayerSpeed * SpecialPlayerSpeed * teamLocal);
+        Vector3 moveValue = new Vector3(moveInput.x * PlayerSpeed * SpecialPlayerSpeed * teamLocal, 0f, moveInput.y * PlayerSpeed * SpecialPlayerSpeed * teamLocal * Time.timeScale);
         if (currentState == PlayerState.Alive && GameTimer.instance.IsGameStart())
         {
-            animator.SetBool("isWalking", true);
             this.GetComponent<Rigidbody>().linearVelocity = moveValue;
         }
         else
@@ -195,6 +198,7 @@ public class PlayerBase : MonoBehaviour
             purpleChan.SetActive(false);
             cyanChan.SetActive(true);//チーム変更
             StandardBomb = BlueBomb;
+            animator = blueAnimator;
             BombColor = new Color32(0, 0, 255, 100);
             TeamName = Team.TeamOne;
             teamLocal = 1; //座標の向き修正
@@ -210,6 +214,7 @@ public class PlayerBase : MonoBehaviour
             purpleChan.SetActive(true);
             cyanChan.SetActive(false);//チーム変更
             StandardBomb = RedBomb;
+            animator = RedAnimator;
             BombColor = new Color32(255, 0, 0, 100);
             TeamName = Team.TeamTwo;
             teamLocal = 1; //座標の向き修正
