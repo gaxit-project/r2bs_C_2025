@@ -41,7 +41,9 @@ public class PlayerBase : MonoBehaviour
     public PlayerState currentState;
     protected PlayerTeamData playerData;
     // 爆弾関連の変数
-    [SerializeField] protected GameObject StandardBomb;  // 爆弾を入れる配列
+    protected GameObject StandardBomb;  // 爆弾を入れる配列
+    [SerializeField] protected GameObject BlueBomb;
+    [SerializeField] protected GameObject RedBomb;
     protected Transform BombParent;                  // 爆弾の生成先オブジェクト
     [SerializeField]
     protected int BombRange = 5; // ボムの爆発範囲
@@ -192,6 +194,7 @@ public class PlayerBase : MonoBehaviour
             this.transform.position = StartPosition;  //リス地
             purpleChan.SetActive(false);
             cyanChan.SetActive(true);//チーム変更
+            StandardBomb = BlueBomb;
             BombColor = new Color32(0, 0, 255, 100);
             TeamName = Team.TeamOne;
             teamLocal = 1; //座標の向き修正
@@ -206,6 +209,7 @@ public class PlayerBase : MonoBehaviour
             this.transform.rotation = new Quaternion(0f, 0f, 0f, 0f);  //アングル
             purpleChan.SetActive(true);
             cyanChan.SetActive(false);//チーム変更
+            StandardBomb = RedBomb;
             BombColor = new Color32(255, 0, 0, 100);
             TeamName = Team.TeamTwo;
             teamLocal = 1; //座標の向き修正
@@ -233,15 +237,36 @@ public class PlayerBase : MonoBehaviour
 
         // フェードイン処理（仮）
         Debug.Log("Fade In Start");
+        Rigidbody rb = GetComponent<Rigidbody>();
+        float duration = 4f;
+        float timer = 0f;
+        Vector3 flyDirection = (-transform.right + Vector3.up * 1.2f).normalized;
+        switch (TeamName)
+        {
+            case Team.TeamOne:
+                flyDirection = (-transform.right + Vector3.up * 1.2f).normalized; // 左上
+                break;
+            case Team.TeamTwo:
+                flyDirection = (transform.right + Vector3.up * 1.2f).normalized; // 右上
+                break;
+        }
+        float forcePower = 100f;
+        rb.constraints = RigidbodyConstraints.None;
 
+        while (timer < duration)
+        {
+            rb.AddForce(flyDirection * forcePower, ForceMode.Force);
+            timer += Time.deltaTime;
+            yield return null;
+        }
         // 4秒間待機
-        yield return new WaitForSeconds(4f);
+        //yield return new WaitForSeconds(4f);
 
         // フェードアウト処理（仮）
         Debug.Log("Fade Out Start");
 
         // リスポーン処理（仮）
-        switch(TeamName)
+        switch (TeamName)
         {
             case Team.TeamOne:
                 transform.position = StartPosition;
@@ -250,7 +275,9 @@ public class PlayerBase : MonoBehaviour
                 transform.position = StartPosition;
                 break;
         }
-        
+        rb.constraints = RigidbodyConstraints.FreezePositionY;
+        rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotation;
+
 
         // 動けるようにする（生存）
         currentState = PlayerState.Alive;
