@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
@@ -405,4 +406,20 @@ public class MapManager : MonoBehaviour
     }
 
     #endregion
+
+    public List<Vector2Int> GetUnpaintedTiles(Team team)
+    {
+        var list = new List<Vector2Int>();
+        for (int y = 0; y < _height; y++)
+        {
+            for (int x = 0; x < _width; x++)
+            {
+                if (_mapGrid[x, y].isWalkable)
+                {
+                    list.Add(new Vector2Int(x, y));
+                }
+            }
+        }
+        return list;
+    }
 }
