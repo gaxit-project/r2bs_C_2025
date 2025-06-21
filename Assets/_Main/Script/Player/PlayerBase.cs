@@ -60,6 +60,10 @@ public class PlayerBase : MonoBehaviour
     [SerializeField]
     private GameObject cyanChan;
 
+    [SerializeField]
+    private PlayerUI playerUI;
+    private int NowBombCnt;
+
     /// <summary>
     /// 自身のチーム名を返す関数
     /// </summary>
@@ -76,6 +80,15 @@ public class PlayerBase : MonoBehaviour
     {
         //プレイヤーの移動
         PlayerMove();
+        NowBombCnt = 0;
+        foreach (var bomb in BloomBombPool)
+        {
+            if (!bomb.activeInHierarchy)
+            {
+                NowBombCnt++;
+            }
+        }
+        playerUI.addNowBombCnt(NowBombCnt);
     }
 
     /// <summary>

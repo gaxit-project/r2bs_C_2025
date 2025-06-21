@@ -393,6 +393,14 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 027d3a38-07f6-48b2-8e75-9629d3e03ae0
     m_ActionName: 'UI/Pose[/Keyboard/tab]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 11c56a50-e242-4627-97a8-642ab912808d
+    m_ActionName: 'Player/A[/XInputControllerWindows/buttonEast,/XInputControllerWindows1/buttonEast,/XInputControllerWindows2/buttonEast,/Keyboard/enter]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 34bb35bc-7d51-4e61-a90f-8bfb6164b8d0
+    m_ActionName: 'Player/B[/XInputControllerWindows/buttonSouth,/XInputControllerWindows1/buttonSouth,/XInputControllerWindows2/buttonSouth,/Keyboard/backspace]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -447,6 +455,7 @@ MonoBehaviour:
   BloomBombMax: 5
   purpleChan: {fileID: 3839120411980627379}
   cyanChan: {fileID: 1289878444767829404}
+  playerUI: {fileID: 7644725420724393715}
 --- !u!114 &5625062049643754625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -622,6 +631,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 7644725420724393715}
   m_SourcePrefab: {fileID: 100100000, guid: d88985cf3317f63499a98fcf5cc4b332, type: 3}
+--- !u!114 &26879725535782746 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4885237417398316360, guid: d88985cf3317f63499a98fcf5cc4b332, type: 3}
+  m_PrefabInstance: {fileID: 4869701246086367762}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1006588687129076340 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5651094391071189094, guid: d88985cf3317f63499a98fcf5cc4b332, type: 3}
@@ -641,6 +661,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   level: {fileID: 4673785019020118773}
   bombCnt: {fileID: 3645005899181303342}
+  nowBombCnt: {fileID: 26879725535782746}
   bombRange: {fileID: 8472202460525289305}
   speed: {fileID: 3442699764943512019}
   currentExp: {fileID: 1811042574651348589}

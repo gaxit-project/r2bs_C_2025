@@ -8,6 +8,8 @@ public class PlayerUI : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI bombCnt;
     [SerializeField]
+    private TextMeshProUGUI nowBombCnt;
+    [SerializeField]
     private TextMeshProUGUI bombRange;
     [SerializeField]
     private TextMeshProUGUI speed;
@@ -18,21 +20,28 @@ public class PlayerUI : MonoBehaviour
 
     private string iniLevel;
     private string iniBombCnt;
+    private string iniNowBombCnt;
     private string iniBombRange;
     private string iniSpeed;
     private string iniCurrentExp;
     private string iniNeedExp;
 
+    private int BombCnt = 1;
+    private int BombRange = 1;
+    private int Speed = 1;
+
     private void Start()
     {
         iniLevel = level.text;
         iniBombCnt = bombCnt.text;
+        iniNowBombCnt = nowBombCnt.text;
         iniBombRange = bombRange.text;
         iniSpeed = speed.text;
         iniCurrentExp = currentExp.text;
         iniNeedExp = needExp.text;
         addLevel(1);
         addBombCnt(0);
+        addNowBombCnt(1);
         addBombRange(0);
         addCurrentExp(0);
         addNeedExp(1);
@@ -46,17 +55,25 @@ public class PlayerUI : MonoBehaviour
 
     private void addBombCnt(int value)
     {
-        bombCnt.text = iniBombCnt + (1 + value).ToString();
+        BombCnt += value;
+        bombCnt.text = iniBombCnt + BombCnt.ToString();
+    }
+
+    public void addNowBombCnt(int value)
+    {
+        nowBombCnt.text = iniNowBombCnt + value.ToString();
     }
 
     private void addBombRange(int value)
     {
-        bombRange.text = iniBombRange + (1 + value).ToString();
+        BombRange += value;
+        bombRange.text = iniBombRange + BombRange.ToString();
     }
 
     private void addSpeed(int value)
     {
-        speed.text = iniSpeed + (1 + value).ToString();
+        Speed += value;
+        speed.text = iniSpeed + Speed.ToString();
     }
 
     public void addCurrentExp(int value)

@@ -4,7 +4,7 @@ public class SoundLoader : MonoBehaviour
 {
     [SerializeField] private string csvPath = "sound_data";
 
-    private void Start()
+    private void Awake()
     {
         LoadCsv();
     }
