@@ -163,6 +163,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerPrefab: {fileID: 9212116415459464979, guid: 77e6f236d71b5e64d8805f33242c53e5, type: 3}
+  _aiPrefab: {fileID: 0}
 --- !u!4 &170386806
 Transform:
   m_ObjectHideFlags: 0
@@ -1275,7 +1276,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 910091fd656982f4b8c6f792ceb323a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _itemPrefab: {fileID: 3227551924513076565, guid: 91391fab01f3a5b4185dfa4e91fb3d74, type: 3}
+  _itemPrefab: {fileID: 8648643876614452448, guid: ee11502ee3911a04480f0c5f0abb9422, type: 3}
   _dropRate: 0.7
   _debugSeed: 0
   _boxCount: 0

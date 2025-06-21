@@ -337,6 +337,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1155057818}
   - component: {fileID: 1155057819}
+  - component: {fileID: 1155057820}
+  - component: {fileID: 1155057821}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -371,6 +373,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75757e414d0fc3547bbc18c9bbaffc56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1155057820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1155057817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75a462042f487ca408372bb76b958098, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1155057821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1155057817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3c053a178dbac845909857f38d4cfe1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  csvPath: sound_data
 --- !u!1 &1200216544
 GameObject:
   m_ObjectHideFlags: 0
@@ -527,11 +554,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 461915994322939290, guid: bd147445763733843a5ecde7963d074d, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 583594976889287476, guid: bd147445763733843a5ecde7963d074d, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1557263611094234126, guid: bd147445763733843a5ecde7963d074d, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -679,9 +706,13 @@ PrefabInstance:
       propertyPath: m_RenderMode
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4900451098459421095, guid: bd147445763733843a5ecde7963d074d, type: 3}
+      propertyPath: m_PlaneDistance
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5570268770020765045, guid: bd147445763733843a5ecde7963d074d, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6314418393014996091, guid: bd147445763733843a5ecde7963d074d, type: 3}
       propertyPath: m_Colors.m_SelectedColor.b

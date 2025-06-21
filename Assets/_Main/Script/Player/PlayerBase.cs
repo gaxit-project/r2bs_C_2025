@@ -261,7 +261,7 @@ public class PlayerBase : MonoBehaviour
                 break;
         }
         float forcePower = 100f;
-        rb.constraints = RigidbodyConstraints.None;
+        rb.constraints &= ~RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotation;
 
         while (timer < duration)
         {
@@ -285,8 +285,7 @@ public class PlayerBase : MonoBehaviour
                 transform.position = StartPosition;
                 break;
         }
-        rb.constraints = RigidbodyConstraints.FreezePositionY;
-        rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotation;
+        rb.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotation;
 
 
         // “®‚¯‚é‚æ‚¤‚É‚·‚éi¶‘¶j
