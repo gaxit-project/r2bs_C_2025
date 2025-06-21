@@ -29,11 +29,11 @@ public class BloomResult : MonoBehaviour
         }
         else if (_ResultData.TeamOneBloomPercent > _ResultData.TeamTwoBloomPercent)
         {
-            Winner.text = "TeamOneWin";
+            Winner.text = "TeamBlueWin";
         }
         else
         {
-            Winner.text = "TeamTwoWin";
+            Winner.text = "TeamRedWin";
         }
     }
 }
