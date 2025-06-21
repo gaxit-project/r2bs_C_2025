@@ -298,6 +298,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 11c56a50-e242-4627-97a8-642ab912808d
     m_ActionName: 'Player/A[/XInputControllerWindows/buttonEast,/Keyboard/enter]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 34bb35bc-7d51-4e61-a90f-8bfb6164b8d0
+    m_ActionName: 'Player/B[/Keyboard/backspace]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -348,6 +352,10 @@ MonoBehaviour:
   teamUI: {fileID: 0}
   playerPinkUI: {fileID: 0}
   playerBlueUI: {fileID: 0}
+  backPinkUI: {fileID: 0}
+  backBlueUI: {fileID: 0}
+  ReadyUI: {fileID: 0}
+  NotFoundUI: {fileID: 0}
   nPText: {fileID: 0}
   currentState: 0
 --- !u!1001 &2330161576770962914
