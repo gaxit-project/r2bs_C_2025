@@ -20,6 +20,15 @@ public class TeamPlayerInput : MonoBehaviour
     [SerializeField]
     private GameObject _playerPrefab;
 
+    /// <summary>
+    /// AIのプレハブ
+    /// </summary>
+    [SerializeField]
+    private GameObject _aiPrefab;
+
+    private int teamOneCnt;
+    private int teamTwoCnt;
+
 
     //カメラの分割割り当て
     private Rect GetCameraRect(int playerCount, int index)
@@ -31,8 +40,8 @@ public class TeamPlayerInput : MonoBehaviour
         else if (playerCount == 2)
         {
             return index == 0
-                ? new Rect(0f, 0f, 0.5f, 1f)   // 左
-                : new Rect(0.5f, 0f, 0.5f, 1f); // 右
+                ? new Rect(0f, 0.25f, 0.5f, 0.5f)   // 左
+                : new Rect(0.5f, 0.25f, 0.5f, 0.5f); // 右
         }
         else if (playerCount == 3)
         {
@@ -71,15 +80,23 @@ public class TeamPlayerInput : MonoBehaviour
         {
             SpawnPlayerFromSavedData(_playerData.PlayerTable[i], i);
         }
+        teamOneCnt = GameObject.FindGameObjectsWithTag("TeamOne").Length;
+        teamTwoCnt = GameObject.FindGameObjectsWithTag("TeamTwo").Length;
+
+        // 保存された各プレイヤー情報からプレイヤーをスポーン
+        for (int i = _playerData.PlayerTable.Count; i < 4; i++)
+        {
+            SpownAi();
+        }
     }
 
 
-    /// <summary>
-    /// セーブデータを元にプレイヤーをスポーンする
-    /// </summary>
-    /// <param name="data">プレイヤーデータ</param>
-    /// <param name="index">プレイヤー番号</param>
-    public void SpawnPlayerFromSavedData(PlayerData data, int index)
+        /// <summary>
+        /// セーブデータを元にプレイヤーをスポーンする
+        /// </summary>
+        /// <param name="data">プレイヤーデータ</param>
+        /// <param name="index">プレイヤー番号</param>
+        public void SpawnPlayerFromSavedData(PlayerData data, int index)
     {
         var matchedDevices = new List<InputDevice>();
 
@@ -150,5 +167,20 @@ public class TeamPlayerInput : MonoBehaviour
         playerCam.rect = GetCameraRect(_playerData.PlayerTable.Count, index);
 
         Debug.Log($"プレイヤー {index} を {matchedDevices.Count} 個のデバイスでスポーンしました。");
+    }
+
+    private void SpownAi()
+    {
+        GameObject aiPre = Instantiate(_aiPrefab);
+        if (teamOneCnt < 2)
+        {
+            aiPre.tag = "TeamOne";
+            teamOneCnt++;
+        }
+        else
+        {
+            aiPre.tag = "TeamTwo";
+            teamTwoCnt++;
+        }
     }
 }

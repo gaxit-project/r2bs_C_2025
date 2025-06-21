@@ -441,7 +441,7 @@ MonoBehaviour:
   blueAnimator: {fileID: 4212520273778888187}
   RedAnimator: {fileID: 2221465313003138516}
   currentState: 0
-  BlueBomb: {fileID: 7203167513803814419, guid: 58bbea785cfbba345b9741d160290da5, type: 3}
+  BlueBomb: {fileID: 7203167513803814419, guid: e7509039f71ab7545b3520ad2447e6fa, type: 3}
   RedBomb: {fileID: 7203167513803814419, guid: 58bbea785cfbba345b9741d160290da5, type: 3}
   BombRange: 5
   BloomBombMax: 5
