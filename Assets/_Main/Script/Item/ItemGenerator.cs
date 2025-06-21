@@ -42,6 +42,8 @@ public class ItemGenerator : MonoBehaviour
     /// </summary>
     public void TryDropExp(Vector3 position)
     {
+        
+
         // インデックスが配列サイズを超えた場合は無視（安全策）
         if (_dropFlags == null || _currentDropIndex >= _dropFlags.Length)
         {
@@ -53,7 +55,7 @@ public class ItemGenerator : MonoBehaviour
         // ドロップ配列に基づいて出現判定
         if (_dropFlags[_currentDropIndex])
         {
-            Instantiate(_itemPrefab, position, Quaternion.identity);
+            Instantiate(_itemPrefab, position + new Vector3(0,0.7f,0), Quaternion.Euler(0,-50,0));
         }
 
         _currentDropIndex++; // 呼び出しインデックスを進める
@@ -65,7 +67,7 @@ public class ItemGenerator : MonoBehaviour
     /// </summary>
     public void DropExp(Vector3 position, int enemyLevel, int playerLevel)
     {
-        // 拡張性を持たせた設計（仮の経験値計算）
+        // （仮の経験値計算）
         int exp = CalcExp(enemyLevel, playerLevel);
         Debug.Log("経験値獲得: " + exp);
 
@@ -74,7 +76,7 @@ public class ItemGenerator : MonoBehaviour
     }
 
     /// <summary>
-    /// レベル差に応じて経験値を計算する（今後拡張可能）
+    /// レベル差に応じて経験値を計算する
     /// </summary>
     private int CalcExp(int enemyLevel, int playerLevel)
     {
