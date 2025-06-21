@@ -85,12 +85,13 @@ public class TeamSelectScenePlayer : MonoBehaviour
         playerPinkUI.gameObject.SetActive(true);
         playerBlueUI.gameObject.SetActive(false);
         teamUI.color = new Color32(255, 105, 180, 255);
+        TeamSelectReady.Instance.GameObjectSetting(this.gameObject);
         // ready‚ÌƒŠƒZƒbƒg
         TeamSelectReady.Instance.ResetFlag(_playerIndex);
-        for(int i = 0; i < _playerIndex + 1; i++)
-        {
-            ReadyUI.gameObject.SetActive(false);
-        }
+        //for(int i = 0; i < _playerIndex + 1; i++)
+        //{
+        //    ReadyUI.gameObject.SetActive(false);
+        //}
         if (!TeamSelectReady.Instance.GetCurrentReady(_playerIndex))
         {
             if (_isTeamOne)
@@ -125,7 +126,10 @@ public class TeamSelectScenePlayer : MonoBehaviour
         }
     }
 
-
+    public void ResetReadyUI()
+    {
+        ReadyUI.gameObject.SetActive(false);
+    }
 
     public void Ready()
     {

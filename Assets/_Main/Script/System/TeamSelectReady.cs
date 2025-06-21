@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class TeamSelectReady : MonoBehaviour
@@ -9,6 +11,8 @@ public class TeamSelectReady : MonoBehaviour
     public static TeamSelectReady Instance;
 
     [SerializeField] public GameObject AllReady;
+
+    List<GameObject> playerObj = new List<GameObject>();
 
     bool isFirstFlag=true;
     private void Awake()
@@ -33,6 +37,11 @@ public class TeamSelectReady : MonoBehaviour
     {
         Debug.Log("ƒLƒƒƒ“ƒZƒ‹ŠEŒG");
         isReady[playerIndex] = false;
+    }
+
+    public void GameObjectSetting(GameObject obj)
+    {
+        playerObj.Add(obj);
     }
 
 
@@ -76,6 +85,7 @@ public class TeamSelectReady : MonoBehaviour
         for (int i = 0; i < playerIndex + 1; i++)
         {
             isReady[i] = false;
+            playerObj[i].GetComponent<TeamSelectScenePlayer>().ResetReadyUI();
         }
         Debug.Log(isReady[playerIndex]);
     }
