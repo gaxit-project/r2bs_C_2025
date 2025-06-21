@@ -12,28 +12,22 @@ public sealed class AIController : PlayerBase
 
     private void Awake()
     {
-        //--------------------------------------------------
-        // ① 爆弾プレハブ・生成先を設定（PlayerController と同等）
-        //--------------------------------------------------
+
         StandardBomb = Resources.Load<GameObject>("Prefab/StandardBomb");
         BombParent = GameObject.Find("BombGenerate").transform;
 
-        //--------------------------------------------------
-        // ② チーム分け（Hierarchy 上の Tag を参照）
-        //--------------------------------------------------
-        TeamSplit();            // Tag が “TeamOne” か “TeamTwo” で呼ばれる
-
-        //--------------------------------------------------
-        // ③ 特殊ステータス初期化
-        //--------------------------------------------------
-        InitSpecialStatus();
-
-        //--------------------------------------------------
-        // ④ ステートマシン生成（PaintState だけ登録）
-        //--------------------------------------------------
-        _stateManager = new AIStateManager(this);
+        
     }
 
+    protected override void Start()
+    {
+        base.Start();
+        _stateManager = new AIStateManager(this);
+        TeamSplit();            // Tag が “TeamOne” か “TeamTwo” で呼ばれる
+        InitSpecialStatus();
+
+        _stateManager = new AIStateManager(this);
+    }
     /// <summary>
     /// 毎フレーム：AI 思考 → 共通移動処理の順に実行。
     /// </summary>

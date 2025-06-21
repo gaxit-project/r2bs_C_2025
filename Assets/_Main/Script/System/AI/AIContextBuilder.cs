@@ -7,6 +7,9 @@ public static class AIContextBuilder
 {
     public static AIContext Build(AIController owner)
     {
+        if (MapManager.Instance == null || !MapManager.Instance.IsReady)
+            return null;
+
         Vector2Int selfPos = Vector2Int.RoundToInt(owner.transform.position);
 
         //“h‚ç‚ê‚Ä‚È‚¢‚Æ‚±Žæ“¾

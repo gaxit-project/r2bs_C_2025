@@ -65,7 +65,7 @@ public class PlayerBase : MonoBehaviour
     /// </summary>
     public Team CurrentTeamName => TeamName;
 
-    protected void Start()
+    protected virtual void Start()
     {
         _status = GetComponent<PlayerStatus>();
         _levelManager = GetComponent<LevelManager>();
