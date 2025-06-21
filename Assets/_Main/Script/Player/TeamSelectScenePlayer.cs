@@ -42,6 +42,8 @@ public class TeamSelectScenePlayer : MonoBehaviour
     [SerializeField] public Image teamUI;
     [SerializeField] public RawImage playerPinkUI;
     [SerializeField] public RawImage playerBlueUI;
+    [SerializeField] public RawImage backPinkUI;
+    [SerializeField] public RawImage backBlueUI;
     [SerializeField] public RawImage ReadyUI;
     [SerializeField] public Image NotFoundUI;
     [SerializeField] public TextMeshProUGUI nPText;
@@ -75,6 +77,9 @@ public class TeamSelectScenePlayer : MonoBehaviour
         Transform playerUI = selectUI.transform.Find("player" + _playerIndex);
         playerPinkUI = playerUI.Find("pink" + _playerIndex).GetComponent<RawImage>();
         playerBlueUI = playerUI.Find("blue" + _playerIndex).GetComponent<RawImage>();
+        Transform backImageUI = selectUI.transform.Find("backImage" + _playerIndex);
+        backPinkUI = backImageUI.Find("backPink" + _playerIndex).GetComponent<RawImage>();
+        backBlueUI = backImageUI.Find("backBlue" + _playerIndex).GetComponent<RawImage>();
         nPText = selectUI.transform.Find("nP" + _playerIndex).GetComponent<TextMeshProUGUI>();
         nPText.text = _playerIndex + 1 + "P";
         playerPinkUI.gameObject.SetActive(true);
@@ -114,6 +119,10 @@ public class TeamSelectScenePlayer : MonoBehaviour
     private void Update()
     {
         MovePlayer();
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            Cancel();
+        }
     }
 
 
@@ -122,6 +131,13 @@ public class TeamSelectScenePlayer : MonoBehaviour
     {
         TeamSelectReady.Instance.ReadyFlag(_playerIndex);
         ReadyUI.gameObject.SetActive(true);
+    }
+
+
+    public void Cancel()
+    {
+        TeamSelectReady.Instance.CancelFlag(_playerIndex);
+        ReadyUI.gameObject.SetActive(false);
     }
 
 
@@ -190,13 +206,17 @@ public class TeamSelectScenePlayer : MonoBehaviour
         {
             playerBlueUI.gameObject.SetActive(false);
             playerPinkUI.gameObject.SetActive(true);
-            teamUI.color = new Color32(255, 105, 180, 255);
+            backBlueUI.gameObject.SetActive(false);
+            backPinkUI.gameObject.SetActive(true);
+            //teamUI.color = new Color32(255, 105, 180, 255);
         }
         else
         {
             playerBlueUI.gameObject.SetActive(true);
             playerPinkUI.gameObject.SetActive(false);
-            teamUI.color = new Color32(135, 206, 250, 255);
+            backBlueUI.gameObject.SetActive(true);
+            backPinkUI.gameObject.SetActive(false);
+            //teamUI.color = new Color32(135, 206, 250, 255);
         }
     }
 

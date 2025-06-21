@@ -8,11 +8,14 @@ public class TeamSelectReady : MonoBehaviour
 
     public static TeamSelectReady Instance;
 
-    [SerializeField] public GameObject AllReady; 
+    [SerializeField] public GameObject AllReady;
+
+    bool isFirstFlag=true;
     private void Awake()
     {
         Instance = this;
         AllReady.SetActive(false);
+        isFirstFlag = true;
     }
 
     private void Update()
@@ -26,11 +29,17 @@ public class TeamSelectReady : MonoBehaviour
         isReady[playerIndex] = true;
     }
 
+    public void CancelFlag(int playerIndex)
+    {
+        Debug.Log("ƒLƒƒƒ“ƒZƒ‹ŠEŒG");
+        isReady[playerIndex] = false;
+    }
+
 
 
     private void CheckReady()
     {
-        if (isReady[0] && isReady[1] && isReady[2] && isReady[3])
+        if (isReady[0] && isReady[1] && isReady[2] && isReady[3] && !isFirstFlag)
         {
             AllReady.SetActive(true);
             isAllReady = true;
@@ -51,6 +60,10 @@ public class TeamSelectReady : MonoBehaviour
 
     public bool GetCurrentReady(int playerIndex)
     {
+        if(isFirstFlag)
+        {
+            isFirstFlag = false;
+        }
         return isReady[playerIndex];
     }
 
