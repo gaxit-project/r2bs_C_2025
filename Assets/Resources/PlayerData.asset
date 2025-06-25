@@ -17,13 +17,13 @@ MonoBehaviour:
     devices:
     - descriptionJson: "{\n    \"interface\": \"XInput\",\n    \"type\": \"\",\n   
         \"product\": \"\",\n    \"serial\": \"\",\n    \"version\": \"\",\n    \"manufacturer\":
-        \"\",\n    \"capabilities\": \"{\\\"userIndex\\\":2,\\\"type\\\":1,\\\"subType\\\":1,\\\"flags\\\":4,\\\"gamepad\\\":{\\\"buttons\\\":62463,\\\"leftTrigger\\\":255,\\\"rightTrigger\\\":255,\\\"leftStickX\\\":-32768,\\\"leftStickY\\\":-32768,\\\"rightStickX\\\":-32768,\\\"rightStickY\\\":-32768},\\\"vibration\\\":{\\\"leftMotor\\\":65535,\\\"rightMotor\\\":65535}}\"\n}"
-      sessionDeviceId: 1026
+        \"\",\n    \"capabilities\": \"{\\\"userIndex\\\":1,\\\"type\\\":1,\\\"subType\\\":1,\\\"flags\\\":4,\\\"gamepad\\\":{\\\"buttons\\\":62463,\\\"leftTrigger\\\":255,\\\"rightTrigger\\\":255,\\\"leftStickX\\\":-32768,\\\"leftStickY\\\":-32768,\\\"rightStickX\\\":-32768,\\\"rightStickY\\\":-32768},\\\"vibration\\\":{\\\"leftMotor\\\":65535,\\\"rightMotor\\\":65535}}\"\n}"
+      sessionDeviceId: 12
     Team: TeamOne
   - controlScheme: Gamepad
     devices:
     - descriptionJson: "{\n    \"interface\": \"XInput\",\n    \"type\": \"\",\n   
         \"product\": \"\",\n    \"serial\": \"\",\n    \"version\": \"\",\n    \"manufacturer\":
-        \"\",\n    \"capabilities\": \"{\\\"userIndex\\\":1,\\\"type\\\":1,\\\"subType\\\":1,\\\"flags\\\":4,\\\"gamepad\\\":{\\\"buttons\\\":62463,\\\"leftTrigger\\\":255,\\\"rightTrigger\\\":255,\\\"leftStickX\\\":-32768,\\\"leftStickY\\\":-32768,\\\"rightStickX\\\":-32768,\\\"rightStickY\\\":-32768},\\\"vibration\\\":{\\\"leftMotor\\\":65535,\\\"rightMotor\\\":65535}}\"\n}"
-      sessionDeviceId: 1027
+        \"\",\n    \"capabilities\": \"{\\\"userIndex\\\":0,\\\"type\\\":1,\\\"subType\\\":1,\\\"flags\\\":4,\\\"gamepad\\\":{\\\"buttons\\\":62463,\\\"leftTrigger\\\":255,\\\"rightTrigger\\\":255,\\\"leftStickX\\\":-32768,\\\"leftStickY\\\":-32768,\\\"rightStickX\\\":-32768,\\\"rightStickY\\\":-32768},\\\"vibration\\\":{\\\"leftMotor\\\":65535,\\\"rightMotor\\\":65535}}\"\n}"
+      sessionDeviceId: 11
     Team: TeamTwo

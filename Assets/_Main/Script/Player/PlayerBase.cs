@@ -13,7 +13,7 @@ public class PlayerBase : MonoBehaviour
     protected PlayerStatus _status;  //レベルアップデータ
 
     [SerializeField]
-    protected float PlayerSpeed = 5f; //プレイヤーの速度
+    protected float PlayerSpeed = 7f; //プレイヤーの速度
     protected Vector2 moveInput = Vector2.zero; //入力格納
     public Vector2 getMoveInput { get { return moveInput; } } //moveInput_get 
     protected Team TeamName;   // チーム名の保存
