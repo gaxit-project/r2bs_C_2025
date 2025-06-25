@@ -62,11 +62,13 @@ public class MapManager : MonoBehaviour
     public int Width => _width;   // ボム用のタイルの横幅をpublic化
 
     public static MapManager Instance;
+    public bool IsReady { get; private set; }
     private void Awake()
     {
         Instance = this;
         // ステージ作成
         CreateMap();
+        IsReady = true;
     }
 
 
@@ -422,4 +424,5 @@ public class MapManager : MonoBehaviour
         }
         return list;
     }
+
 }

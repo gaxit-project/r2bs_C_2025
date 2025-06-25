@@ -13,7 +13,7 @@ public class PlayerBase : MonoBehaviour
     protected PlayerStatus _status;  //レベルアップデータ
 
     [SerializeField]
-    protected float PlayerSpeed = 5f; //プレイヤーの速度
+    protected float PlayerSpeed = 7f; //プレイヤーの速度
     protected Vector2 moveInput = Vector2.zero; //入力格納
     public Vector2 getMoveInput { get { return moveInput; } } //moveInput_get 
     protected Team TeamName;   // チーム名の保存
@@ -60,12 +60,16 @@ public class PlayerBase : MonoBehaviour
     [SerializeField]
     private GameObject cyanChan;
 
+    [SerializeField]
+    private PlayerUI playerUI;
+    private int NowBombCnt;
+
     /// <summary>
     /// 自身のチーム名を返す関数
     /// </summary>
     public Team CurrentTeamName => TeamName;
 
-    protected void Start()
+    protected virtual void Start()
     {
         _status = GetComponent<PlayerStatus>();
         _levelManager = GetComponent<LevelManager>();
@@ -76,6 +80,15 @@ public class PlayerBase : MonoBehaviour
     {
         //プレイヤーの移動
         PlayerMove();
+        NowBombCnt = 0;
+        foreach (var bomb in BloomBombPool)
+        {
+            if (!bomb.activeInHierarchy)
+            {
+                NowBombCnt++;
+            }
+        }
+        playerUI.addNowBombCnt(NowBombCnt);
     }
 
     /// <summary>
@@ -261,7 +274,7 @@ public class PlayerBase : MonoBehaviour
                 break;
         }
         float forcePower = 100f;
-        rb.constraints = RigidbodyConstraints.None;
+        rb.constraints &= ~RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotation;
 
         while (timer < duration)
         {
@@ -285,8 +298,7 @@ public class PlayerBase : MonoBehaviour
                 transform.position = StartPosition;
                 break;
         }
-        rb.constraints = RigidbodyConstraints.FreezePositionY;
-        rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotation;
+        rb.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotation;
 
 
         // 動けるようにする（生存）

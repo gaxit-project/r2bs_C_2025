@@ -21,7 +21,7 @@ public class PlayerAngle : MonoBehaviour
     }
     private void PlayerMove()
     {
-        moveInput = this.transform.parent.GetComponent<PlayerController>().getMoveInput;
+        moveInput = this.transform.parent.GetComponent<PlayerBase>().getMoveInput;
         Vector3 moveValue = new Vector3(moveInput.x * _teamLocal, 0f, moveInput.y * _teamLocal);
         if (currentState == PlayerState.Alive && GameTimer.instance.IsGameStart())
         {

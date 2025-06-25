@@ -20,6 +20,8 @@ public sealed class AIStateManager
         UnityEngine.Debug.Log("StateManager‚®‚é‚®‚é");
         AIContext ctx = AIContextBuilder.Build(_owner);
 
+        if (ctx == null) return;
+
         AIStateBase next = null;
         float best = float.MaxValue;
         foreach (var s in _states)

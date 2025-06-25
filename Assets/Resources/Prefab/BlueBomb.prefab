@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3664247177527913733}
   - component: {fileID: 975297682850383964}
   m_Layer: 0
-  m_Name: StandardBomb
+  m_Name: BlueBomb
   m_TagString: FlowerBomb
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -66,7 +66,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9cc5640307569934881c5b9dbbacc6d6, type: 2}
+  - {fileID: 2100000, guid: 05df1ad07bf63f24bb4fd4589e70e730, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -108,7 +108,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 3
   m_Size: {x: 0.025, y: 0.025, z: 0.025}
-  m_Center: {x: 0, y: 0, z: -0.0075}
+  m_Center: {x: 0, y: 0, z: -0.007}
 --- !u!114 &975297682850383964
 MonoBehaviour:
   m_ObjectHideFlags: 0
