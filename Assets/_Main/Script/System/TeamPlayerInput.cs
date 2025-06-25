@@ -175,10 +175,17 @@ public class TeamPlayerInput : MonoBehaviour
         if (teamOneCnt < 2)
         {
             aiPre.tag = "TeamOne";
+            Vector3 StartPosition = MapManager.Instance.GetStartPosition(teamOneCnt);
+
+            aiPre.transform.position = StartPosition;  //リス地
             teamOneCnt++;
         }
         else
         {
+            aiPre.tag = "TeamOne";
+            Vector3 StartPosition = MapManager.Instance.GetStartPosition(teamOneCnt);
+
+            aiPre.transform.position = StartPosition;  //リス地
             aiPre.tag = "TeamTwo";
             teamTwoCnt++;
         }
