@@ -25,7 +25,6 @@ public class TeamSelectReady : MonoBehaviour
     private void Update()
     {
         CheckReady();
-        Debug.Log(isReady[0] + "" + isReady[1] + isReady[2] + isReady[3]);
     }
 
     public void ReadyFlag(int playerIndex)
