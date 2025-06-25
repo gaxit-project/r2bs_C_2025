@@ -207,8 +207,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _Area1: {fileID: 1171508704}
   _Area2: {fileID: 1160733399}
-  _start1: {x: 25, y: 0, z: 0}
-  _start2: {x: 25, y: 0, z: 37}
+  _start1: {x: 25, y: 0, z: -20}
+  _start2: {x: 25, y: 0, z: 57}
   _end1: {x: 25, y: 0, z: 15}
   _end2: {x: 25, y: 0, z: 22}
 --- !u!1 &179867424
@@ -3219,7 +3219,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6480352094608793282, guid: 62647b9c8ec24a3448a915429a259dae, type: 3}
       propertyPath: _startTime
-      value: 180
+      value: 240
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
