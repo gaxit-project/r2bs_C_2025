@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Diagnostics;
 
 public sealed class AIStateManager
 {
@@ -16,6 +17,7 @@ public sealed class AIStateManager
 
     public void Update()
     {
+        UnityEngine.Debug.Log("StateManager‚®‚é‚®‚é");
         AIContext ctx = AIContextBuilder.Build(_owner);
 
         AIStateBase next = null;

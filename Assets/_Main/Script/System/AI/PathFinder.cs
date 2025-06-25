@@ -5,7 +5,7 @@ public class PathFinder
 {
     private MapManager mapManager;
 
-    public List<Vector2Int> openSetList = new List<Vector2Int>();
+    public List<Vector2Int> openSetList = new();
 
     public PathFinder(MapManager map)
     {
@@ -30,10 +30,10 @@ public class PathFinder
         openSet.Enqueue(start, 0);
 
         // どのノードから来たか
-        Dictionary<Vector2Int, Vector2Int> cameFrom = new Dictionary<Vector2Int, Vector2Int>();
+        Dictionary<Vector2Int, Vector2Int> cameFrom = new();
 
         // スタート地点からのコスト
-        Dictionary<Vector2Int, int> costSoFar = new Dictionary<Vector2Int, int>();
+        Dictionary<Vector2Int, int> costSoFar = new();
         costSoFar[start] = 0;
 
         while (openSet.Count > 0)
@@ -69,7 +69,7 @@ public class PathFinder
     /// </summary>
     private List<Vector2Int> ReconstructPath(Dictionary<Vector2Int, Vector2Int> cameFrom, Vector2Int start, Vector2Int goal)
     {
-        List<Vector2Int> path = new List<Vector2Int>();
+        List<Vector2Int> path = new();
         Vector2Int current = goal;
 
         while (current != start)

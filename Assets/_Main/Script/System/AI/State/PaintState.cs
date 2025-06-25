@@ -27,8 +27,7 @@ public sealed class PaintState : AIStateBase
         if (_path.Count > 0)
         {
             Vector2Int next = _path[0];
-            Vector2 dir = new Vector2(Mathf.Sign(next.x - ctx.SelfPos.x),
-                                      Mathf.Sign(next.y - ctx.SelfPos.y));
+            Vector2 dir = new (Mathf.Sign(next.x - ctx.SelfPos.x),Mathf.Sign(next.y - ctx.SelfPos.y));
             ctx.Owner.SetMoveInput(dir);
 
             if (ctx.SelfPos == next) _path.RemoveAt(0);
