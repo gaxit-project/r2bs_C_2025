@@ -253,9 +253,9 @@ public class BombProcess : MonoBehaviour
                 if (MapManager.Instance.GetBlockData(x, y).name == "GatiAreaObject")
                 {
                     // レンダーが違うときに塗り割合を変更する
-                    if (renderer.gameObject.layer == LayerMask.NameToLayer("TeamTwoTile")) GatiArea.Instance.RemoveGatiArea(_teamName, _bombColor);
+                    if (renderer.gameObject.layer == LayerMask.NameToLayer("TeamTwoTile")) GatiArea.Instance.RemoveGatiArea(_teamName, _bombColor, MapManager.Instance.GetBlockData(x, y).type);
                     // 白紙の時は塗り割合を加算する
-                    else if (renderer.gameObject.layer != LayerMask.NameToLayer("TeamOneTile")) GatiArea.Instance.AddGatiArea(_teamName, _bombColor);
+                    else if (renderer.gameObject.layer != LayerMask.NameToLayer("TeamOneTile")) GatiArea.Instance.AddGatiArea(_teamName, _bombColor, MapManager.Instance.GetBlockData(x, y).type);
                 }
                 // レンダーが違うときに塗り割合を変更する
                 if (renderer.gameObject.layer == LayerMask.NameToLayer("TeamTwoTile")) BloomJudgement.Instance.RemoveBloomJudgement(_teamName);
@@ -270,9 +270,9 @@ public class BombProcess : MonoBehaviour
                 if (MapManager.Instance.GetBlockData(x, y).name == "GatiAreaObject")
                 {
                     // レンダーが違うときに塗り割合を変更する
-                    if (renderer.gameObject.layer == LayerMask.NameToLayer("TeamOneTile")) GatiArea.Instance.RemoveGatiArea(_teamName, _bombColor);
+                    if (renderer.gameObject.layer == LayerMask.NameToLayer("TeamOneTile")) GatiArea.Instance.RemoveGatiArea(_teamName, _bombColor, MapManager.Instance.GetBlockData(x, y).type);
                     // 白紙の時は塗り割合を加算する
-                    else if (renderer.gameObject.layer != LayerMask.NameToLayer("TeamTwoTile")) GatiArea.Instance.AddGatiArea(_teamName, _bombColor);
+                    else if (renderer.gameObject.layer != LayerMask.NameToLayer("TeamTwoTile")) GatiArea.Instance.AddGatiArea(_teamName, _bombColor, MapManager.Instance.GetBlockData(x, y).type);
                 }
                 // レンダーが違うときに塗り割合を変更する
                 if (renderer.gameObject.layer == LayerMask.NameToLayer("TeamOneTile")) BloomJudgement.Instance.RemoveBloomJudgement(_teamName);

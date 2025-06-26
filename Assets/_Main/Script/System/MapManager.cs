@@ -6,12 +6,12 @@ using UnityEngine.UIElements;
 
 public class MapManager : MonoBehaviour
 {
-    private string _csvFileName = "stage4";       // csv読み込み
+    private string _csvFileName = "stage5";       // csv読み込み
     public Transform TileParent;      // 床オブジェクトの生成先オブジェクト
     public Transform WallParent;      // 壁オブジェクトの生成先オブジェクト
     public Transform BreakWallParent; // 壊れる壁オブジェクトの生成先オブジェクト
     public Transform StartTileParent; // 壊れる壁オブジェクトの生成先オブジェクト
-    public Transform GatiAreaTileParent; // ガチエリアの生成先オブジェクト
+    public Transform[] GatiAreaTileParent; // ガチエリアの生成先オブジェクト
     public Transform GatiHokoTileParent; // ガチエリアの生成先オブジェクト
     public Transform OutMapTileParent; // マップ外の生成先オブジェクト
     [SerializeField] private GameObject[] parentObject; // ゲームリセット時の消す親オブジェクト
@@ -51,6 +51,7 @@ public class MapManager : MonoBehaviour
     public class MapBlockData
     {
         public int key;             // オブジェクトの属性キー
+        public int type;             // オブジェクトのタイプ
         public string name;         // オブジェクトの名称
         public bool isWalkable;     // 歩行可能かどうか
         public Vector3 tilePosition;// オブジェクトのポジション
@@ -124,7 +125,7 @@ public class MapManager : MonoBehaviour
                         name = "GroundObject";
                         isWalkable = true;
                         generatePrefab = _groundPrefab[type];
-                        CreateMap(generatePrefab, TileParent, x, y, key, name, isWalkable, position);
+                        CreateMap(generatePrefab, TileParent, x, y, key, name, type, isWalkable, position);
                         break;
 
 
@@ -133,7 +134,7 @@ public class MapManager : MonoBehaviour
                     case 1: 
                         name = $"WallObject";
                         generatePrefab = _wallPrefab[type];
-                        CreateMap(generatePrefab, WallParent, x, y, key, name, isWalkable, position);
+                        CreateMap(generatePrefab, WallParent, x, y, key, name, type, isWalkable, position);
                         break;
 
 
@@ -142,7 +143,7 @@ public class MapManager : MonoBehaviour
                     case 2: 
                         name = $"BreakWallObject";
                         generatePrefab = _breakWallPrefab[type];
-                        CreateMap(generatePrefab, BreakWallParent, x, y, key, name, isWalkable, position);
+                        CreateMap(generatePrefab, BreakWallParent, x, y, key, name, type, isWalkable, position);
                         break;
 
 
@@ -151,7 +152,7 @@ public class MapManager : MonoBehaviour
                     case 3:
                         name = $"ItemWallObject";
                         generatePrefab = _itemBoxPrefab[type];
-                        CreateMap(generatePrefab, WallParent, x, y, key, name, isWalkable, position);
+                        CreateMap(generatePrefab, WallParent, x, y, key, name, type, isWalkable, position);
                         break;
 
 
@@ -165,7 +166,7 @@ public class MapManager : MonoBehaviour
                         name = "GatiHokoObject";
                         isWalkable = true;
                         generatePrefab = _groundPrefab[0];
-                        CreateMap(generatePrefab, GatiHokoTileParent, x, y, key, name, isWalkable, position);
+                        CreateMap(generatePrefab, GatiHokoTileParent, x, y, key, name, type, isWalkable, position);
                         break;
 
 
@@ -174,8 +175,8 @@ public class MapManager : MonoBehaviour
                         position = new Vector3(reversedX * _tileSize + _tileSize / 2f, -0.5f, y * _tileSize + _tileSize / 2f);
                         name = "GatiAreaObject";
                         isWalkable = true;
-                        generatePrefab = _groundPrefab[type];
-                        CreateMap(generatePrefab, GatiAreaTileParent, x, y, key, name, isWalkable, position);
+                        generatePrefab = _groundPrefab[0];
+                        CreateMap(generatePrefab, GatiAreaTileParent[type], x, y, key, name, type, isWalkable, position);
                         break;
 
 
@@ -193,7 +194,7 @@ public class MapManager : MonoBehaviour
                         StartPosition(type, position);
                         isWalkable = true;
                         position = new Vector3(reversedX * _tileSize + _tileSize / 2f, -0.5f, y * _tileSize + _tileSize / 2f);
-                        CreateMap(generatePrefab, StartTileParent, x, y, key, name, isWalkable, position);
+                        CreateMap(generatePrefab, StartTileParent, x, y, key, name, type, isWalkable, position);
                         break;
 
 
@@ -218,7 +219,7 @@ public class MapManager : MonoBehaviour
                             rnd = Random.Range(4, 7);
                             generatePrefab = _outMapPrefab[rnd];
                         }
-                        CreateMap(generatePrefab, OutMapTileParent, x, y, key, name, isWalkable, position);
+                        CreateMap(generatePrefab, OutMapTileParent, x, y, key, name, type, isWalkable, position);
                         break;
 
 
@@ -237,7 +238,7 @@ public class MapManager : MonoBehaviour
     }
 
 
-    private void CreateMap(GameObject prefaba,Transform parentName, int x, int y, int key, string name, bool isWalkable, Vector3 position)
+    private void CreateMap(GameObject prefaba,Transform parentName, int x, int y, int key, string name, int type, bool isWalkable, Vector3 position)
     {
         // ブロックの生成
         GameObject obj = null;
@@ -249,6 +250,7 @@ public class MapManager : MonoBehaviour
         {
             key = key,
             name = name,
+            type = type,
             isWalkable = isWalkable,
             tilePosition = position,
             gridPosition = new Vector2Int(x, y),
@@ -320,7 +322,7 @@ public class MapManager : MonoBehaviour
 
 
         // 床ブロックの生成
-        CreateMap(_groundPrefab[0], WallParent, x, y, 0, "GroundObject", true, position);
+        CreateMap(_groundPrefab[0], WallParent, x, y, 0, "GroundObject", 0, true, position);
     }
 
 

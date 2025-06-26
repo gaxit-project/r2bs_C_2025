@@ -1,26 +1,27 @@
 using System.Xml.Serialization;
+using UnityEditor.ShaderGraph.Internal;
 using UnityEngine;
 using UnityEngine.UIElements;
 
 public class GatiArea: MonoBehaviour
 {
-    private int _areaTileMaxCnt = 0;   // エリアのタイルの量を保存
-    private int _areaSecuredCnt = 0;   // エリアの取得タイルの数
-    private int _areaHalfCnt = 0;      // エリアのタイルの半分を保存
+    public int[] areaTileMaxCnt;   // エリアのタイルの量を保存
+    public int[] areaSecuredCnt;   // エリアの取得タイルの数
+    public int[] areaHalfCnt;      // エリアのタイルの半分を保存
     private const float GATIAREA_PERCE = 0.7f;     // エリア取得の割合
     private const float GATIAREA_HALFPERCE = 0.5f; // エリアの半分の割合
 
 
-    private int _teamOneAreaCnt = 0;  // 1つ目のチームのエリア取得数
-    private int _teamTwoAreaCnt = 0;  // 2つ目のチームのエリア取得数
+    public int[] teamOneAreaCnt;  // 1つ目のチームのエリア取得数
+    public int[] teamTwoAreaCnt;  // 2つ目のチームのエリア取得数
 
     private Color _bombColor; // 爆弾の色
     private Team _currentAreaTeamNam; // エリアを取得しているチームを保存
 
-    private bool _isAreaObtained = false; // エリアが取得されているかのフラグ
+    public bool[] isAreaObtained; // エリアが取得されているかのフラグ
 
 
-    public Transform GatiAreaGenerate; // エリアタイルの親オブジェクトを取得
+    public Transform[] GatiAreaGenerate; // エリアタイルの親オブジェクトを取得
 
     public static GatiArea Instance;
     private void Awake()
@@ -31,14 +32,17 @@ public class GatiArea: MonoBehaviour
 
     private void Start()
     {
-        _teamOneAreaCnt = 0;
-        _teamTwoAreaCnt = 0;
-        _areaHalfCnt = 0;
-        _isAreaObtained = false;
-        // エリアのタイル数をカウントする
-        _areaTileMaxCnt = GatiAreaGenerate.childCount;
-        _areaSecuredCnt = (int)(_areaTileMaxCnt * GATIAREA_PERCE);
-        _areaHalfCnt = (int)(_areaTileMaxCnt * GATIAREA_HALFPERCE);
+        for(int i = 0; i < GatiAreaGenerate.Length; i++)
+        {
+            teamOneAreaCnt[i] = 0;
+            teamTwoAreaCnt[i] = 0;
+            areaHalfCnt[i] = 0;
+            isAreaObtained[i] = false;
+            // エリアのタイル数をカウントする
+            areaTileMaxCnt[i] = GatiAreaGenerate[i].childCount;
+            areaSecuredCnt[i] = (int)(areaTileMaxCnt[i] * GATIAREA_PERCE);
+            areaHalfCnt[i] = (int)(areaTileMaxCnt[i] * GATIAREA_HALFPERCE);
+        }
     }
 
 
@@ -46,18 +50,18 @@ public class GatiArea: MonoBehaviour
     /// 塗られていないエリアを塗る
     /// </summary>
     /// <param name="teamName"></param>
-    public void AddGatiArea(Team teamName, Color bombColor)
+    public void AddGatiArea(Team teamName, Color bombColor, int type)
     {
         switch (teamName)
         {
             case Team.TeamOne:
-                _teamOneAreaCnt++;
+                teamOneAreaCnt[type]++;
                 break;
             case Team.TeamTwo:
-                _teamTwoAreaCnt++;
+                teamTwoAreaCnt[type]++;
                 break;
         }
-        SecuredGatiAreaJudge(teamName, bombColor);
+        SecuredGatiAreaJudge(teamName, bombColor, type);
     }
 
 
@@ -66,20 +70,20 @@ public class GatiArea: MonoBehaviour
     /// エリアを上書きする
     /// </summary>
     /// <param name="teamName"></param>
-    public void RemoveGatiArea(Team teamName, Color bombColor)
+    public void RemoveGatiArea(Team teamName, Color bombColor, int type)
     {
         switch (teamName)
         {
             case Team.TeamOne:
-                _teamOneAreaCnt++;
-                _teamTwoAreaCnt--;
+                teamOneAreaCnt[type]++;
+                teamTwoAreaCnt[type]--;
                 break;
             case Team.TeamTwo:
-                _teamTwoAreaCnt++;
-                _teamOneAreaCnt--;
+                teamTwoAreaCnt[type]++;
+                teamOneAreaCnt[type]--;
                 break;
         }
-        SecuredGatiAreaJudge(teamName, bombColor);
+        SecuredGatiAreaJudge(teamName, bombColor, type);
     }
 
 
@@ -89,45 +93,45 @@ public class GatiArea: MonoBehaviour
     /// エリアの塗が一定の値を超えたか確認+色の付与
     /// </summary>
     /// <param name="teamName"></param>
-    private void SecuredGatiAreaJudge(Team teamName, Color bombColor)
+    private void SecuredGatiAreaJudge(Team teamName, Color bombColor, int type)
     {
         int areaTileCnt = 0;
         // チームごとのタイルの取得数の取得
         switch (teamName)
         {
             case Team.TeamOne:
-                areaTileCnt = _teamOneAreaCnt;
+                areaTileCnt = teamOneAreaCnt[type];
                 _bombColor = bombColor;
                 break;
             case Team.TeamTwo:
-                areaTileCnt = _teamTwoAreaCnt;
+                areaTileCnt = teamTwoAreaCnt[type];
                 _bombColor = bombColor;
                 break;
         }
 
 
         // 取得数の比較
-        if (areaTileCnt >= _areaSecuredCnt && !_isAreaObtained)
+        if (areaTileCnt >= areaSecuredCnt[type] && !isAreaObtained[type])
         {
-            BloomAllArea(teamName, _bombColor);
+            BloomAllArea(teamName, _bombColor, type);
         }
         // もしエリア取得済の場合
-        else if(_isAreaObtained)
+        else if (isAreaObtained[type])
         {
             switch(_currentAreaTeamNam)
             {
                 case Team.TeamOne:
-                    areaTileCnt = _teamTwoAreaCnt;
+                    areaTileCnt = teamTwoAreaCnt[type];
                     break;
                 case Team.TeamTwo:
-                    areaTileCnt = _teamOneAreaCnt;
+                    areaTileCnt = teamOneAreaCnt[type];
                     break;
             }
            
             // 現在のエリア取得チームでないチームがエリアの半分を塗ったらエリア占有解除
-            if(areaTileCnt >= _areaHalfCnt)
+            if(areaTileCnt >= areaHalfCnt[type])
             {
-                _isAreaObtained = false;
+                isAreaObtained[type] = false;
             }
         }
     }
@@ -137,12 +141,12 @@ public class GatiArea: MonoBehaviour
     /// <summary>
     /// エリアをすべて塗る
     /// </summary>
-    private void BloomAllArea(Team teamName, Color bombColor)
+    private void BloomAllArea(Team teamName, Color bombColor, int type)
     {
-        _isAreaObtained = true;
-        for (int i = 0; i < _areaTileMaxCnt; i++)
+        isAreaObtained[type] = true;
+        for (int i = 0; i < areaTileMaxCnt[type]; i++)
         {
-            Transform child = GatiAreaGenerate.GetChild(i);
+            Transform child = GatiAreaGenerate[type].GetChild(i);
             Renderer renderer = child.GetComponent<Renderer>();
             GameObject obj = child.gameObject;
             if (renderer != null)
@@ -164,12 +168,12 @@ public class GatiArea: MonoBehaviour
         switch (teamName)
         {
             case Team.TeamOne:
-                _teamOneAreaCnt = _areaTileMaxCnt;
-                _teamTwoAreaCnt = 0;
+                teamOneAreaCnt[type] = areaTileMaxCnt[type];
+                teamTwoAreaCnt[type] = 0;
                 break;
             case Team.TeamTwo:
-                _teamTwoAreaCnt = _areaTileMaxCnt;
-                _teamOneAreaCnt = 0;
+                teamTwoAreaCnt[type] = areaTileMaxCnt[type];
+                teamOneAreaCnt[type] = 0;
                 break;
         }
         CurrentSecuredGatiArea(teamName);
