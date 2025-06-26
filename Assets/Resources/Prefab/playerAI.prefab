@@ -140,7 +140,6 @@ GameObject:
   - component: {fileID: 3183276888184710895}
   - component: {fileID: 7929552435427572301}
   - component: {fileID: 7016805920249312871}
-  - component: {fileID: 3993149253078274515}
   - component: {fileID: 9080066942382473954}
   - component: {fileID: 5625062049643754625}
   - component: {fileID: -2121942783736480968}
@@ -251,28 +250,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
---- !u!114 &3993149253078274515
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9212116415459464979}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44f8d01a7b478d348a8763cd4d4d33e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PlayerSpeed: 5
-  blueAnimator: {fileID: 4212520273778888187}
-  RedAnimator: {fileID: 2221465313003138516}
-  currentState: 0
-  BlueBomb: {fileID: 7203167513803814419, guid: e7509039f71ab7545b3520ad2447e6fa, type: 3}
-  RedBomb: {fileID: 7203167513803814419, guid: 58bbea785cfbba345b9741d160290da5, type: 3}
-  BombRange: 5
-  BloomBombMax: 5
-  purpleChan: {fileID: 3839120411980627379}
-  cyanChan: {fileID: 1289878444767829404}
 --- !u!114 &9080066942382473954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -295,6 +272,7 @@ MonoBehaviour:
   BloomBombMax: 5
   purpleChan: {fileID: 3839120411980627379}
   cyanChan: {fileID: 1289878444767829404}
+  playerUI: {fileID: 7644725420724393715}
 --- !u!114 &5625062049643754625
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -470,6 +448,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 7644725420724393715}
   m_SourcePrefab: {fileID: 100100000, guid: d88985cf3317f63499a98fcf5cc4b332, type: 3}
+--- !u!114 &26879725535782746 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4885237417398316360, guid: d88985cf3317f63499a98fcf5cc4b332, type: 3}
+  m_PrefabInstance: {fileID: 4869701246086367762}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1006588687129076340 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5651094391071189094, guid: d88985cf3317f63499a98fcf5cc4b332, type: 3}
@@ -489,6 +478,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   level: {fileID: 4673785019020118773}
   bombCnt: {fileID: 3645005899181303342}
+  nowBombCnt: {fileID: 26879725535782746}
   bombRange: {fileID: 8472202460525289305}
   speed: {fileID: 3442699764943512019}
   currentExp: {fileID: 1811042574651348589}

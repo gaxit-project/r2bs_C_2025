@@ -15,7 +15,8 @@ public sealed class AIController : PlayerBase
         StandardBomb = Resources.Load<GameObject>("Prefab/StandardBomb");
         GameObject bombParentObj = GameObject.Find("BombGenerate");
         BombParent = bombParentObj.transform;
-
+        TeamSplit();            // Tag ‚ª gTeamOneh ‚© gTeamTwoh ‚ÅŒÄ‚Î‚ê‚é
+        InitSpecialStatus();
     }
 
     protected override void Start()
@@ -25,8 +26,7 @@ public sealed class AIController : PlayerBase
         Debug.Log("base‚Íok");
         _stateManager = new AIStateManager(this);
         Debug.Log("“ü‚ê‚é‚É‚Í“ü‚ê‚½");
-        TeamSplit();            // Tag ‚ª gTeamOneh ‚© gTeamTwoh ‚ÅŒÄ‚Î‚ê‚é
-        InitSpecialStatus();
+
 
         _stateManager = new AIStateManager(this);
     }
