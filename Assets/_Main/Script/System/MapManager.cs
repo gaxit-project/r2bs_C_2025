@@ -82,7 +82,7 @@ public class MapManager : MonoBehaviour
     /// </summary>
     public void CreateMap()
     {
-        _csvFileName = FBSceneManager.Instance.GetStageName();
+        _csvFileName = DataBase.Instance.GetStageName();
         if (_csvFileName == null)
         {
             Debug.LogError("csvファイルが存在しません");
