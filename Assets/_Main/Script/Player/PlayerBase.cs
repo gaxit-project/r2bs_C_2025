@@ -264,8 +264,9 @@ public class PlayerBase : MonoBehaviour
         // 動けなくする（死亡）
         currentState = PlayerState.Death;
         //Vector2 gridPos = MapManager.Instance.WorldToGridPosition(this.transform.position); 
-        //Vector3 newPos = new Vector3(gridPos.x, 0f, gridPos.y);
-        //ItemGenerator.Instance.DropExp(newPos, this.GetComponent<LevelManager>().CurrentLevel);
+        Vector2Int pos = MapManager.Instance.GetBlockData((int)this.transform.position.x, (int)this.transform.position.z).gridPosition;
+        Vector3 newPos = new Vector3(pos.x, 0f, pos.y);
+        ItemGenerator.Instance.DropExp(newPos, this.GetComponent<LevelManager>().CurrentLevel);
         // フェードイン処理（仮）
         Debug.Log("Fade In Start");
         Rigidbody rb = GetComponent<Rigidbody>();
@@ -397,7 +398,7 @@ public class PlayerBase : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.transform.tag == "Exp")
+        if(collision.transform.tag == "Exp" && currentState == PlayerState.Alive)
         {
             _levelManager.AddExp(EXP_SIZE);
             SoundManager.PlaySE("getxp");
