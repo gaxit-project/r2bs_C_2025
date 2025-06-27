@@ -25,6 +25,8 @@ public class PlayerBase : MonoBehaviour
     protected int SpecialBombRange = 0;
     protected float SpecialPlayerSpeed = 1f;
 
+
+    public int playerID;
     protected int playerIndex;
     protected int teamOneIndex;
     protected int teamTwoIndex;
@@ -77,6 +79,7 @@ public class PlayerBase : MonoBehaviour
         _status = GetComponent<PlayerStatus>();
         _levelManager = GetComponent<LevelManager>();
         SetStatus();
+        playerID = playerIndex;
     }
 
     protected virtual void Update()

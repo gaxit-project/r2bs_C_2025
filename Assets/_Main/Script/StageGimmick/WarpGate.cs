@@ -1,51 +1,51 @@
 using System.Collections;
 using UnityEngine;
+using TMPro;
 
 public class WarpGate : MonoBehaviour
 {
-    public int warpNum = 0;
-
     public int groupId;
     public Vector3 myGridPosition;
 
     public Transform parentObj;
 
-    int _warpID;
-
-    bool coolDown;
-
+    public TextMeshProUGUI[] playerCountdownTexts = new TextMeshProUGUI[4]; // プレイヤーごとのカウントダウンUI
 
     private void Start()
     {
         GameObject bombParentObj = GameObject.Find("WarpGateGenerate");
-        parentObj = bombParentObj.transform; 
+        parentObj = bombParentObj.transform;
+
+        // 初期化
+        foreach (var text in playerCountdownTexts)
+        {
+            if (text != null)
+                text.enabled = false;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "TeamOne" || other.tag == "TeamTwo")
+        if (other.CompareTag("TeamOne") || other.CompareTag("TeamTwo"))
         {
-            if(!other.GetComponent<PlayerBase>().isWarpCoolDown)
+            var player = other.GetComponent<PlayerBase>();
+            if (!player.isWarpCoolDown)
             {
-                if (groupId % 2 == 0)
-                {
-                    _warpID = groupId + 1;
-                }
-                else if (groupId % 2 == 1)
-                {
-                    _warpID = groupId - 1;
-                }
+                int warpID = (groupId % 2 == 0) ? groupId + 1 : groupId - 1;
+
+                // ワープ先を探す
                 for (int i = 0; i < parentObj.childCount; i++)
                 {
                     WarpGate gate = parentObj.GetChild(i).GetComponent<WarpGate>();
-                    if (gate.groupId == _warpID)
+                    if (gate.groupId == warpID)
                     {
-                        // プレイヤーの座標をそのオブジェクトの座標に飛ばす
-                        Debug.Log("わーーーーーぷ");
-                        other.GetComponent<PlayerBase>().WarpPosition(gate.myGridPosition);
-                        other.GetComponent<PlayerBase>().isWarpCoolDown = true;
-                        StartCoroutine(CoolDown(other.GetComponent<PlayerBase>().isWarpCoolDown));
+                        // ワープ処理
+                        player.WarpPosition(gate.myGridPosition);
+                        player.isWarpCoolDown = true;
+                        StartCoroutine(CoolDown(player));
 
+                        // カウントダウン演出
+                        StartCoroutine(ShowCountdownOnAllGates(player.playerID));
                         break;
                     }
                 }
@@ -53,10 +53,34 @@ public class WarpGate : MonoBehaviour
         }
     }
 
-
-    IEnumerator CoolDown(bool flag)
+    IEnumerator CoolDown(PlayerBase player)
     {
         yield return new WaitForSeconds(5f);
-        flag = false;
+        player.isWarpCoolDown = false;
+    }
+
+    // ゲートをくぐったプレイヤーのみすべてのゲートに演出を出す
+    IEnumerator ShowCountdownOnAllGates(int playerId)
+    {
+        for (int i = 0; i < parentObj.childCount; i++)
+        {
+            WarpGate gate = parentObj.GetChild(i).GetComponent<WarpGate>();
+            gate.StartCoroutine(gate.ShowCountdown(playerId, 5));
+        }
+        yield return null;
+    }
+
+    public IEnumerator ShowCountdown(int playerId, int seconds)
+    {
+        var text = playerCountdownTexts[playerId];
+        text.enabled = true;
+
+        for (int i = seconds; i > 0; i--)
+        {
+            text.text = i.ToString();
+            yield return new WaitForSeconds(1f);
+        }
+
+        text.enabled = false;
     }
 }
