@@ -397,6 +397,7 @@ public class PlayerBase : MonoBehaviour
         if(collision.transform.tag == "Exp")
         {
             _levelManager.AddExp(EXP_SIZE);
+            SoundManager.PlaySE("getxp");
             Destroy(collision.gameObject);
         }
     }
