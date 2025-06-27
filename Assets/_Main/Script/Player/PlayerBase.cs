@@ -4,6 +4,7 @@ using System.Globalization;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static MapManager;
+using static UnityEngine.GraphicsBuffer;
 
 public class PlayerBase : MonoBehaviour
 {
@@ -32,6 +33,8 @@ public class PlayerBase : MonoBehaviour
     [SerializeField] private Animator RedAnimator;
 
     private Animator animator;
+
+    public bool isWarpCoolDown;
 
     // プレイヤーの状態を管理する (0: 生存, 1: 死亡)
 
@@ -257,7 +260,9 @@ public class PlayerBase : MonoBehaviour
     {
         // 動けなくする（死亡）
         currentState = PlayerState.Death;
-
+        //Vector2 gridPos = MapManager.Instance.WorldToGridPosition(this.transform.position); 
+        //Vector3 newPos = new Vector3(gridPos.x, 0f, gridPos.y);
+        //ItemGenerator.Instance.DropExp(newPos, this.GetComponent<LevelManager>().CurrentLevel);
         // フェードイン処理（仮）
         Debug.Log("Fade In Start");
         Rigidbody rb = GetComponent<Rigidbody>();
@@ -303,6 +308,13 @@ public class PlayerBase : MonoBehaviour
 
         // 動けるようにする（生存）
         currentState = PlayerState.Alive;
+    }
+
+
+
+    public void WarpPosition(Vector3 warpPos)
+    {
+        transform.position = new Vector3(warpPos.x, 0f, warpPos.z);
     }
 
 

@@ -1603,6 +1603,7 @@ MonoBehaviour:
   WallParent: {fileID: 656226868}
   BreakWallParent: {fileID: 840774267}
   StartTileParent: {fileID: 1374619782}
+  WarpTileParent: {fileID: 0}
   GatiAreaTileParent:
   - {fileID: 1048417293}
   - {fileID: 1400238718}
@@ -1623,6 +1624,7 @@ MonoBehaviour:
   - {fileID: 278267712}
   _groundPrefab:
   - {fileID: 3455758424205611846, guid: f9e316afa553f174f8af4d935fb815e1, type: 3}
+  - {fileID: 3848178743019493355, guid: 4bb78d0b8794bb54e952e10d371d6c95, type: 3}
   _wallPrefab:
   - {fileID: 3848178743019493355, guid: 5957777e73e1cdc4283d16ccfce566be, type: 3}
   - {fileID: 4986391969724115131, guid: 9e71157b0fa8b7641a0f570fbce78aaf, type: 3}

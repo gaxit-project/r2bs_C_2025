@@ -6,11 +6,12 @@ using UnityEngine.UIElements;
 
 public class MapManager : MonoBehaviour
 {
-    private string _csvFileName = "stage5";       // csv読み込み
+    private string _csvFileName = "stage4";       // csv読み込み
     public Transform TileParent;      // 床オブジェクトの生成先オブジェクト
     public Transform WallParent;      // 壁オブジェクトの生成先オブジェクト
     public Transform BreakWallParent; // 壊れる壁オブジェクトの生成先オブジェクト
     public Transform StartTileParent; // 壊れる壁オブジェクトの生成先オブジェクト
+    public Transform WarpTileParent; // 壊れる壁オブジェクトの生成先オブジェクト
     public Transform[] GatiAreaTileParent; // ガチエリアの生成先オブジェクト
     public Transform GatiHokoTileParent; // ガチエリアの生成先オブジェクト
     public Transform OutMapTileParent; // マップ外の生成先オブジェクト
@@ -81,6 +82,7 @@ public class MapManager : MonoBehaviour
     /// </summary>
     public void CreateMap()
     {
+        _csvFileName = FBSceneManager.Instance.GetStageName();
         if (_csvFileName == null)
         {
             Debug.LogError("csvファイルが存在しません");
@@ -153,6 +155,17 @@ public class MapManager : MonoBehaviour
                         name = $"ItemWallObject";
                         generatePrefab = _itemBoxPrefab[type];
                         CreateMap(generatePrefab, WallParent, x, y, key, name, type, isWalkable, position);
+                        break;
+
+
+
+                    // ワープゲート
+                    case 6:
+                        position = new Vector3(reversedX * _tileSize + _tileSize / 2f, 1f, y * _tileSize + _tileSize / 2f);
+                        name = "WarpObject";
+                        isWalkable = true;
+                        generatePrefab = _groundPrefab[1];
+                        CreateMap(generatePrefab, WarpTileParent, x, y, key, name, type, isWalkable, position);
                         break;
 
 
@@ -243,7 +256,12 @@ public class MapManager : MonoBehaviour
         // ブロックの生成
         GameObject obj = null;
         obj = Instantiate(prefaba, position, Quaternion.identity, parentName);
-
+        if(name == "WarpObject")
+        {
+            var warpScript = obj.GetComponent<WarpGate>();
+            warpScript.groupId = type;
+            warpScript.myGridPosition = position;
+        }
 
         // ブロックの情報を二次元配列に保存
         _mapGrid[x, y] = new MapBlockData
@@ -388,6 +406,8 @@ public class MapManager : MonoBehaviour
 
 
 
+
+
     /// <summary>
     /// ブロックの状態を確認できる
     /// </summary>
@@ -408,6 +428,19 @@ public class MapManager : MonoBehaviour
             return _mapGrid[x, y];
         return null;
     }
+
+    /// <summary>
+    /// グリッド座標に変換
+    /// </summary>
+    /// <param name="worldPos"></param>
+    /// <returns></returns>
+    public Vector2Int WorldToGridPosition(Vector3 worldPos)
+    {
+        int x = Mathf.FloorToInt((_width * _tileSize - worldPos.x) / _tileSize); // 反転補正
+        int y = Mathf.FloorToInt(worldPos.z / _tileSize);
+        return new Vector2Int(x, y);
+    }
+
 
     #endregion
 
