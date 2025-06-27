@@ -191,7 +191,6 @@ GameObject:
   m_Component:
   - component: {fileID: 170386806}
   - component: {fileID: 170386805}
-  - component: {fileID: 170386804}
   - component: {fileID: 170386807}
   - component: {fileID: 170386808}
   m_Layer: 0
@@ -201,18 +200,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &170386804
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 170386803}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 75757e414d0fc3547bbc18c9bbaffc56, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &170386805
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3628,9 +3615,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4363238059147780217}
-        m_TargetAssemblyTypeName: MainGameManager, Assembly-CSharp
-        m_MethodName: OnQuit
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: FBSceneManager, Assembly-CSharp
+        m_MethodName: LoadTitleScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3906,7 +3893,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 170386804}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: FBSceneManager, Assembly-CSharp
         m_MethodName: LoadTeamSelectScene
         m_Mode: 1
@@ -3956,7 +3943,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Quit
+  m_text: 'ToTitle
 
 '
   m_isRightToLeft: 0
@@ -4548,7 +4535,7 @@ GameObject:
   - component: {fileID: 1554055887088327125}
   - component: {fileID: 3807281822765113301}
   m_Layer: 5
-  m_Name: Quit
+  m_Name: ToTitle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
