@@ -350,6 +350,8 @@ GameObject:
   - component: {fileID: 1155057820}
   - component: {fileID: 1155057821}
   - component: {fileID: 1155057822}
+  - component: {fileID: 1155057823}
+  - component: {fileID: 1155057824}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -528,8 +530,8 @@ MonoBehaviour:
     m_ActionName: 'UI/Pose[/Keyboard/tab]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7117725503093924350}
-        m_TargetAssemblyTypeName: FBSceneManager, Assembly-CSharp
+      - m_Target: {fileID: 1155057824}
+        m_TargetAssemblyTypeName: DebugStageSelect, Assembly-CSharp
         m_MethodName: OnDebugF1
         m_Mode: 1
         m_Arguments:
@@ -544,8 +546,8 @@ MonoBehaviour:
     m_ActionName: 'DebugKey/F1[/Keyboard/f1]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7117725503093924350}
-        m_TargetAssemblyTypeName: FBSceneManager, Assembly-CSharp
+      - m_Target: {fileID: 1155057824}
+        m_TargetAssemblyTypeName: DebugStageSelect, Assembly-CSharp
         m_MethodName: OnDebugF2
         m_Mode: 1
         m_Arguments:
@@ -560,8 +562,8 @@ MonoBehaviour:
     m_ActionName: 'DebugKey/F2[/Keyboard/f2]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7117725503093924350}
-        m_TargetAssemblyTypeName: FBSceneManager, Assembly-CSharp
+      - m_Target: {fileID: 1155057824}
+        m_TargetAssemblyTypeName: DebugStageSelect, Assembly-CSharp
         m_MethodName: OnDebugF3
         m_Mode: 1
         m_Arguments:
@@ -576,8 +578,8 @@ MonoBehaviour:
     m_ActionName: 'DebugKey/F3[/Keyboard/f3]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7117725503093924350}
-        m_TargetAssemblyTypeName: FBSceneManager, Assembly-CSharp
+      - m_Target: {fileID: 1155057824}
+        m_TargetAssemblyTypeName: DebugStageSelect, Assembly-CSharp
         m_MethodName: OnDebugF4
         m_Mode: 1
         m_Arguments:
@@ -592,8 +594,8 @@ MonoBehaviour:
     m_ActionName: 'DebugKey/F4[/Keyboard/f4]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7117725503093924350}
-        m_TargetAssemblyTypeName: FBSceneManager, Assembly-CSharp
+      - m_Target: {fileID: 1155057824}
+        m_TargetAssemblyTypeName: DebugStageSelect, Assembly-CSharp
         m_MethodName: OnDebugF5
         m_Mode: 1
         m_Arguments:
@@ -608,8 +610,8 @@ MonoBehaviour:
     m_ActionName: 'DebugKey/F5[/Keyboard/f5]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7117725503093924350}
-        m_TargetAssemblyTypeName: FBSceneManager, Assembly-CSharp
+      - m_Target: {fileID: 1155057824}
+        m_TargetAssemblyTypeName: DebugStageSelect, Assembly-CSharp
         m_MethodName: OnDebugF6
         m_Mode: 1
         m_Arguments:
@@ -624,8 +626,8 @@ MonoBehaviour:
     m_ActionName: 'DebugKey/F6[/Keyboard/f6]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7117725503093924350}
-        m_TargetAssemblyTypeName: FBSceneManager, Assembly-CSharp
+      - m_Target: {fileID: 1155057824}
+        m_TargetAssemblyTypeName: DebugStageSelect, Assembly-CSharp
         m_MethodName: OnDebugF7
         m_Mode: 1
         m_Arguments:
@@ -640,8 +642,8 @@ MonoBehaviour:
     m_ActionName: 'DebugKey/F7[/Keyboard/f7]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7117725503093924350}
-        m_TargetAssemblyTypeName: FBSceneManager, Assembly-CSharp
+      - m_Target: {fileID: 1155057824}
+        m_TargetAssemblyTypeName: DebugStageSelect, Assembly-CSharp
         m_MethodName: OnDebugF8
         m_Mode: 1
         m_Arguments:
@@ -656,8 +658,8 @@ MonoBehaviour:
     m_ActionName: 'DebugKey/F8[/Keyboard/f8]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7117725503093924350}
-        m_TargetAssemblyTypeName: FBSceneManager, Assembly-CSharp
+      - m_Target: {fileID: 1155057824}
+        m_TargetAssemblyTypeName: DebugStageSelect, Assembly-CSharp
         m_MethodName: OnDebugF9
         m_Mode: 1
         m_Arguments:
@@ -680,8 +682,8 @@ MonoBehaviour:
     m_ActionName: 'DebugKey/F11[/Keyboard/f11]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7117725503093924350}
-        m_TargetAssemblyTypeName: FBSceneManager, Assembly-CSharp
+      - m_Target: {fileID: 1155057824}
+        m_TargetAssemblyTypeName: DebugStageSelect, Assembly-CSharp
         m_MethodName: OnDebugF12
         m_Mode: 1
         m_Arguments:
@@ -699,6 +701,30 @@ MonoBehaviour:
   m_DefaultActionMap: DebugKey
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &1155057823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1155057817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75757e414d0fc3547bbc18c9bbaffc56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1155057824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1155057817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec9e685358955854a9043942ea686df0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1200216544
 GameObject:
   m_ObjectHideFlags: 0
@@ -1512,6 +1538,63 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &2103503023
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 167794523001306576, guid: 97df5d93d4f149c438405f719cf2575c, type: 3}
+      propertyPath: m_Name
+      value: DataBase
+      objectReference: {fileID: 0}
+    - target: {fileID: 1247113402034946517, guid: 97df5d93d4f149c438405f719cf2575c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 35.074516
+      objectReference: {fileID: 0}
+    - target: {fileID: 1247113402034946517, guid: 97df5d93d4f149c438405f719cf2575c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1247113402034946517, guid: 97df5d93d4f149c438405f719cf2575c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 18.353096
+      objectReference: {fileID: 0}
+    - target: {fileID: 1247113402034946517, guid: 97df5d93d4f149c438405f719cf2575c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1247113402034946517, guid: 97df5d93d4f149c438405f719cf2575c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1247113402034946517, guid: 97df5d93d4f149c438405f719cf2575c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1247113402034946517, guid: 97df5d93d4f149c438405f719cf2575c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1247113402034946517, guid: 97df5d93d4f149c438405f719cf2575c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1247113402034946517, guid: 97df5d93d4f149c438405f719cf2575c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1247113402034946517, guid: 97df5d93d4f149c438405f719cf2575c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 97df5d93d4f149c438405f719cf2575c, type: 3}
 --- !u!1001 &2061032313053938995
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2742,74 +2825,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 227c6584f0af4934096666e8e42aa45c, type: 3}
---- !u!1001 &7117725503093924349
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 167794523001306576, guid: 97df5d93d4f149c438405f719cf2575c, type: 3}
-      propertyPath: m_Name
-      value: SceneManager
-      objectReference: {fileID: 0}
-    - target: {fileID: 1247113402034946517, guid: 97df5d93d4f149c438405f719cf2575c, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 35.074516
-      objectReference: {fileID: 0}
-    - target: {fileID: 1247113402034946517, guid: 97df5d93d4f149c438405f719cf2575c, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1247113402034946517, guid: 97df5d93d4f149c438405f719cf2575c, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 18.353096
-      objectReference: {fileID: 0}
-    - target: {fileID: 1247113402034946517, guid: 97df5d93d4f149c438405f719cf2575c, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1247113402034946517, guid: 97df5d93d4f149c438405f719cf2575c, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1247113402034946517, guid: 97df5d93d4f149c438405f719cf2575c, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1247113402034946517, guid: 97df5d93d4f149c438405f719cf2575c, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1247113402034946517, guid: 97df5d93d4f149c438405f719cf2575c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1247113402034946517, guid: 97df5d93d4f149c438405f719cf2575c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1247113402034946517, guid: 97df5d93d4f149c438405f719cf2575c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 97df5d93d4f149c438405f719cf2575c, type: 3}
---- !u!114 &7117725503093924350 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4114785113856597132, guid: 97df5d93d4f149c438405f719cf2575c, type: 3}
-  m_PrefabInstance: {fileID: 7117725503093924349}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 75757e414d0fc3547bbc18c9bbaffc56, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!33 &8259385659493084040
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2833,4 +2848,4 @@ SceneRoots:
   - {fileID: 1545199162}
   - {fileID: 229480847}
   - {fileID: 509322564}
-  - {fileID: 7117725503093924349}
+  - {fileID: 2103503023}

@@ -17,6 +17,8 @@ public class GameTimer : MonoBehaviour
     private float _mapTimer; //カウントダウン用のタイマー
     public float CountDownTime { get { return _countDownTime; } }
 
+    public float meltTime;
+
     public bool _isGameStart = false; //カウントダウンが終わったらプレイ可能にするbool変数 
 
     private void Awake()
@@ -69,8 +71,8 @@ public class GameTimer : MonoBehaviour
         if (_isActiveTime) { 
             _mapTimer -= Time.deltaTime;
         }
-
-        return _mapTimer / _startTime;
+        meltTime = _mapTimer / _startTime;
+        return meltTime;
     }
 
     /// <summary>
