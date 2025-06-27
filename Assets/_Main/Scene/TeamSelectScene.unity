@@ -3763,7 +3763,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1638508565}
         m_TargetAssemblyTypeName: FBSceneManager, Assembly-CSharp
         m_MethodName: LoadTitleScene
         m_Mode: 1

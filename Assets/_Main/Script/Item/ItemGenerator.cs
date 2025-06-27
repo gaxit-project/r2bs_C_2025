@@ -55,7 +55,7 @@ public class ItemGenerator : MonoBehaviour
         // ドロップ配列に基づいて出現判定
         if (_dropFlags[_currentDropIndex])
         {
-            Instantiate(_itemPrefab, position + new Vector3(0,0.7f,0), Quaternion.Euler(0,-50,0));
+            Instantiate(_itemPrefab, position + new Vector3(0,0.7f,0), Quaternion.Euler(0,228,0));
         }
 
         _currentDropIndex++; // 呼び出しインデックスを進める
@@ -75,7 +75,7 @@ public class ItemGenerator : MonoBehaviour
         // positionを受け取って、その場に生成する（同じアイテムを生成するかは未定）
 
         
-        Instantiate(_itemPrefab, position + new Vector3(0, 0.7f, 0), Quaternion.identity);
+        Instantiate(_itemPrefab, position + new Vector3(0, 0.7f, 0), Quaternion.Euler(0, 228, 0));
     }
 
     /// <summary>
