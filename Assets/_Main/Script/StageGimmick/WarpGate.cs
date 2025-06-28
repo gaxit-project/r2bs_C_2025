@@ -5,6 +5,7 @@ using TMPro;
 public class WarpGate : MonoBehaviour
 {
     public int groupId;
+    public int typeId;
     public Vector3 myGridPosition;
 
     public Transform parentObj;
@@ -37,7 +38,7 @@ public class WarpGate : MonoBehaviour
                 for (int i = 0; i < parentObj.childCount; i++)
                 {
                     WarpGate gate = parentObj.GetChild(i).GetComponent<WarpGate>();
-                    if (gate.groupId == warpID)
+                    if (gate.groupId == warpID && gate.typeId == this.typeId)
                     {
                         // ÉèÅ[Évèàóù
                         player.WarpPosition(gate.myGridPosition);

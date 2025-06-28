@@ -1094,19 +1094,11 @@ MonoBehaviour:
   - {fileID: 2087431106080161872, guid: 5d25dc7d3efde094ba759861d7aeae6e, type: 3}
   - {fileID: 2087431106080161872, guid: 5d3ef4114f1a4164c8d0906a8a7e1491, type: 3}
   - {fileID: 2087431106080161872, guid: b1dc361b40ecebd46ae73ce7055cf673, type: 3}
-  - {fileID: 2087431106080161872, guid: 83fd698cc4cc12e40b2dc5f2e9d4cb1d, type: 3}
-  - {fileID: 2087431106080161872, guid: 3a948796fad8e83478a2704cfc6b143c, type: 3}
-  - {fileID: 2087431106080161872, guid: 11179e3d6500bc2479a7485987e280e3, type: 3}
-  - {fileID: 2087431106080161872, guid: e8773424c1b7d9a4b8c51fe60c39208d, type: 3}
   TeamTwoTile:
   - {fileID: 2087431106080161872, guid: 13e6abb47f4dc8b4290c6505e6262bc7, type: 3}
   - {fileID: 2087431106080161872, guid: f3c3655de9724ab4ca6dba69b9ad112a, type: 3}
   - {fileID: 2087431106080161872, guid: 8d2b2be3f8efeb94ca04866613292dd7, type: 3}
   - {fileID: 2087431106080161872, guid: de83861b70d7cd049adf462fa88bf7e0, type: 3}
-  - {fileID: 2087431106080161872, guid: 1c52e7d9d15f5664c84f02a62b187adf, type: 3}
-  - {fileID: 2087431106080161872, guid: e51371052fdca5f4c85f84665819ef18, type: 3}
-  - {fileID: 2087431106080161872, guid: b4904a8cc5c8947418402763b9dd7ee3, type: 3}
-  - {fileID: 2087431106080161872, guid: 8f58719ce4714ab46a910bd3936dfe08, type: 3}
   TeamOneTileParent: {fileID: 1211057883}
   TeamTwoTileParent: {fileID: 1077967583}
 --- !u!4 &1057497035

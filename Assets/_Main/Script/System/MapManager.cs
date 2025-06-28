@@ -159,10 +159,19 @@ public class MapManager : MonoBehaviour
 
 
 
-                    // ワープゲート
+                    // 左右ワープゲート
+                    case 5:
+                        position = new Vector3(reversedX * _tileSize + _tileSize / 2f, 1f, y * _tileSize + _tileSize / 2f);
+                        name = "WarpRLObject";
+                        isWalkable = true;
+                        generatePrefab = _groundPrefab[1];
+                        CreateMap(generatePrefab, WarpTileParent, x, y, key, name, type, isWalkable, position);
+                        break;
+
+                    // 上下ワープゲート
                     case 6:
                         position = new Vector3(reversedX * _tileSize + _tileSize / 2f, 1f, y * _tileSize + _tileSize / 2f);
-                        name = "WarpObject";
+                        name = "WarpUDObject";
                         isWalkable = true;
                         generatePrefab = _groundPrefab[1];
                         CreateMap(generatePrefab, WarpTileParent, x, y, key, name, type, isWalkable, position);
@@ -255,12 +264,34 @@ public class MapManager : MonoBehaviour
     {
         // ブロックの生成
         GameObject obj = null;
-        obj = Instantiate(prefaba, position, Quaternion.identity, parentName);
-        if(name == "WarpObject")
+        if (name == "WarpRLObject")
         {
+            Quaternion rot;
+            if (type % 2 == 0)
+            {
+                rot = Quaternion.Euler(0f, 90f, 0f);
+            }
+            else
+            {
+                rot = Quaternion.Euler(0f, -90f, 0f);
+            }
+            obj = Instantiate(prefaba, position, rot, parentName);
             var warpScript = obj.GetComponent<WarpGate>();
             warpScript.groupId = type;
+            warpScript.typeId = 0;
             warpScript.myGridPosition = position;
+        }
+        else if (name == "WarpUDObject")
+        {
+            obj = Instantiate(prefaba, position, Quaternion.identity, parentName);
+            var warpScript = obj.GetComponent<WarpGate>();
+            warpScript.groupId = type;
+            warpScript.typeId = 1;
+            warpScript.myGridPosition = position;
+        }
+        else
+        {
+            obj = Instantiate(prefaba, position, Quaternion.identity, parentName);
         }
 
         // ブロックの情報を二次元配列に保存
