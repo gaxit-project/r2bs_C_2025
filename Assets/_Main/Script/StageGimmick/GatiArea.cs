@@ -23,10 +23,14 @@ public class GatiArea: MonoBehaviour
 
     public Transform[] GatiAreaGenerate; // エリアタイルの親オブジェクトを取得
 
+
+    Team[] currentAreaTeam = new Team[] { Team.No, Team.No, Team.No, Team.No, Team.No, Team.No, Team.No, Team.No, Team.No, Team.No};
+
     public static GatiArea Instance;
     private void Awake()
     {
         Instance = this;
+        currentAreaTeam = new Team[] { Team.No, Team.No, Team.No, Team.No, Team.No, Team.No, Team.No, Team.No, Team.No, Team.No};
     }
 
 
@@ -45,6 +49,15 @@ public class GatiArea: MonoBehaviour
         }
     }
 
+
+    private void Update()
+    {
+        Debug.Log("a"+currentAreaTeam[0] + currentAreaTeam[1] + currentAreaTeam[2] + currentAreaTeam[3] + currentAreaTeam[4] + currentAreaTeam[5] + currentAreaTeam[6] + currentAreaTeam[7] + currentAreaTeam[8] + currentAreaTeam[9]);
+        if(Input.GetKeyDown(KeyCode.L))
+        {
+            Debug.Log(GetGatiArea(Team.TeamTwo));
+        }
+    }
 
     /// <summary>
     /// 塗られていないエリアを塗る
@@ -118,7 +131,7 @@ public class GatiArea: MonoBehaviour
         // もしエリア取得済の場合
         else if (isAreaObtained[type])
         {
-            switch(_currentAreaTeamNam)
+            switch(currentAreaTeam[type])
             {
                 case Team.TeamOne:
                     areaTileCnt = teamTwoAreaCnt[type];
@@ -176,7 +189,7 @@ public class GatiArea: MonoBehaviour
                 teamOneAreaCnt[type] = 0;
                 break;
         }
-        CurrentSecuredGatiArea(teamName);
+        CurrentSecuredGatiArea(teamName, type);
     }
 
 
@@ -184,8 +197,29 @@ public class GatiArea: MonoBehaviour
     /// エリアを取得しているチームを保存
     /// </summary>
     /// <param name="teamName"></param>
-    private void CurrentSecuredGatiArea(Team teamName)
+    private void CurrentSecuredGatiArea(Team teamName, int type)
     {
-        _currentAreaTeamNam = teamName;
+        currentAreaTeam[type] = teamName;
+    }
+
+
+
+
+    /// <summary>
+    /// 最終エリアの状況を見る
+    /// </summary>
+    /// <param name="teamName"></param>
+    /// <returns></returns>
+    public int GetGatiArea(Team teamName)
+    {
+        int areaCnt = 0;
+        for(int i = 0; i < currentAreaTeam.Length; i++)
+        {
+            if (currentAreaTeam[i] == teamName)
+            {
+                areaCnt++;
+            }
+        }
+        return areaCnt;
     }
 }
