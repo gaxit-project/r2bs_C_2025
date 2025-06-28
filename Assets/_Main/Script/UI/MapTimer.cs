@@ -42,8 +42,11 @@ public class MapTimer : MonoBehaviour
             _mapTimerImage.fillAmount = 0f;
 
             // Œ‹‰Ê‚ð•Û‘¶
-            _ResultData.TeamOneBloomPercent = BloomJudgement.Instance.GetTeamOneBloomPer();
-            _ResultData.TeamTwoBloomPercent = BloomJudgement.Instance.GetTeamTwoBloomPer();
+            _ResultData.blueTile = BloomJudgement.Instance.GetTeamOneBloomPer();
+            _ResultData.redTile = BloomJudgement.Instance.GetTeamTwoBloomPer();
+
+            _ResultData.blueArea = 5;
+            _ResultData.redArea = 5;
 
 #if UNITY_EDITOR
             EditorUtility.SetDirty(_ResultData);

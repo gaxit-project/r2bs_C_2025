@@ -6,8 +6,13 @@ using UnityEngine.InputSystem;
 
 public class ResultData : ScriptableObject
 {
-    public int TeamOneBloomPercent;  // 一つ目のチームの咲き誇りパーセンテージ
-    public int TeamTwoBloomPercent;  // 一つ目のチームの咲き誇りパーセンテージ
+      // 1つ目のチームの咲き誇り数
+      // 2つ目のチームの咲き誇り数
+    public int blueTile;
+    public int redTile;
+
+    public int blueArea;
+    public int redArea;
 
 }
 
