@@ -47,14 +47,14 @@ public class BloomResult : MonoBehaviour
         _blueTile = _ResultData.blueTile+1;
         _redTile = _ResultData.redTile+1;
         sumTile = _blueTile + _redTile;
-        perSlider1.maxValue = sumTile;
-        perSlider2.maxValue = sumTile;
+        perSlider1.maxValue = sumTile-2;
+        perSlider2.maxValue = sumTile - 2;
 
         _blueArea = _ResultData.blueArea + 1;
         _redArea = _ResultData.redArea + 1;
         sumArea = _blueArea + _redArea;
-        cntSlider1.maxValue = sumArea;
-        cntSlider2.maxValue = sumArea;
+        cntSlider1.maxValue = sumArea-2;
+        cntSlider2.maxValue = sumArea-2;
 
         perSlider1.value = 0;
         perSlider2.value = 0;
@@ -158,13 +158,13 @@ public class BloomResult : MonoBehaviour
     public void OnSkip()
     {
         StopAllCoroutines();
-        perSlider1.value = _blueTile;
-        TeamOnePer.text = ((int)(((double)_blueTile / sumTile) * 100)).ToString()+"%";
-        perSlider2.value = _redTile;
-        TeamTwoPer.text = ((int)(((double)_redTile / sumTile) * 100)).ToString()+"%";
-        cntSlider1.value = _blueArea;
+        perSlider1.value = _blueTile - 1;
+        TeamOnePer.text = (((int)(((double)_blueTile / sumTile) * 100)) - ((int)(((double) 1 / sumTile)*100))).ToString()+"%";
+        perSlider2.value = _redTile - 1;
+        TeamTwoPer.text = (((int)(((double)_redTile / sumTile) * 100)) - ((int)(((double)1 / sumTile)*100))).ToString()+"%";
+        cntSlider1.value = _blueArea - 1;
         TeamOneCnt.text = (_blueArea-1).ToString();
-        cntSlider2.value = _redArea;
+        cntSlider2.value = _redArea - 1;
         TeamTwoCnt.text = (_redArea-1).ToString();
 
         if (_blueArea == _redArea)
@@ -191,20 +191,20 @@ public class BloomResult : MonoBehaviour
 
     private IEnumerator BlueTileS()
     {
-        for (int i = 0; i <= _blueTile; i++)
+        for (int i = 1; i <= _blueTile; i++)
         {
-            perSlider1.value = i;
-            TeamOnePer.text = ((int)(((double)i / sumTile) * 100)).ToString() + "%";
+            perSlider1.value = i - 1;
+            TeamOnePer.text = (((int)(((double)i / sumTile) * 100))-((int)(((double)1 / sumTile) * 100))).ToString() + "%";
             yield return new WaitForSeconds(0.05f);
         }
     }
 
     private IEnumerator RedTileS()
     {
-        for (int i = 0; i <= _redTile; i++)
+        for (int i = 1; i <= _redTile; i++)
         {
-            perSlider2.value = i;
-            TeamTwoPer.text = ((int)(((double)i / sumTile) * 100)).ToString() + "%";
+            perSlider2.value = i - 1;
+            TeamTwoPer.text = (((int)(((double)i / sumTile) * 100)) - ((int)(((double)1 / sumTile) * 100))).ToString() + "%";
             yield return new WaitForSeconds(0.05f);
         }
     }
@@ -213,7 +213,7 @@ public class BloomResult : MonoBehaviour
     {
         for (int i = 1; i <= _blueArea; i++)
         {
-            cntSlider1.value = i;
+            cntSlider1.value = i - 1;
             TeamOneCnt.text = (i - 1).ToString();
             yield return new WaitForSeconds(1f);
         }
@@ -223,7 +223,7 @@ public class BloomResult : MonoBehaviour
     {
         for (int i = 1; i <= _redArea; i++)
         {
-            cntSlider2.value = i;
+            cntSlider2.value = i - 1;
             TeamTwoCnt.text = (i - 1).ToString();
             yield return new WaitForSeconds(1f);
         }

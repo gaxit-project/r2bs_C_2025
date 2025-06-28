@@ -45,8 +45,8 @@ public class MapTimer : MonoBehaviour
             _ResultData.blueTile = BloomJudgement.Instance.GetTeamOneBloomPer();
             _ResultData.redTile = BloomJudgement.Instance.GetTeamTwoBloomPer();
 
-            _ResultData.blueArea = 5;
-            _ResultData.redArea = 5;
+            _ResultData.blueArea = GatiArea.Instance.GetGatiArea(Team.TeamOne);
+            _ResultData.redArea = GatiArea.Instance.GetGatiArea(Team.TeamTwo); ;
 
 #if UNITY_EDITOR
             EditorUtility.SetDirty(_ResultData);
