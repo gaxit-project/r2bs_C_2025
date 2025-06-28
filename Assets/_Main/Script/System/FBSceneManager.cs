@@ -7,6 +7,7 @@ using System.Collections;
 /// </summary>
 public class FBSceneManager : MonoBehaviour
 {
+    private bool gameset = false;
     /// <summary>
     /// シングルトンインスタンス
     /// </summary>
@@ -34,7 +35,11 @@ public class FBSceneManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         SoundManager.StopBgm();
-        SceneManager.LoadScene("ResultScene");
+        if(gameset == false)
+        {
+            SoundManager.PlaySE("gameset");
+        }
+        StartCoroutine(ToResultScene());
     }
 
     /// <summary>
@@ -75,5 +80,12 @@ public class FBSceneManager : MonoBehaviour
         asyncLoad.allowSceneActivation = true;
 
         Debug.Log("シーン切り替え");
+    }
+    IEnumerator ToResultScene()
+    {
+        gameset = true;
+        yield return new WaitForSeconds(4f);
+        gameset = false;
+        SceneManager.LoadScene("ResultScene");
     }
 }
