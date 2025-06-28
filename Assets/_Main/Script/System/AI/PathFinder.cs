@@ -42,6 +42,7 @@ public class PathFinder
             
             if (current == goal)
             {
+                Debug.Log("道！あったでええ！！！");
                 return ReconstructPath(cameFrom, start, goal);
             }
 
@@ -60,6 +61,7 @@ public class PathFinder
             }
         }
 
+        Debug.Log("道見つかれへんかったんやけど!");
         return null; // 経路が見つからなかった場合
     }
     

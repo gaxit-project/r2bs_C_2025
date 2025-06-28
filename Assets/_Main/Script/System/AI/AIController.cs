@@ -21,13 +21,7 @@ public sealed class AIController : PlayerBase
 
     protected override void Start()
     {
-        Debug.Log("STart!!!");
         base.Start();
-        Debug.Log("base‚Íok");
-        _stateManager = new AIStateManager(this);
-        Debug.Log("“ü‚ê‚é‚É‚Í“ü‚ê‚½");
-
-
         _stateManager = new AIStateManager(this);
     }
     /// <summary>

@@ -17,7 +17,6 @@ public sealed class AIStateManager
 
     public void Update()
     {
-        UnityEngine.Debug.Log("StateManager‚®‚é‚®‚é");
         AIContext ctx = AIContextBuilder.Build(_owner);
 
         if (ctx == null) return;
@@ -25,9 +24,17 @@ public sealed class AIStateManager
         AIStateBase next = null;
         float best = float.MaxValue;
         foreach (var s in _states)
-            if (s.IsValid(ctx) && s.Priority < best) { best = s.Priority; next = s; }
+            if (s.IsValid(ctx) && s.Priority < best)
+            {
+                best = s.Priority; 
+                next = s; 
+            }
 
         _current = next;
         _current?.Execute(ctx);
+        UnityEngine.Debug.Log("Owner:"+ctx.Owner);
+        UnityEngine.Debug.Log("SelfTeam:"+ctx.SelfTeam);
+        UnityEngine.Debug.Log("SelfPos:"+ctx.SelfPos);
+        UnityEngine.Debug.Log("Unpainted:"+ctx.UnpaintedTiles);
     }
 }

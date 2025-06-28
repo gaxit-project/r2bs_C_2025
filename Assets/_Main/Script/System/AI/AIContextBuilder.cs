@@ -10,7 +10,7 @@ public static class AIContextBuilder
         if (MapManager.Instance == null || !MapManager.Instance.IsReady)
             return null;
 
-        Vector2Int selfPos = Vector2Int.RoundToInt(owner.transform.position);
+        Vector2Int selfPos = MapManager.Instance.GetBlockData((int)owner.transform.position.x, (int)owner.transform.position.z).gridPosition;
 
         //“h‚ç‚ê‚Ä‚È‚¢‚Æ‚±Žæ“¾
         var unpaintedTiles = MapManager.Instance.GetUnpaintedTiles(owner.CurrentTeamName);

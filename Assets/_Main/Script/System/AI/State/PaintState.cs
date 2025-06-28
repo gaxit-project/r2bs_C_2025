@@ -6,7 +6,7 @@ public sealed class PaintState : AIStateBase
     public override float Priority => 5f;
 
     private readonly PathFinder _finder;
-    private readonly List<Vector2Int> _path = new();
+    private readonly List<Vector2> _path = new();
     private Vector2Int _target;
 
     public PaintState(PathFinder finder) => _finder = finder;
@@ -15,18 +15,28 @@ public sealed class PaintState : AIStateBase
 
     public override void Execute(AIContext ctx)
     {
+        Debug.Log("‚Ø‚¢‚ñ‚Æ’†");
         // ƒpƒX‚ª–³‚¯‚ê‚ÎV‚µ‚­ì‚é
         if (_path.Count == 0)
         {
             _target = GetNearest(ctx.UnpaintedTiles, ctx.SelfPos);
             var p = _finder.FindPath(ctx.SelfPos, _target);
-            if (p != null) _path.AddRange(p);
+            if (p != null)
+            {
+
+                _path.Clear();
+                foreach (var pathpoint in p)
+                {
+                    _path.Add(new Vector3(pathpoint.x, pathpoint.y));
+                }
+            }
+            Debug.Log(_target);
         }
 
         // Œo˜H‚ği‚Ş
         if (_path.Count > 0)
         {
-            Vector2Int next = _path[0];
+            Vector2 next = _path[0];
             Vector2 dir = new (Mathf.Sign(next.x - ctx.SelfPos.x),Mathf.Sign(next.y - ctx.SelfPos.y));
             ctx.Owner.SetMoveInput(dir);
 
@@ -34,6 +44,7 @@ public sealed class PaintState : AIStateBase
         }
         else
         {
+            Debug.Log("”š’eİ’u‚µ‚Ä‚¢‚¢‚æ‚P‚P‚P‚P‚P");
             ctx.Owner.SetMoveInput(Vector2.zero);
             ctx.Owner.SetBombRequest(true);       // “’B‚µ‚½‚ç”š’e
         }
