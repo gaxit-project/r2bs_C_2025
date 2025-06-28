@@ -55,7 +55,7 @@ public class ItemGenerator : MonoBehaviour
         // ドロップ配列に基づいて出現判定
         if (_dropFlags[_currentDropIndex])
         {
-            Instantiate(_itemPrefab, position + new Vector3(0,0.7f,0), Quaternion.Euler(0,-50,0));
+            Instantiate(_itemPrefab, position + new Vector3(0,0.7f,0), Quaternion.Euler(0,228,0));
         }
 
         _currentDropIndex++; // 呼び出しインデックスを進める
@@ -65,14 +65,17 @@ public class ItemGenerator : MonoBehaviour
     /// 敵を倒したときにアイテムを確定で生成する
     /// （後に経験値計算などに拡張可能な設計）
     /// </summary>
-    public void DropExp(Vector3 position, int enemyLevel, int playerLevel)
+    public void DropExp(Vector3 position, int playerLevel)
     {
         // （仮の経験値計算）
-        int exp = CalcExp(enemyLevel, playerLevel);
+        // int exp = CalcExp(enemyLevel, playerLevel);
+        int exp = playerLevel;
         Debug.Log("経験値獲得: " + exp);
-
+        Debug.Log("経験値をここに生成"+position);
         // positionを受け取って、その場に生成する（同じアイテムを生成するかは未定）
-        Instantiate(_itemPrefab, position, Quaternion.identity);
+
+        
+        Instantiate(_itemPrefab, position + new Vector3(0, 0.7f, 0), Quaternion.Euler(0, 228, 0));
     }
 
     /// <summary>

@@ -119,6 +119,68 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &20151136
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 20151137}
+  m_Layer: 0
+  m_Name: GatiAreaGenerate7
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &20151137
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 20151136}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1243405409}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &114015272
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 114015273}
+  m_Layer: 0
+  m_Name: GatiAreaGenerate4
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &114015273
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 114015272}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1243405409}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &170386803
 GameObject:
   m_ObjectHideFlags: 0
@@ -129,9 +191,9 @@ GameObject:
   m_Component:
   - component: {fileID: 170386806}
   - component: {fileID: 170386805}
-  - component: {fileID: 170386804}
   - component: {fileID: 170386807}
   - component: {fileID: 170386808}
+  - component: {fileID: 170386809}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -139,18 +201,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &170386804
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 170386803}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 75757e414d0fc3547bbc18c9bbaffc56, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &170386805
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -211,6 +261,18 @@ MonoBehaviour:
   _start2: {x: 25, y: 0, z: 57}
   _end1: {x: 25, y: 0, z: 15}
   _end2: {x: 25, y: 0, z: 22}
+--- !u!114 &170386809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 170386803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75757e414d0fc3547bbc18c9bbaffc56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &179867424
 GameObject:
   m_ObjectHideFlags: 0
@@ -361,7 +423,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29c5541f7019d4e4a9317d77b5a8159f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GatiAreaGenerate: {fileID: 1048417293}
+  areaTileMaxCnt: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
+  areaSecuredCnt: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
+  areaHalfCnt: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
+  teamOneAreaCnt: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
+  teamTwoAreaCnt: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
+  isAreaObtained: 00000000000000000000
+  GatiAreaGenerate:
+  - {fileID: 1048417293}
+  - {fileID: 1400238718}
+  - {fileID: 849241539}
+  - {fileID: 473509867}
+  - {fileID: 114015273}
+  - {fileID: 1745953656}
+  - {fileID: 2068494448}
+  - {fileID: 20151137}
+  - {fileID: 1363672700}
+  - {fileID: 2129507502}
 --- !u!4 &298380110
 Transform:
   m_ObjectHideFlags: 0
@@ -628,6 +706,37 @@ MonoBehaviour:
   GatiHokoTileGenerate: {fileID: 384370332}
   GatiHokoObj: {fileID: 179867425}
   generatePrefab: {fileID: 6397725127441859142, guid: c3201bbc939b2a0448e995b7e558221e, type: 3}
+--- !u!1 &473509866
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 473509867}
+  m_Layer: 0
+  m_Name: GatiAreaGenerate3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &473509867
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 473509866}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1243405409}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &656226867
 GameObject:
   m_ObjectHideFlags: 0
@@ -659,6 +768,63 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1243405409}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &823875230
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 167794523001306576, guid: 97df5d93d4f149c438405f719cf2575c, type: 3}
+      propertyPath: m_Name
+      value: DataBase
+      objectReference: {fileID: 0}
+    - target: {fileID: 1247113402034946517, guid: 97df5d93d4f149c438405f719cf2575c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 35.074516
+      objectReference: {fileID: 0}
+    - target: {fileID: 1247113402034946517, guid: 97df5d93d4f149c438405f719cf2575c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1247113402034946517, guid: 97df5d93d4f149c438405f719cf2575c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 18.353096
+      objectReference: {fileID: 0}
+    - target: {fileID: 1247113402034946517, guid: 97df5d93d4f149c438405f719cf2575c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1247113402034946517, guid: 97df5d93d4f149c438405f719cf2575c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1247113402034946517, guid: 97df5d93d4f149c438405f719cf2575c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1247113402034946517, guid: 97df5d93d4f149c438405f719cf2575c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1247113402034946517, guid: 97df5d93d4f149c438405f719cf2575c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1247113402034946517, guid: 97df5d93d4f149c438405f719cf2575c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1247113402034946517, guid: 97df5d93d4f149c438405f719cf2575c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 97df5d93d4f149c438405f719cf2575c, type: 3}
 --- !u!1 &831258784
 GameObject:
   m_ObjectHideFlags: 0
@@ -832,6 +998,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1243405409}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &849241538
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 849241539}
+  m_Layer: 0
+  m_Name: GatiAreaGenerate2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &849241539
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 849241538}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1243405409}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1048417292
 GameObject:
   m_ObjectHideFlags: 0
@@ -842,7 +1039,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1048417293}
   m_Layer: 0
-  m_Name: GatiAreaGenerate
+  m_Name: GatiAreaGenerate0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -897,19 +1094,11 @@ MonoBehaviour:
   - {fileID: 2087431106080161872, guid: 5d25dc7d3efde094ba759861d7aeae6e, type: 3}
   - {fileID: 2087431106080161872, guid: 5d3ef4114f1a4164c8d0906a8a7e1491, type: 3}
   - {fileID: 2087431106080161872, guid: b1dc361b40ecebd46ae73ce7055cf673, type: 3}
-  - {fileID: 2087431106080161872, guid: 83fd698cc4cc12e40b2dc5f2e9d4cb1d, type: 3}
-  - {fileID: 2087431106080161872, guid: 3a948796fad8e83478a2704cfc6b143c, type: 3}
-  - {fileID: 2087431106080161872, guid: 11179e3d6500bc2479a7485987e280e3, type: 3}
-  - {fileID: 2087431106080161872, guid: e8773424c1b7d9a4b8c51fe60c39208d, type: 3}
   TeamTwoTile:
   - {fileID: 2087431106080161872, guid: 13e6abb47f4dc8b4290c6505e6262bc7, type: 3}
   - {fileID: 2087431106080161872, guid: f3c3655de9724ab4ca6dba69b9ad112a, type: 3}
   - {fileID: 2087431106080161872, guid: 8d2b2be3f8efeb94ca04866613292dd7, type: 3}
   - {fileID: 2087431106080161872, guid: de83861b70d7cd049adf462fa88bf7e0, type: 3}
-  - {fileID: 2087431106080161872, guid: 1c52e7d9d15f5664c84f02a62b187adf, type: 3}
-  - {fileID: 2087431106080161872, guid: e51371052fdca5f4c85f84665819ef18, type: 3}
-  - {fileID: 2087431106080161872, guid: b4904a8cc5c8947418402763b9dd7ee3, type: 3}
-  - {fileID: 2087431106080161872, guid: 8f58719ce4714ab46a910bd3936dfe08, type: 3}
   TeamOneTileParent: {fileID: 1211057883}
   TeamTwoTileParent: {fileID: 1077967583}
 --- !u!4 &1057497035
@@ -1372,7 +1561,17 @@ Transform:
   - {fileID: 840774267}
   - {fileID: 278267713}
   - {fileID: 1374619782}
+  - {fileID: 2132604593}
   - {fileID: 1048417293}
+  - {fileID: 1400238718}
+  - {fileID: 849241539}
+  - {fileID: 473509867}
+  - {fileID: 114015273}
+  - {fileID: 1745953656}
+  - {fileID: 2068494448}
+  - {fileID: 20151137}
+  - {fileID: 1363672700}
+  - {fileID: 2129507502}
   - {fileID: 384370332}
   - {fileID: 179867425}
   - {fileID: 1227035183}
@@ -1397,7 +1596,18 @@ MonoBehaviour:
   WallParent: {fileID: 656226868}
   BreakWallParent: {fileID: 840774267}
   StartTileParent: {fileID: 1374619782}
-  GatiAreaTileParent: {fileID: 1048417293}
+  WarpTileParent: {fileID: 2132604593}
+  GatiAreaTileParent:
+  - {fileID: 1048417293}
+  - {fileID: 1400238718}
+  - {fileID: 849241539}
+  - {fileID: 473509867}
+  - {fileID: 114015273}
+  - {fileID: 1745953656}
+  - {fileID: 2068494448}
+  - {fileID: 20151137}
+  - {fileID: 1363672700}
+  - {fileID: 2129507502}
   GatiHokoTileParent: {fileID: 384370332}
   OutMapTileParent: {fileID: 1227035183}
   parentObject:
@@ -1407,6 +1617,7 @@ MonoBehaviour:
   - {fileID: 278267712}
   _groundPrefab:
   - {fileID: 3455758424205611846, guid: f9e316afa553f174f8af4d935fb815e1, type: 3}
+  - {fileID: 3455758424205611846, guid: a090921c87e433c47896827e62881cf4, type: 3}
   _wallPrefab:
   - {fileID: 3848178743019493355, guid: 5957777e73e1cdc4283d16ccfce566be, type: 3}
   - {fileID: 4986391969724115131, guid: 9e71157b0fa8b7641a0f570fbce78aaf, type: 3}
@@ -1477,6 +1688,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1243405409}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1363672699
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1363672700}
+  m_Layer: 0
+  m_Name: GatiAreaGenerate8
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1363672700
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1363672699}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1243405409}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1374619781
 GameObject:
   m_ObjectHideFlags: 0
@@ -1500,6 +1742,37 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1374619781}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1243405409}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1400238717
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1400238718}
+  m_Layer: 0
+  m_Name: GatiAreaGenerate1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1400238718
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1400238717}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -1634,6 +1907,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b1ba5e34a2cb02419485898ff257e8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1745953655
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1745953656}
+  m_Layer: 0
+  m_Name: GatiAreaGenerate5
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1745953656
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1745953655}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1243405409}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1748516195
 GameObject:
   m_ObjectHideFlags: 0
@@ -1748,7 +2052,7 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 2
+    m_Type: 0
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -2011,6 +2315,99 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2019778038}
   m_CullTransparentMesh: 1
+--- !u!1 &2068494447
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2068494448}
+  m_Layer: 0
+  m_Name: GatiAreaGenerate6
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2068494448
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2068494447}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1243405409}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2129507501
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2129507502}
+  m_Layer: 0
+  m_Name: GatiAreaGenerate9
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2129507502
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2129507501}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1243405409}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2132604592
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2132604593}
+  m_Layer: 0
+  m_Name: WarpGateGenerate
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2132604593
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2132604592}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1243405409}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &113684814567917189
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3314,9 +3711,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 4363238059147780217}
-        m_TargetAssemblyTypeName: MainGameManager, Assembly-CSharp
-        m_MethodName: OnQuit
+      - m_Target: {fileID: 170386809}
+        m_TargetAssemblyTypeName: FBSceneManager, Assembly-CSharp
+        m_MethodName: LoadTitleScene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3592,7 +3989,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 170386804}
+      - m_Target: {fileID: 170386809}
         m_TargetAssemblyTypeName: FBSceneManager, Assembly-CSharp
         m_MethodName: LoadTeamSelectScene
         m_Mode: 1
@@ -3642,7 +4039,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Quit
+  m_text: 'ToTitle
 
 '
   m_isRightToLeft: 0
@@ -4234,7 +4631,7 @@ GameObject:
   - component: {fileID: 1554055887088327125}
   - component: {fileID: 3807281822765113301}
   m_Layer: 5
-  m_Name: Quit
+  m_Name: ToTitle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4906,3 +5303,4 @@ SceneRoots:
   - {fileID: 2011756763}
   - {fileID: 1171508708}
   - {fileID: 1160733403}
+  - {fileID: 823875230}

@@ -4,6 +4,7 @@ using System.Globalization;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static MapManager;
+using static UnityEngine.GraphicsBuffer;
 
 public class PlayerBase : MonoBehaviour
 {
@@ -24,6 +25,8 @@ public class PlayerBase : MonoBehaviour
     protected int SpecialBombRange = 0;
     protected float SpecialPlayerSpeed = 1f;
 
+
+    public int playerID;
     protected int playerIndex;
     protected int teamOneIndex;
     protected int teamTwoIndex;
@@ -32,6 +35,8 @@ public class PlayerBase : MonoBehaviour
     [SerializeField] private Animator RedAnimator;
 
     private Animator animator;
+
+    public bool isWarpCoolDown;
 
     // プレイヤーの状態を管理する (0: 生存, 1: 死亡)
 
@@ -74,6 +79,7 @@ public class PlayerBase : MonoBehaviour
         _status = GetComponent<PlayerStatus>();
         _levelManager = GetComponent<LevelManager>();
         SetStatus();
+        playerID = playerIndex;
     }
 
     protected virtual void Update()
@@ -257,7 +263,10 @@ public class PlayerBase : MonoBehaviour
     {
         // 動けなくする（死亡）
         currentState = PlayerState.Death;
-
+        //Vector2 gridPos = MapManager.Instance.WorldToGridPosition(this.transform.position); 
+        Vector2Int pos = MapManager.Instance.GetBlockData((int)this.transform.position.x, (int)this.transform.position.z).gridPosition;
+        Vector3 newPos = new Vector3(pos.x, 0f, pos.y);
+        ItemGenerator.Instance.DropExp(newPos, this.GetComponent<LevelManager>().CurrentLevel);
         // フェードイン処理（仮）
         Debug.Log("Fade In Start");
         Rigidbody rb = GetComponent<Rigidbody>();
@@ -303,6 +312,13 @@ public class PlayerBase : MonoBehaviour
 
         // 動けるようにする（生存）
         currentState = PlayerState.Alive;
+    }
+
+
+
+    public void WarpPosition(Vector3 warpPos)
+    {
+        transform.position = new Vector3(warpPos.x, 0f, warpPos.z);
     }
 
 
@@ -382,9 +398,10 @@ public class PlayerBase : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.transform.tag == "Exp")
+        if(collision.transform.tag == "Exp" && currentState == PlayerState.Alive)
         {
             _levelManager.AddExp(EXP_SIZE);
+            SoundManager.PlaySE("getxp");
             Destroy(collision.gameObject);
         }
     }

@@ -13,8 +13,8 @@ public class FBSceneManager : MonoBehaviour
     public static FBSceneManager Instance;
 
     private void Awake()
-    {
-        Instance = this;
+    { 
+        Instance = this; 
     }
 
     /// <summary>
@@ -23,6 +23,7 @@ public class FBSceneManager : MonoBehaviour
     public void LoadTitleScene()
     {
         Time.timeScale = 1f;
+        SoundManager.StopBgm();
         SceneManager.LoadScene("TitleScene");
     }
 
@@ -32,6 +33,7 @@ public class FBSceneManager : MonoBehaviour
     public void LoadResultScene()
     {
         Time.timeScale = 1f;
+        SoundManager.StopBgm();
         SceneManager.LoadScene("ResultScene");
     }
 
@@ -40,6 +42,7 @@ public class FBSceneManager : MonoBehaviour
     /// </summary>
     public void LoadMainScene()
     {
+        Time.timeScale = 1f;
         StartCoroutine(LoadSceneAsync());
     }
 
@@ -49,6 +52,7 @@ public class FBSceneManager : MonoBehaviour
     public void LoadTeamSelectScene()
     {
         Time.timeScale = 1f;
+        SoundManager.StopBgm();
         SceneManager.LoadScene("TeamSelectScene");
     }
     IEnumerator LoadSceneAsync()
@@ -65,6 +69,8 @@ public class FBSceneManager : MonoBehaviour
         Debug.Log("ì«Ç›çûÇ›äÆóπÅië“ã@íÜÅj");
 
         yield return new WaitForSeconds(1f);
+
+        SoundManager.StopBgm();
 
         asyncLoad.allowSceneActivation = true;
 

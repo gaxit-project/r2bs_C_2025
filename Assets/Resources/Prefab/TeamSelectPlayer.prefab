@@ -263,7 +263,19 @@ MonoBehaviour:
     m_ActionId: 11569548-12ff-47dd-89f9-2fe66df707c2
     m_ActionName: 'Player/TeamSelect[/Keyboard/t]'
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2995259654982147676}
+        m_TargetAssemblyTypeName: TeamSelectScenePlayer, Assembly-CSharp
+        m_MethodName: OnPose
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 963afefe-67ce-4af2-9dcb-eb37d552908e
     m_ActionName: 'Player/Pose[/Keyboard/tab,/XInputControllerWindows/select,/XInputControllerWindows1/select,/XInputControllerWindows2/select]'
   - m_PersistentCalls:
@@ -302,6 +314,54 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 34bb35bc-7d51-4e61-a90f-8bfb6164b8d0
     m_ActionName: 'Player/B[/Keyboard/backspace]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e302df58-0b58-4f4e-b1c7-8297ae6de5b2
+    m_ActionName: 'DebugKey/F1[/Keyboard/f1]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: a9f4e613-ab40-4899-a362-96d245a3374a
+    m_ActionName: 'DebugKey/F2[/Keyboard/f2]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 8a842dd1-b5c7-468a-95c8-2d95a68ec738
+    m_ActionName: 'DebugKey/F3[/Keyboard/f3]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 14396003-2c83-4a99-8ba1-f549be4619c2
+    m_ActionName: 'DebugKey/F4[/Keyboard/f4]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 985eb619-1433-47cf-aa45-900d74a395d9
+    m_ActionName: 'DebugKey/F5[/Keyboard/f5]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b4b3e241-9f0f-47e5-baaa-310b728ef8dd
+    m_ActionName: 'DebugKey/F6[/Keyboard/f6]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 22166961-e5d1-4ba2-bb64-18f98d2b22f0
+    m_ActionName: 'DebugKey/F7[/Keyboard/f7]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e993a3ef-002e-4562-96db-065c2ffd76d7
+    m_ActionName: 'DebugKey/F8[/Keyboard/f8]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 873123fc-be64-46c1-8345-47cc02772f89
+    m_ActionName: 'DebugKey/F9[/Keyboard/f9]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 362c9fde-9b6b-40a9-a07d-dacc0869ed0e
+    m_ActionName: 'DebugKey/F10[/Keyboard/f10]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 5eb8a478-62ba-4200-86d0-5445b526a51a
+    m_ActionName: 'DebugKey/F11[/Keyboard/f11]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 101c2333-8ed7-497a-8a44-890cc014ad90
+    m_ActionName: 'DebugKey/F12[/Keyboard/f12]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
