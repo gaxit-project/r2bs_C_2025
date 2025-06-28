@@ -8,7 +8,7 @@ using UnityEngine;
 public class SoundManager
 {
     //SE‚Ì“¯Ä¶‚Ìƒ`ƒƒƒ“ƒlƒ‹
-    private const int SE_CHANNEL = 5;
+    private const int SE_CHANNEL = 7;
 
     //‰¹—Ê 
     public static float SEVolume = 1f;

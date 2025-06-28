@@ -263,6 +263,7 @@ public class PlayerBase : MonoBehaviour
     {
         // ìÆÇØÇ»Ç≠Ç∑ÇÈÅiéÄñSÅj
         currentState = PlayerState.Death;
+        SoundManager.PlaySE("death");
         //Vector2 gridPos = MapManager.Instance.WorldToGridPosition(this.transform.position); 
         Vector2Int pos = MapManager.Instance.GetBlockData((int)this.transform.position.x, (int)this.transform.position.z).gridPosition;
         Vector3 newPos = new Vector3(pos.x, 0f, pos.y);
