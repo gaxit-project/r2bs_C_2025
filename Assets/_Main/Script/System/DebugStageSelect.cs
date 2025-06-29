@@ -5,7 +5,7 @@ public class DebugStageSelect : MonoBehaviour
 {
     private string stageName;
     private bool areaBool = false;
-    private bool resultBool = true;
+    //private bool resultBool = true;
     public void OnDebugF1()
     {
         stageName = "stage1";

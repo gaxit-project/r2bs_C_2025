@@ -14,12 +14,15 @@ public class GameTimer : MonoBehaviour
     private float _timer; //プライベートタイマー
     public float CurrentTime { get { return _timer; } } //現在の時間を返す(読み取り専用)
 
+    public float StartTime { get { return _startTime; } } //最初の時間を返す(読み取り専用)
+
     private float _mapTimer; //カウントダウン用のタイマー
     public float CountDownTime { get { return _countDownTime; } }
 
     public float meltTime;
 
     public bool _isGameStart = false; //カウントダウンが終わったらプレイ可能にするbool変数 
+
 
     private void Awake()
     {
@@ -28,12 +31,15 @@ public class GameTimer : MonoBehaviour
     }
     private void Update()
     {
+        
         _countDownTime -= Time.deltaTime;
 
         if (_isActiveTime)
         {
             _timer += Time.deltaTime;
         }
+        
+        
     }
 
     /// <summary>
