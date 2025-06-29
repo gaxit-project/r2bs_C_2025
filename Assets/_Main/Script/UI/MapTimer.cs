@@ -1,7 +1,7 @@
 #if UNITY_EDITOR
-using System.Collections;
 using UnityEditor;
 #endif
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
