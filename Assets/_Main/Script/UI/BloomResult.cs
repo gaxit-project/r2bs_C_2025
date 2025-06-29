@@ -32,6 +32,8 @@ public class BloomResult : MonoBehaviour
     private int _redArea;
     private int sumArea;
 
+    private bool _resultBool;
+
     /// <summary>
     /// Resultデータ（ScriptableObject）
     /// </summary>
@@ -44,6 +46,8 @@ public class BloomResult : MonoBehaviour
     ResultDataIO.Load(_ResultData);
 #endif
 
+
+        _resultBool = DataBase.Instance.GetRssultBool();
         _blueTile = _ResultData.blueTile;
         _redTile = _ResultData.redTile;
         sumTile = _blueTile + _redTile;
@@ -64,6 +68,20 @@ public class BloomResult : MonoBehaviour
 
         judge.SetActive(false);
         ResultPanel.SetActive(false);
+        if (_resultBool)
+        {
+            perSlider1.gameObject.SetActive(false);
+            perSlider2.gameObject.SetActive(false);
+            TeamOnePer.gameObject.SetActive(false);
+            TeamTwoPer.gameObject.SetActive(false);
+        }
+        else
+        {
+            cntSlider1.gameObject.SetActive(false);
+            cntSlider2.gameObject.SetActive(false);
+            TeamOneCnt.gameObject.SetActive(false);
+            TeamTwoCnt.gameObject.SetActive(false);
+        }
 
         StartCoroutine(ResultTimeline());
     }
@@ -73,84 +91,99 @@ public class BloomResult : MonoBehaviour
         judge.SetActive(true);
         yield return new WaitForSeconds(2f);
         judge.SetActive(false);
-        Coroutine cr1 = StartCoroutine(BlueTileS());
-        Coroutine cr2 = StartCoroutine(RedTileS());
 
-        yield return cr1; yield return cr2;
+        if (!_resultBool)
+        {
+            Coroutine cr1 = StartCoroutine(BlueTileS());
+            Coroutine cr2 = StartCoroutine(RedTileS());
 
-        if (_blueTile == _redTile)
-        {
-            handle1.SetActive(false);
-            handle2.SetActive(false);
-        }
-        else if (_blueTile > _redTile)
-        {
-            handle2.SetActive(false);
+            yield return cr1; yield return cr2;
+
+            if (_blueTile == _redTile)
+            {
+                handle1.SetActive(false);
+                handle2.SetActive(false);
+            }
+            else if (_blueTile > _redTile)
+            {
+                handle2.SetActive(false);
+            }
+            else
+            {
+                handle1.SetActive(false);
+            }
         }
         else
         {
-            handle1.SetActive(false);
-        }
-
-        Coroutine cr3 = StartCoroutine(BlueAreaS());
-        Coroutine cr4 = StartCoroutine(RedAreaS());
-
-        
-
-        yield return cr3; yield return cr4;
-
-        if (_blueArea == _redArea)
-        {
-            handle3.SetActive(false);
-            handle4.SetActive(false);
-        }
-        else if (_blueArea > _redArea)
-        {
-            handle4.SetActive(false);
-        }
-        else
-        {
-            handle3.SetActive(false);
-        }
 
 
-        if (_blueTile == _redTile)
-        {
-            Winner.text = "Draw";
-            Winner.color = Color.white;
-        }
-        else if (_blueTile > _redTile)
-        {
-            Winner.text = "TeamBlueWin";
-            Winner.color = Color.blue;
-        }
-        else
-        {
-            Winner.text = "TeamRedWin";
-            Winner.color = Color.red;
+
+            Coroutine cr3 = StartCoroutine(BlueAreaS());
+            Coroutine cr4 = StartCoroutine(RedAreaS());
+
+
+
+            yield return cr3; yield return cr4;
+
+            if (_blueArea == _redArea)
+            {
+                handle3.SetActive(false);
+                handle4.SetActive(false);
+            }
+            else if (_blueArea > _redArea)
+            {
+                handle4.SetActive(false);
+            }
+            else
+            {
+                handle3.SetActive(false);
+            }
         }
 
-        yield return new WaitForSeconds(3f);
+        if (!_resultBool)
+        {
+            if (_blueTile == _redTile)
+            {
+                Winner.text = "Draw";
+                Winner.color = Color.white;
+            }
+            else if (_blueTile > _redTile)
+            {
+                Winner.text = "TeamBlueWin";
+                Winner.color = Color.blue;
+            }
+            else
+            {
+                Winner.text = "TeamRedWin";
+                Winner.color = Color.red;
+            }
+        }
 
-        if (_blueArea == _redArea)
+        //yield return new WaitForSeconds(3f);
+
+        if (_resultBool)
         {
-            Winner.text = "Draw";
-            Winner.color = Color.white;
-        }
-        else if (_blueArea > _redArea)
-        {
-            Winner.text = "TeamBlueWin";
-            Winner.color = Color.blue;
-        }
-        else
-        {
-            Winner.text = "TeamRedWin";
-            Winner.color = Color.red;
+            if (_blueArea == _redArea)
+            {
+                Winner.text = "Draw";
+                Winner.color = Color.white;
+            }
+            else if (_blueArea > _redArea)
+            {
+                Winner.text = "TeamBlueWin";
+                Winner.color = Color.blue;
+            }
+            else
+            {
+                Winner.text = "TeamRedWin";
+                Winner.color = Color.red;
+            }
         }
 
         yield return new WaitForSeconds(1f);
-
+        
         ResultPanel.SetActive(true);
+        
 
 
     }
@@ -195,7 +228,7 @@ public class BloomResult : MonoBehaviour
         {
             perSlider1.value = i;
             TeamOnePer.text = i.ToString();
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSeconds(0.01f);
         }
     }
 
@@ -205,7 +238,7 @@ public class BloomResult : MonoBehaviour
         {
             perSlider2.value = i;
             TeamTwoPer.text = i.ToString();
-            yield return new WaitForSeconds(0.05f);
+            yield return new WaitForSeconds(0.01f);
         }
     }
 

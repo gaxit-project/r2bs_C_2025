@@ -34,6 +34,7 @@ public class FBSceneManager : MonoBehaviour
     public void LoadResultScene()
     {
         Time.timeScale = 1f;
+        GameTimer.instance.StopTimer();
         SoundManager.StopBgm();
         if(gameset == false)
         {

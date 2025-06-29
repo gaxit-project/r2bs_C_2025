@@ -532,7 +532,31 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1155057824}
         m_TargetAssemblyTypeName: DebugStageSelect, Assembly-CSharp
-        m_MethodName: OnDebugF1
+        m_MethodName: OnDebugF5
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1155057824}
+        m_TargetAssemblyTypeName: DebugStageSelect, Assembly-CSharp
+        m_MethodName: OnDebugF14
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1155057824}
+        m_TargetAssemblyTypeName: DebugStageSelect, Assembly-CSharp
+        m_MethodName: OnDebugF15
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -548,7 +572,31 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1155057824}
         m_TargetAssemblyTypeName: DebugStageSelect, Assembly-CSharp
-        m_MethodName: OnDebugF2
+        m_MethodName: OnDebugF4
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1155057824}
+        m_TargetAssemblyTypeName: DebugStageSelect, Assembly-CSharp
+        m_MethodName: OnDebugF14
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1155057824}
+        m_TargetAssemblyTypeName: DebugStageSelect, Assembly-CSharp
+        m_MethodName: OnDebugF16
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -564,7 +612,31 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1155057824}
         m_TargetAssemblyTypeName: DebugStageSelect, Assembly-CSharp
-        m_MethodName: OnDebugF3
+        m_MethodName: OnDebugF4
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1155057824}
+        m_TargetAssemblyTypeName: DebugStageSelect, Assembly-CSharp
+        m_MethodName: OnDebugF13
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1155057824}
+        m_TargetAssemblyTypeName: DebugStageSelect, Assembly-CSharp
+        m_MethodName: OnDebugF16
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
