@@ -330,7 +330,7 @@ public class PlayerBase : MonoBehaviour
     /// <param name="blockData"></param>
     protected void BombPlacement(MapBlockData blockData)
     {
-        if (!MapManager.Instance.GetBlockData(blockData.gridPosition.x, blockData.gridPosition.y).isBomb)
+        if (!MapManager.Instance.GetBlockData(blockData.gridPosition.x, blockData.gridPosition.y).isBombÅ@&& MapManager.Instance.GetBlockData(blockData.gridPosition.x, blockData.gridPosition.y).name != "WarpRLObject" && MapManager.Instance.GetBlockData(blockData.gridPosition.x, blockData.gridPosition.y).name != "WarpUDObject")
         {
             Vector3 position = blockData.tilePosition;
 

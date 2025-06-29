@@ -25,6 +25,12 @@ public class WarpGate : MonoBehaviour
         }
     }
 
+
+    private void Update()
+    {
+        BloomEffect.Instance.CreateSpiralEffect2(this.transform.position, typeId);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("TeamOne") || other.CompareTag("TeamTwo"))
@@ -37,7 +43,7 @@ public class WarpGate : MonoBehaviour
                 // ワープ先を探す
                 for (int i = 0; i < parentObj.childCount; i++)
                 {
-                    WarpGate gate = parentObj.GetChild(i).GetComponent<WarpGate>();
+                    WarpGate gate = parentObj.GetChild(i).GetComponentInChildren<WarpGate>();
                     if (gate.groupId == warpID && gate.typeId == this.typeId)
                     {
                         // ワープ処理
@@ -65,7 +71,7 @@ public class WarpGate : MonoBehaviour
     {
         for (int i = 0; i < parentObj.childCount; i++)
         {
-            WarpGate gate = parentObj.GetChild(i).GetComponent<WarpGate>();
+            WarpGate gate = parentObj.GetChild(i).GetComponentInChildren<WarpGate>();
             gate.StartCoroutine(gate.ShowCountdown(playerId, 5));
         }
         yield return null;

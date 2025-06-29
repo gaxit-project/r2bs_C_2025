@@ -161,16 +161,16 @@ public class MapManager : MonoBehaviour
 
                     // 左右ワープゲート
                     case 5:
-                        position = new Vector3(reversedX * _tileSize + _tileSize / 2f, 1f, y * _tileSize + _tileSize / 2f);
+                        position = new Vector3(reversedX * _tileSize + _tileSize / 2f, -0.5f, y * _tileSize + _tileSize / 2f);
                         name = "WarpRLObject";
                         isWalkable = true;
-                        generatePrefab = _groundPrefab[1];
+                        generatePrefab = _groundPrefab[2];
                         CreateMap(generatePrefab, WarpTileParent, x, y, key, name, type, isWalkable, position);
                         break;
 
                     // 上下ワープゲート
                     case 6:
-                        position = new Vector3(reversedX * _tileSize + _tileSize / 2f, 1f, y * _tileSize + _tileSize / 2f);
+                        position = new Vector3(reversedX * _tileSize + _tileSize / 2f, -0.5f, y * _tileSize + _tileSize / 2f);
                         name = "WarpUDObject";
                         isWalkable = true;
                         generatePrefab = _groundPrefab[1];
@@ -276,7 +276,7 @@ public class MapManager : MonoBehaviour
                 rot = Quaternion.Euler(0f, -90f, 0f);
             }
             obj = Instantiate(prefaba, position, rot, parentName);
-            var warpScript = obj.GetComponent<WarpGate>();
+            var warpScript = obj.GetComponentInChildren<WarpGate>();
             warpScript.groupId = type;
             warpScript.typeId = 0;
             warpScript.myGridPosition = position;
@@ -284,7 +284,7 @@ public class MapManager : MonoBehaviour
         else if (name == "WarpUDObject")
         {
             obj = Instantiate(prefaba, position, Quaternion.identity, parentName);
-            var warpScript = obj.GetComponent<WarpGate>();
+            var warpScript = obj.GetComponentInChildren<WarpGate>();
             warpScript.groupId = type;
             warpScript.typeId = 1;
             warpScript.myGridPosition = position;
