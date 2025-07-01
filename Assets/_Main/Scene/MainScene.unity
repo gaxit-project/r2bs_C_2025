@@ -336,18 +336,20 @@ MonoBehaviour:
   flowerMaterial:
   - {fileID: 2100000, guid: 81e4cbecf81eb684a8f659639eef46a3, type: 2}
   - {fileID: 2100000, guid: a7939ab02ba0e7a498e2603de472eaf1, type: 2}
+  - {fileID: 2100000, guid: 3d828de9dcae89d449d80d199a68dfb7, type: 2}
+  - {fileID: 2100000, guid: a0686cd7280e4e540a614aae66c74da5, type: 2}
   bloomDuration: 0.4
   bloomSpeed: 2
   bloomSize: 0.75
   bloomPetals: 3
-  warpDuration: 2
+  warpDuration: 0.4
   warpSpeed: 1
-  warpSize: 0.75
-  warpPetals: 20
-  deadDuration: 2
+  warpSize: 0.3
+  warpPetals: 1
+  deadDuration: 0.4
   deadSpeed: 1
-  deadSize: 0.75
-  deadPetals: 20
+  deadSize: 0.3
+  deadPetals: 1
 --- !u!4 &248851735
 Transform:
   m_ObjectHideFlags: 0
@@ -927,7 +929,7 @@ Camera:
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 247
+    m_Bits: 2295
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 8400000, guid: b78fa44a6647b414186b0995d96ef6f8, type: 2}
   m_TargetDisplay: 0
@@ -1617,7 +1619,8 @@ MonoBehaviour:
   - {fileID: 278267712}
   _groundPrefab:
   - {fileID: 3455758424205611846, guid: f9e316afa553f174f8af4d935fb815e1, type: 3}
-  - {fileID: 3455758424205611846, guid: a090921c87e433c47896827e62881cf4, type: 3}
+  - {fileID: 2087431106080161872, guid: db8b34db84df8de44868dd390fab7f88, type: 3}
+  - {fileID: 2087431106080161872, guid: 95f7116c16d20574d97b0000172e4167, type: 3}
   _wallPrefab:
   - {fileID: 3848178743019493355, guid: 5957777e73e1cdc4283d16ccfce566be, type: 3}
   - {fileID: 4986391969724115131, guid: 9e71157b0fa8b7641a0f570fbce78aaf, type: 3}

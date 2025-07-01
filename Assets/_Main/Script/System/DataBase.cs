@@ -5,6 +5,7 @@ public class DataBase : MonoBehaviour
 {
     private string stageName = "stage5";
     private bool areaBool = false;
+    private bool resultBool = true;
 
     /// <summary>
     /// シングルトンインスタンス
@@ -41,5 +42,15 @@ public class DataBase : MonoBehaviour
     public bool GetAreaBool()
     {
         return areaBool;
+    }
+
+    public void SetResultBool(bool resultBool)
+    {
+        this.resultBool = resultBool; 
+    }
+
+    public bool GetRssultBool()
+    {
+        return resultBool;
     }
 }

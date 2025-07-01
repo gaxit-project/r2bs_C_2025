@@ -5,6 +5,7 @@ public class DebugStageSelect : MonoBehaviour
 {
     private string stageName;
     private bool areaBool = false;
+    //private bool resultBool = true;
     public void OnDebugF1()
     {
         stageName = "stage1";
@@ -72,5 +73,29 @@ public class DebugStageSelect : MonoBehaviour
             Debug.Log("Area:Off");
         }
         DataBase.Instance.SetAreaBool(areaBool);
+    }
+
+    public void OnDebugF13()
+    {
+        DataBase.Instance.SetAreaBool(true);
+        Debug.Log("Area:On");
+    }
+
+    public void OnDebugF14()
+    {
+        DataBase.Instance.SetAreaBool(false);
+        Debug.Log("Area:Off");
+    }
+
+    public void OnDebugF15()
+    {
+        DataBase.Instance.SetResultBool(true);
+        Debug.Log("gatieria");
+    }
+
+    public void OnDebugF16()
+    {
+        DataBase.Instance.SetResultBool(false);
+        Debug.Log("nawabari");
     }
 }

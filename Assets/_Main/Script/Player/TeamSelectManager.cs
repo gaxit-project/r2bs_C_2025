@@ -3,10 +3,13 @@ using UnityEditor;
 #endif
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class TeamSelectManager : MonoBehaviour
 {
     private PlayerTeamData _playerData;
+
+    public Button startButton;
 
     private void Start()
     {
@@ -65,6 +68,7 @@ public class TeamSelectManager : MonoBehaviour
         }
         if (isSelectTeam)
         {
+            startButton.interactable = false;
             FBSceneManager.Instance.LoadMainScene();
         }
     }

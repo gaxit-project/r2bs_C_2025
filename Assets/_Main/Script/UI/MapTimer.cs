@@ -1,6 +1,7 @@
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,7 +23,7 @@ public class MapTimer : MonoBehaviour
             Debug.LogError("GameTimer オブジェクトが見つかりません。タグを確認してください。");
         }
 
-        _mapTimerImage.fillAmount = 1f; //Imageを全て表示させる
+        StartCoroutine(PreTimer()); //Imageを全て表示させる
 
         // Resources フォルダからResultデータを読み込む
         _ResultData = Resources.Load<ResultData>("ResultData");
@@ -56,6 +57,15 @@ public class MapTimer : MonoBehaviour
 
             // リザルトシーンへ移動
             FBSceneManager.Instance.LoadResultScene();
+        }
+    }
+
+    private IEnumerator PreTimer()
+    {
+        for (int i = 0; i < GameTimer.instance.StartTime; i++)
+        {
+            _mapTimerImage.fillAmount = i / GameTimer.instance.StartTime;
+            yield return new WaitForSeconds(0.001f);
         }
     }
 }

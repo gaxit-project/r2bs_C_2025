@@ -125,7 +125,7 @@ public class BloomEffect : MonoBehaviour
     }
 
 
-    void CreateSpiralEffect(Vector3 position)
+    public void CreateSpiralEffect(Vector3 position)
     {
         GameObject spiral = new GameObject("SpiralEffect");
         spiral.transform.position = position;
@@ -158,11 +158,68 @@ public class BloomEffect : MonoBehaviour
         force.z = new ParticleSystem.MinMaxCurve(-position.z * 0.5f);
 
         var renderer = ps.GetComponent<ParticleSystemRenderer>();
-        renderer.material = flowerMaterial[0];
+        renderer.material = flowerMaterial[2];
 
         ps.Emit(warpPetals);
         Destroy(spiral, warpDuration);
     }
+
+
+
+
+    /// <summary>
+    /// 真上にくるくる舞う花びらエフェクト
+    /// </summary>
+    public void CreateSpiralEffect2(Vector3 position, int typeID)
+    {
+        GameObject spiral = new GameObject("FloatingPetalsEffect");
+        spiral.transform.position = position + new Vector3(0, 0, 0); // 頭上で発生
+
+        var ps = spiral.AddComponent<ParticleSystem>();
+        var main = ps.main;
+        main.startLifetime = 3f;
+        main.startSpeed = new ParticleSystem.MinMaxCurve(warpSpeed * 0.5f); // ゆっくり浮遊
+        main.startSize = new ParticleSystem.MinMaxCurve(warpSize * 0.5f);
+        main.loop = false;
+        main.maxParticles = warpPetals;
+        main.simulationSpace = ParticleSystemSimulationSpace.World;
+        main.playOnAwake = false;
+        main.gravityModifier = new ParticleSystem.MinMaxCurve(-0.1f); // ふわっと浮く
+
+        // 小さな空間から発生
+        var shape = ps.shape;
+        shape.shapeType = ParticleSystemShapeType.Sphere;
+        shape.radius = 0.3f;
+
+        // 回転運動と上昇（MinMaxCurveでモード統一）
+        var velocity = ps.velocityOverLifetime;
+        velocity.enabled = true;
+        velocity.space = ParticleSystemSimulationSpace.World;
+        velocity.orbitalY = new ParticleSystem.MinMaxCurve(warpSpeed);   // Y軸回転
+        velocity.y = new ParticleSystem.MinMaxCurve(0.5f);               // 上昇
+
+        // ランダムな風のような動き
+        var force = ps.forceOverLifetime;
+        force.enabled = true;
+        force.x = new ParticleSystem.MinMaxCurve(-0.3f, 0.3f);
+        force.z = new ParticleSystem.MinMaxCurve(-0.3f, 0.3f);
+
+        // 描画設定
+        var renderer = ps.GetComponent<ParticleSystemRenderer>();
+        if (typeID == 0)
+        {
+            renderer.material = flowerMaterial != null && flowerMaterial.Length > 2 ? flowerMaterial[2] : null;
+        }
+        else
+        {
+            renderer.material = flowerMaterial != null && flowerMaterial.Length > 2 ? flowerMaterial[3] : null;
+        }
+        renderer.renderMode = ParticleSystemRenderMode.Billboard;
+
+        ps.Emit(warpPetals);
+        Destroy(spiral, warpDuration);
+    }
+
 
 
 
