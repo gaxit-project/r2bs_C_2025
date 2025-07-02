@@ -49,6 +49,7 @@ public class LevelManager : MonoBehaviour
     {
         while (true)
         {
+            if (CurrentLevel >= 10) return;
             //必要経験値取得
             var exp = _expData.ExpTable.Find(e => e.Level == CurrentLevel);
             PlayerUI.addNeedExp(exp.ExpToNextLevel);
