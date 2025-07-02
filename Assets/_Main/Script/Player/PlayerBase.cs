@@ -118,8 +118,6 @@ public class PlayerBase : MonoBehaviour
         }
     }
 
-
-
     /// <summary>
     /// プレイヤーの現在いるマップタイルの情報を取得
     /// </summary>
@@ -163,9 +161,6 @@ public class PlayerBase : MonoBehaviour
         }
     }
 
-
-
-
     //爆弾設置
     public virtual void OnBomb(InputAction.CallbackContext context)
     {
@@ -190,9 +185,6 @@ public class PlayerBase : MonoBehaviour
         if (!context.performed) return;
         MainGameManager.instance.OnSwithPosw();
     }
-
-
-
 
 
     //プレイヤーの移動
@@ -424,5 +416,10 @@ public class PlayerBase : MonoBehaviour
         SpecialBombCnt = 0;
         SpecialBombRange = 0;
         SpecialPlayerSpeed = 1f;
+    }
+
+    public void RespawnPlayer()
+    {
+        Respawn();
     }
 }

@@ -31,7 +31,7 @@ public class BloomHitJudgment : MonoBehaviour
         if(other.tag == "TeamOne" && _teamName == Team.TeamTwo)
         {
             GameObject obj = other.gameObject;
-            PlayerController PC = obj.GetComponent<PlayerController>();
+            PlayerBase PC = obj.GetComponent<PlayerBase>();
             PC.InitSpecialStatus();
             PC.RespawnPlayer();
         }
