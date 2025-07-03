@@ -15,6 +15,8 @@ public sealed class AIController : PlayerBase
         StandardBomb = Resources.Load<GameObject>("Prefab/StandardBomb");
         GameObject bombParentObj = GameObject.Find("BombGenerate");
         BombParent = bombParentObj.transform;
+        playerIndex = GameObject.FindGameObjectsWithTag("TeamOne").Length + GameObject.FindGameObjectsWithTag("TeamTwo").Length; ;
+        AITeamTag();
         TeamSplit();            // Tag Ç™ ÅgTeamOneÅh Ç© ÅgTeamTwoÅh Ç≈åƒÇŒÇÍÇÈ
         InitSpecialStatus();
     }
@@ -46,6 +48,18 @@ public sealed class AIController : PlayerBase
 
         var block = CatchPlayerPos();         // PlayerBase ÇÃ protected ÉÅÉ\ÉbÉh
         if (block != null) BombPlacement(block);
+    }
+
+    private void AITeamTag()
+    {
+        if (GameObject.FindGameObjectsWithTag("TeamOne").Length < 2)
+        {
+            this.gameObject.tag = "TeamOne";
+        }
+        else
+        {
+            this.gameObject.tag = "TeamTwo";
+        }
     }
 
 }

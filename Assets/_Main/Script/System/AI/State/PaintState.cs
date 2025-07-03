@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.UI.GridLayoutGroup;
 
 public sealed class PaintState : AIStateBase
 {
@@ -17,13 +18,13 @@ public sealed class PaintState : AIStateBase
     {
         Debug.Log("ぺいんと中");
         // パスが無ければ新しく作る
-        if (_path.Count == 0)
+        if (_path.Count == 0 || ctx.isDead)
         {
+            Debug.Log("パス更新");
             _target = GetNearest(ctx.UnpaintedTiles, ctx.SelfPos);
             var p = _finder.FindPath(ctx.SelfPos, _target);
             if (p != null)
             {
-
                 _path.Clear();
                 foreach (var pathpoint in p)
                 {
@@ -64,5 +65,7 @@ public sealed class PaintState : AIStateBase
         }
         return best;
     }
+
+    
 
 }

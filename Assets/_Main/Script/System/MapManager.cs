@@ -3,6 +3,7 @@ using System.Globalization;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
+using static UnityEngine.UI.GridLayoutGroup;
 
 public class MapManager : MonoBehaviour
 {
@@ -499,7 +500,7 @@ public class MapManager : MonoBehaviour
                 if (block.instance != null && block.instance.layer == selfLayer) continue;
 
                 // ここまで来たら「未塗り」扱い
-                unpainted.Add(new Vector2Int(x, y));
+                unpainted.Add(GetBlockData((int)x, (int)y).gridPosition);
             }
         }
         return unpainted;
@@ -519,7 +520,7 @@ public class MapManager : MonoBehaviour
     public bool drawUnpaintedGizmos = true;   // Inspector で ON/OFF
     public Color teamOneColor = new(0f, 1f, 1f, 0.35f);   // シアン
     public Color teamTwoColor = new(1f, 0.4f, 0.2f, 0.35f); // コーラル
-    public Team mainTeam = Team.TeamTwo;
+    public Team mainTeam = Team.TeamOne;
 
 #if UNITY_EDITOR
     private void OnDrawGizmos()
@@ -529,7 +530,7 @@ public class MapManager : MonoBehaviour
         Team targetTeam = mainTeam;
         List<Vector2Int> list = GetUnpaintedTiles(targetTeam);
 
-        Color col = targetTeam == mainTeam ? teamTwoColor : teamOneColor;
+        Color col = targetTeam == mainTeam ? teamOneColor : teamTwoColor;
         Color edge = new(col.r, col.g, col.b, 1f);
 
         foreach (var gp in list)
