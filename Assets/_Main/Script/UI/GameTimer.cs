@@ -1,4 +1,5 @@
 #if UNITY_EDITOR
+using System.Collections;
 using TMPro.EditorUtilities;
 #endif
 using UnityEngine;
@@ -22,17 +23,25 @@ public class GameTimer : MonoBehaviour
     public float meltTime;
 
     public bool _isGameStart = false; //カウントダウンが終わったらプレイ可能にするbool変数 
+    public bool _isrule = true; //ルール説明終わったらカウントダウンするコード 
+
+    [SerializeField] GameObject rule1;
+    [SerializeField] GameObject rule2;
 
 
     private void Awake()
     {
         instance = this;
+        Rule();
         _mapTimer = _startTime; //マップタイマーの初期値を代入
     }
     private void Update()
     {
         
-        _countDownTime -= Time.deltaTime;
+        if(!_isrule)
+        {
+            _countDownTime -= Time.deltaTime;
+        }
 
         if (_isActiveTime)
         {
@@ -40,6 +49,19 @@ public class GameTimer : MonoBehaviour
         }
         
         
+    }
+
+    public void Rule()
+    {
+        _isrule = true;
+        rule1.SetActive(true);
+        StartCoroutine(RuleStop());
+    }
+    IEnumerator RuleStop()
+    {
+        yield return new WaitForSeconds(5f);
+        rule1.SetActive(false);
+        _isrule = false;
     }
 
     /// <summary>
