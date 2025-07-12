@@ -32,7 +32,7 @@ public class GameTimer : MonoBehaviour
     private void Awake()
     {
         instance = this;
-        Rule();
+       
         _mapTimer = _startTime; //マップタイマーの初期値を代入
     }
     private void Update()
@@ -51,8 +51,15 @@ public class GameTimer : MonoBehaviour
         
     }
 
+    private void Start()
+    {
+        Rule();
+    }
+
     public void Rule()
     {
+        _countDownTime = 3;
+        SoundManager.PlaySE("start");
         _isrule = true;
         rule1.SetActive(true);
         StartCoroutine(RuleStop());
