@@ -3764,12 +3764,20 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6480352094608793282, guid: 62647b9c8ec24a3448a915429a259dae, type: 3}
+      propertyPath: rule1
+      value: 
+      objectReference: {fileID: 729797375}
+    - target: {fileID: 6480352094608793282, guid: 62647b9c8ec24a3448a915429a259dae, type: 3}
+      propertyPath: rule2
+      value: 
+      objectReference: {fileID: 1910299078}
+    - target: {fileID: 6480352094608793282, guid: 62647b9c8ec24a3448a915429a259dae, type: 3}
       propertyPath: _startTime
       value: 240
       objectReference: {fileID: 0}
     - target: {fileID: 6480352094608793282, guid: 62647b9c8ec24a3448a915429a259dae, type: 3}
       propertyPath: _countDownTime
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
