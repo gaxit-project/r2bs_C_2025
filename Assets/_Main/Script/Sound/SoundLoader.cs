@@ -47,8 +47,11 @@ public class SoundLoader : MonoBehaviour
             string file = parts[2].Trim();
             string channelStr = parts.Length > 3 ? parts[3].Trim() : "";
 
-            int channel = -1;
-            int.TryParse(channelStr, out channel);
+            if(!int.TryParse(channelStr, out int channel))
+            {
+                Debug.LogWarning("channel‚Ì”’l‚ğ³‚µ‚­æ“¾‚Å‚«‚Ü‚¹‚ñ");
+                channel = -1;
+            }
 
             Debug.Log($"[{i}] key:{key}, type:{type}, file:{file}, channel:{channel}");
 

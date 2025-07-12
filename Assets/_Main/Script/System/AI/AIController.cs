@@ -12,20 +12,18 @@ public sealed class AIController : PlayerBase
 
     private void Awake()
     {
-
         StandardBomb = Resources.Load<GameObject>("Prefab/StandardBomb");
-        BombParent = GameObject.Find("BombGenerate").transform;
-
-        
+        GameObject bombParentObj = GameObject.Find("BombGenerate");
+        BombParent = bombParentObj.transform;
+        playerIndex = GameObject.FindGameObjectsWithTag("TeamOne").Length + GameObject.FindGameObjectsWithTag("TeamTwo").Length; ;
+        AITeamTag();
+        TeamSplit();            // Tag ‚ª gTeamOneh ‚© gTeamTwoh ‚ÅŒÄ‚Î‚ê‚é
+        InitSpecialStatus();
     }
 
     protected override void Start()
     {
         base.Start();
-        _stateManager = new AIStateManager(this);
-        TeamSplit();            // Tag ‚ª gTeamOneh ‚© gTeamTwoh ‚ÅŒÄ‚Î‚ê‚é
-        InitSpecialStatus();
-
         _stateManager = new AIStateManager(this);
     }
     /// <summary>
@@ -50,6 +48,18 @@ public sealed class AIController : PlayerBase
 
         var block = CatchPlayerPos();         // PlayerBase ‚Ì protected ƒƒ\ƒbƒh
         if (block != null) BombPlacement(block);
+    }
+
+    private void AITeamTag()
+    {
+        if (GameObject.FindGameObjectsWithTag("TeamOne").Length < 2)
+        {
+            this.gameObject.tag = "TeamOne";
+        }
+        else
+        {
+            this.gameObject.tag = "TeamTwo";
+        }
     }
 
 }

@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.UI.GridLayoutGroup;
 
 public sealed class PaintState : AIStateBase
 {
     public override float Priority => 5f;
 
     private readonly PathFinder _finder;
-    private readonly List<Vector2Int> _path = new();
+    private readonly List<Vector2> _path = new();
     private Vector2Int _target;
 
     public PaintState(PathFinder finder) => _finder = finder;
@@ -15,26 +16,36 @@ public sealed class PaintState : AIStateBase
 
     public override void Execute(AIContext ctx)
     {
+        Debug.Log("ÇÿÇ¢ÇÒÇ∆íÜ");
         // ÉpÉXÇ™ñ≥ÇØÇÍÇŒêVÇµÇ≠çÏÇÈ
-        if (_path.Count == 0)
+        if (_path.Count == 0 || ctx.isDead)
         {
+            Debug.Log("ÉpÉXçXêV");
             _target = GetNearest(ctx.UnpaintedTiles, ctx.SelfPos);
             var p = _finder.FindPath(ctx.SelfPos, _target);
-            if (p != null) _path.AddRange(p);
+            if (p != null)
+            {
+                _path.Clear();
+                foreach (var pathpoint in p)
+                {
+                    _path.Add(new Vector3(pathpoint.x, pathpoint.y));
+                }
+            }
+            Debug.Log(_target);
         }
 
         // åoòHÇêiÇﬁ
         if (_path.Count > 0)
         {
-            Vector2Int next = _path[0];
-            Vector2 dir = new Vector2(Mathf.Sign(next.x - ctx.SelfPos.x),
-                                      Mathf.Sign(next.y - ctx.SelfPos.y));
+            Vector2 next = _path[0];
+            Vector2 dir = new (Mathf.Sign(next.x - ctx.SelfPos.x),Mathf.Sign(next.y - ctx.SelfPos.y));
             ctx.Owner.SetMoveInput(dir);
 
             if (ctx.SelfPos == next) _path.RemoveAt(0);
         }
         else
         {
+            Debug.Log("îöíeê›íuÇµÇƒÇ¢Ç¢ÇÊÇPÇPÇPÇPÇP");
             ctx.Owner.SetMoveInput(Vector2.zero);
             ctx.Owner.SetBombRequest(true);       // ìûíBÇµÇΩÇÁîöíe
         }
@@ -54,5 +65,7 @@ public sealed class PaintState : AIStateBase
         }
         return best;
     }
+
+    
 
 }

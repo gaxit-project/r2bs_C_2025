@@ -11,4 +11,5 @@ public sealed class AIContext
     public Team SelfTeam { get; set; }      //Š‘®ƒ`[ƒ€–¼  
     public IReadOnlyList<Vector2Int> UnpaintedTiles { get; set; }   //“h‚ç‚ê‚Ä‚¢‚È‚¢êŠ
     public int BombRange { get; set; }                              //ƒ{ƒ€Ë’ö  
+    public bool isDead { get; set; }                                //€–S‚µ‚Ä‚¢‚é‚©
 }

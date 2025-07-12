@@ -10,10 +10,12 @@ public static class AIContextBuilder
         if (MapManager.Instance == null || !MapManager.Instance.IsReady)
             return null;
 
-        Vector2Int selfPos = Vector2Int.RoundToInt(owner.transform.position);
+        Vector2Int selfPos = MapManager.Instance.GetBlockData((int)owner.transform.position.x, (int)owner.transform.position.z).gridPosition;
 
         //“h‚ç‚ê‚Ä‚È‚¢‚Æ‚±Žæ“¾
         var unpaintedTiles = MapManager.Instance.GetUnpaintedTiles(owner.CurrentTeamName);
+
+        var isDead = PlayerBase.PlayerState.Death == owner.GetComponent<PlayerBase>().currentState;
 
         return new AIContext
         {
@@ -21,7 +23,8 @@ public static class AIContextBuilder
             SelfPos = selfPos,
             SelfTeam = owner.CurrentTeamName,
             UnpaintedTiles = unpaintedTiles,
-            BombRange = 1 // Žb’è
+            BombRange = 1, // Žb’è
+            isDead = isDead,
         };
     }
 }

@@ -24,14 +24,6 @@ public class PlayerController : PlayerBase
 
         Camera playerCam = GetComponentInChildren<Camera>();
         playerCam.cullingMask = LayerMask.GetMask("Default", "TransparentFX", "ignore RayCast", "Water", "UI", "TeamOneTile", "TeamTwoTile", "Player", "Back", "Player" + (playerIndex + 1) +"UI");
-    }
-
-    public void RespawnPlayer()
-    {
-        Respawn();
-    }
-
-
-    
+    }  
 
 }

@@ -3,6 +3,7 @@ using System.Globalization;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
+using static UnityEngine.UI.GridLayoutGroup;
 
 public class MapManager : MonoBehaviour
 {
@@ -477,18 +478,71 @@ public class MapManager : MonoBehaviour
 
     public List<Vector2Int> GetUnpaintedTiles(Team team)
     {
-        var list = new List<Vector2Int>();
+        var unpainted = new List<Vector2Int>();
+
+        // 自チームが使うレイヤー番号を取得
+        int selfLayer = LayerMask.NameToLayer(team == Team.TeamOne ? "TeamOneTile" : "TeamTwoTile");
+
         for (int y = 0; y < _height; y++)
         {
             for (int x = 0; x < _width; x++)
             {
-                if (_mapGrid[x, y].isWalkable)
-                {
-                    list.Add(new Vector2Int(x, y));
-                }
+                MapBlockData block = _mapGrid[x, y];
+
+                // 歩行不可ならスキップ
+                if (!block.isWalkable) continue;
+
+                // 指定 3 種のタイル以外はスキップ
+                string n = block.name;
+                if (_cantPaint(n)) continue;
+
+                // 既に自チームで塗ってあるならスキップ
+                if (block.instance != null && block.instance.layer == selfLayer) continue;
+
+                // ここまで来たら「未塗り」扱い
+                unpainted.Add(GetBlockData((int)x, (int)y).gridPosition);
             }
         }
-        return list;
+        return unpainted;
     }
 
+    private bool _cantPaint(string blockName)
+    {
+        if (blockName != "GroundObject" 
+                && blockName != "GatiAreaObject" 
+                    && blockName != "GatiHokoObject")
+            return true;
+        else
+            return false;
+    }
+
+    [Header("Debug")]
+    public bool drawUnpaintedGizmos = true;   // Inspector で ON/OFF
+    public Color teamOneColor = new(0f, 1f, 1f, 0.35f);   // シアン
+    public Color teamTwoColor = new(1f, 0.4f, 0.2f, 0.35f); // コーラル
+    public Team mainTeam = Team.TeamOne;
+
+#if UNITY_EDITOR
+    private void OnDrawGizmos()
+    {
+        if (!drawUnpaintedGizmos || !Application.isPlaying || !IsReady) return;
+
+        Team targetTeam = mainTeam;
+        List<Vector2Int> list = GetUnpaintedTiles(targetTeam);
+
+        Color col = targetTeam == mainTeam ? teamOneColor : teamTwoColor;
+        Color edge = new(col.r, col.g, col.b, 1f);
+
+        foreach (var gp in list)
+        {
+            Vector3 p = _mapGrid[gp.x, gp.y].tilePosition;
+            Gizmos.color = col;
+            Gizmos.DrawCube(p, Vector3.one * _tileSize * 0.9f);
+            Gizmos.color = edge;
+            Gizmos.DrawWireCube(p, Vector3.one * _tileSize * 0.92f);
+        }
+    }
+#endif
 }
+
+

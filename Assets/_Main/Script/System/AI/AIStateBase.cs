@@ -6,7 +6,6 @@ public abstract class AIStateBase
     //¬‚³‚¢‚Ù‚Ç‚—Dæ“x
     public abstract float Priority { get; }
 
-
     //î•ñ‚©‚ç“®ì‰Â”\‚©
     public abstract bool IsValid(AIContext context);
 
