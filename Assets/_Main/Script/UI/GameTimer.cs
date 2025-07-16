@@ -1,7 +1,7 @@
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
 using System.Collections;
-using TMPro.EditorUtilities;
-#endif
+//using TMPro.EditorUtilities;
+//#endif
 using UnityEngine;
 
 public class GameTimer : MonoBehaviour
