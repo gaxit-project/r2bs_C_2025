@@ -1732,6 +1732,10 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
+  drawUnpaintedGizmos: 1
+  teamOneColor: {r: 0, g: 1, b: 1, a: 0.35}
+  teamTwoColor: {r: 1, g: 0.4, b: 0.2, a: 0.35}
+  mainTeam: 0
 --- !u!1 &1341301054
 GameObject:
   m_ObjectHideFlags: 0

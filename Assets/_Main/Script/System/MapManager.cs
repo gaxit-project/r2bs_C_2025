@@ -83,7 +83,8 @@ public class MapManager : MonoBehaviour
     /// </summary>
     public void CreateMap()
     {
-        _csvFileName = DataBase.Instance.GetStageName();
+        //_csvFileName = DataBase.Instance.GetStageName();
+        _csvFileName = "stage7";
         if (_csvFileName == null)
         {
             Debug.LogError("csvファイルが存在しません");

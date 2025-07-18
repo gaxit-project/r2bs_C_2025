@@ -68,7 +68,7 @@ public class TeamSelectScenePlayer : MonoBehaviour
     {
         Instance = this;
         _playerData = Resources.Load<PlayerTeamData>("PlayerData");
-        _playerIndex = _playerData.PlayerTable.Count-1;
+        _playerIndex = _playerData.PlayerTable.Count - 1;
         // UI取得
         selectUI = GameObject.Find("char" + _playerIndex);
         ReadyUI = selectUI.transform.Find("Ready" + _playerIndex).GetComponent<RawImage>();
@@ -111,6 +111,10 @@ public class TeamSelectScenePlayer : MonoBehaviour
                 _isTeamOne = true;
             }
         }
+#if !UNITY_EDITOR
+        // ビルド環境なら変更後に保存
+        PlayerDataIO.Save(_playerData.PlayerTable);
+#endif
         NotFoundUI.gameObject.SetActive(false);
     }
 
@@ -198,15 +202,15 @@ public class TeamSelectScenePlayer : MonoBehaviour
             }
         }
 #if !UNITY_EDITOR
-    // ビルド環境なら変更後に保存
-    PlayerDataIO.Save(_playerData.PlayerTable);
+        // ビルド環境なら変更後に保存
+        PlayerDataIO.Save(_playerData.PlayerTable);
 #endif
     }
 
 
     private void ChangeUI(bool teamOne)
     {
-        if(teamOne)
+        if (teamOne)
         {
             playerBlueUI.gameObject.SetActive(false);
             playerPinkUI.gameObject.SetActive(true);
