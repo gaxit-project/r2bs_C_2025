@@ -24,7 +24,7 @@ public class TeamPlayerInput : MonoBehaviour
     /// AIのプレハブ
     /// </summary>
     [SerializeField]
-    //private GameObject _aiPrefab;
+    private GameObject _aiPrefab;
 
     private int teamOneCnt;
     private int teamTwoCnt;
@@ -83,7 +83,7 @@ public class TeamPlayerInput : MonoBehaviour
         teamOneCnt = GameObject.FindGameObjectsWithTag("TeamOne").Length;
         teamTwoCnt = GameObject.FindGameObjectsWithTag("TeamTwo").Length;
 
-        // 保存された各プレイヤー情報からプレイヤーをスポーン
+        // NPCをスポーン
         for (int i = _playerData.PlayerTable.Count; i < 4; i++)
         {
             SpownAi();
@@ -171,6 +171,6 @@ public class TeamPlayerInput : MonoBehaviour
 
     private void SpownAi()
     {
-        //Instantiate(_aiPrefab);
+        Instantiate(_aiPrefab);
     }
 }

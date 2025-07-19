@@ -7,7 +7,7 @@ using static UnityEngine.UI.GridLayoutGroup;
 
 public class MapManager : MonoBehaviour
 {
-    private string _csvFileName = "stage4";       // csv読み込み
+    private string _csvFileName = "stage8";       // csv読み込み
     public Transform TileParent;      // 床オブジェクトの生成先オブジェクト
     public Transform WallParent;      // 壁オブジェクトの生成先オブジェクト
     public Transform BreakWallParent; // 壊れる壁オブジェクトの生成先オブジェクト
