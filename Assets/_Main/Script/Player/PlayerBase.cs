@@ -34,9 +34,11 @@ public class PlayerBase : MonoBehaviour
     [SerializeField] private Animator blueAnimator;
     [SerializeField] private Animator RedAnimator;
 
-    private Animator animator;
+    protected Animator animator;
 
     public bool isWarpCoolDown;
+
+    //protected bool isFirst = true;
 
     // プレイヤーの状態を管理する (0: 生存, 1: 死亡)
 
@@ -190,7 +192,7 @@ public class PlayerBase : MonoBehaviour
     //プレイヤーの移動
     protected void PlayerMove()
     {
-        Vector3 moveValue = new Vector3(moveInput.x * PlayerSpeed * SpecialPlayerSpeed * teamLocal, 0f, moveInput.y * PlayerSpeed * SpecialPlayerSpeed * teamLocal * Time.timeScale);
+        Vector3 moveValue = new Vector3(moveInput.x * PlayerSpeed * SpecialPlayerSpeed * Time.timeScale, 0f, moveInput.y * PlayerSpeed * SpecialPlayerSpeed  * Time.timeScale);
         if (currentState == PlayerState.Alive && GameTimer.instance.IsGameStart())
         {
             //SoundManager.PlaySE("walk");
@@ -233,7 +235,7 @@ public class PlayerBase : MonoBehaviour
             animator = RedAnimator;
             BombColor = new Color32(255, 0, 0, 100);
             TeamName = Team.TeamTwo;
-            teamLocal = 1; //座標の向き修正
+            teamLocal = -1; //座標の向き修正
         }
 
     }
@@ -420,6 +422,7 @@ public class PlayerBase : MonoBehaviour
 
     public void RespawnPlayer()
     {
+        //isFirst = true;
         Respawn();
     }
 }
