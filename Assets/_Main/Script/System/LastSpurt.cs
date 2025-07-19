@@ -10,7 +10,7 @@ public class LastSpurt : MonoBehaviour
     void Start()
     {
         lastUI.SetActive(true);
-        lastUI2.SetActive(true);
+        //lastUI2.SetActive(true);
         // ¡‚ÌƒƒCƒ“‚ÌBGM‚ğ~‚ß‚é
         // ‰¹‚ÆSE‚ğ‚±‚±‚É‚¢‚ê‚é
 
@@ -21,6 +21,6 @@ public class LastSpurt : MonoBehaviour
     {
         yield return new WaitForSeconds(3f);
         lastUI.SetActive(false);
-        lastUI2.SetActive(false);
+        //lastUI2.SetActive(false);
     }
 }
