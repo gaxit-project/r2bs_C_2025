@@ -1,5 +1,6 @@
 //#if UNITY_EDITOR
 using System.Collections;
+using System.Threading;
 //using TMPro.EditorUtilities;
 //#endif
 using UnityEngine;
@@ -7,7 +8,7 @@ using UnityEngine;
 public class GameTimer : MonoBehaviour
 {
     [SerializeField] private bool _isActiveTime = false; //タイマーを進めるかどうか判断する
-    [SerializeField] private float _startTime = 300; //制限時間
+    [SerializeField] private float _startTime = 65; //制限時間
     [SerializeField] private float _countDownTime = 3; //プレイ開始時のカウントダウン用
 
     public static GameTimer instance;
@@ -29,6 +30,10 @@ public class GameTimer : MonoBehaviour
     [SerializeField] GameObject rule2;
 
 
+    public bool isLastUI = false;
+    public GameObject uiPrefab;         // インスペクターでUIプレファブを指定
+    public Transform canvasTransform;   // キャンバスのTransform
+
     private void Awake()
     {
         instance = this;
@@ -46,6 +51,11 @@ public class GameTimer : MonoBehaviour
         if (_isActiveTime)
         {
             _timer += Time.deltaTime;
+        }
+        if ((_startTime - _timer) <= 60f && !isLastUI)
+        {
+            isLastUI = true;
+            GameObject instance = Instantiate(uiPrefab, canvasTransform);
         }
         
         
