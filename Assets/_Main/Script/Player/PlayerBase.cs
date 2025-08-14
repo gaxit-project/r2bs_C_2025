@@ -259,6 +259,7 @@ public class PlayerBase : MonoBehaviour
     {
         // 動けなくする（死亡）
         currentState = PlayerState.Death;
+        animator.SetBool("isDeath", true);
         SoundManager.PlaySE("death");
         //Vector2 gridPos = MapManager.Instance.WorldToGridPosition(this.transform.position); 
         Vector2Int pos = MapManager.Instance.GetBlockData((int)this.transform.position.x, (int)this.transform.position.z).gridPosition;
@@ -309,6 +310,7 @@ public class PlayerBase : MonoBehaviour
 
         // 動けるようにする（生存）
         currentState = PlayerState.Alive;
+        animator.SetBool("isDeath", false);
     }
 
 
