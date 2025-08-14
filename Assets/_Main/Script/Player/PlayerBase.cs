@@ -38,6 +38,8 @@ public class PlayerBase : MonoBehaviour
 
     public bool isWarpCoolDown;
 
+    protected float oneReward;
+
     //protected bool isFirst = true;
 
     // ƒvƒŒƒCƒ„[‚Ìó‘Ô‚ğŠÇ—‚·‚é (0: ¶‘¶, 1: €–S)
@@ -398,6 +400,7 @@ public class PlayerBase : MonoBehaviour
             _levelManager.AddExp(EXP_SIZE);
             SoundManager.PlaySE("getxp");
             Destroy(collision.gameObject);
+            addReward(1);
         }
     }
 
@@ -423,6 +426,12 @@ public class PlayerBase : MonoBehaviour
     public void RespawnPlayer()
     {
         //isFirst = true;
+        addReward(-10);
         Respawn();
+    }
+
+    public void addReward(float point)
+    {
+        oneReward += point;
     }
 }

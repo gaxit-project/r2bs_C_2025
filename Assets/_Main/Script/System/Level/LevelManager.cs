@@ -58,6 +58,7 @@ public class LevelManager : MonoBehaviour
             if (exp == null || CurrentExp < exp.ExpToNextLevel) break;
 
             //レベルアップ
+            PlayerBase.addReward(3f);
             CurrentExp -= exp.ExpToNextLevel;
             CurrentLevel++;
             PlayerUI.addCurrentExp(0);
