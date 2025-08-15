@@ -83,7 +83,8 @@ public class BloomRushAgent : PlayerBase
         {
             // 1. èÛë‘ëóêM
             StateMsg stateMsg = new StateMsg();
-            stateMsg.state = GetStateArray();
+            stateMsg.wall = GetState2DArray("Wall");
+            stateMsg.breakWall = GetState2DArray("BreakWall");
             stateMsg.done = IsEpisodeDone();
             string stateJson = JsonUtility.ToJson(stateMsg);
             byte[] stateBytes = Encoding.UTF8.GetBytes(stateJson);
@@ -119,6 +120,20 @@ public class BloomRushAgent : PlayerBase
         return new float[10]; // é¿ëïÇ…çáÇÌÇπÇƒ
     }
 
+    float[][] GetState2DArray(string name)
+    {
+        int i = 0;
+        GameObject[] obj = GameObject.FindGameObjectsWithTag(name);
+        float[][] stateObj = new float[obj.Length][];
+        foreach (GameObject Obj in obj)
+        {
+            stateObj[i][0] = Obj.transform.position.x;
+            stateObj[i++][1] = Obj.transform.position.z;
+        }
+        
+        return stateObj; // é¿ëïÇ…çáÇÌÇπÇƒ
+    }
+
     bool IsEpisodeDone()
     {
         return false;
@@ -148,13 +163,19 @@ public class BloomRushAgent : PlayerBase
 
     float GetReward()
     {
-        return 0f;
+        float reward = oneReward;
+        oneReward = 0f;
+        return reward;
     }
 
     [System.Serializable]
     public class StateMsg
     {
-        public float[] state;
+        public float[][] wall;
+        public float[][] breakWall;
+        public float[][] area;
+        public float[] player;
+        public float[] enemy;
         public bool done;
     }
 

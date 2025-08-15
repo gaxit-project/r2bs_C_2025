@@ -31,6 +31,8 @@ public class BombProcess : MonoBehaviour
     [SerializeField] private float _spreadTime = 0.2f;       // 起爆範囲が1マス広がるまでの秒数
     [SerializeField] private float _startSpreadTime = 2.5f;  // 起爆開始までの秒数
 
+    public PlayerBase PB;
+
 
     public static BombProcess Instance;
     private void Awake()
@@ -239,7 +241,7 @@ public class BombProcess : MonoBehaviour
         Vector3 position = MapManager.Instance.GetBlockData(x, y).tilePosition;
         GameObject obj = Instantiate(_hitObject, position, Quaternion.identity, _hitObjectParent);
         BloomHitJudgment BHJ = obj.GetComponent<BloomHitJudgment>();
-        BHJ.StartJudgementCountDownCoroutine(_teamName, x, y);
+        BHJ.StartJudgementCountDownCoroutine(_teamName, PB, x, y);
         // 次のマスに当たり判定の判定付与
         MapManager.Instance.GetBlockData(x, y).isHitJudge = true;
 

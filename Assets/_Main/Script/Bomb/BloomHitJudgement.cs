@@ -5,6 +5,7 @@ using static BloomJudgement;
 public class BloomHitJudgment : MonoBehaviour
 {
     private Team _teamName;           // チーム名
+    private PlayerBase PB;
 
     public static BloomHitJudgment Instance;
     private void Awake()
@@ -12,9 +13,10 @@ public class BloomHitJudgment : MonoBehaviour
         Instance = this;
     }
 
-    public void StartJudgementCountDownCoroutine(Team teamName, int x, int y)
+    public void StartJudgementCountDownCoroutine(Team teamName, PlayerBase _PB, int x, int y)
     {
         _teamName = teamName;
+        PB = _PB;
         StartCoroutine(StartJudgementCoutDown(x, y));
     }
 
@@ -34,6 +36,7 @@ public class BloomHitJudgment : MonoBehaviour
             PlayerBase PC = obj.GetComponent<PlayerBase>();
             PC.InitSpecialStatus();
             PC.RespawnPlayer();
+            PB.addReward(10);
         }
         else if (other.tag == "TeamTwo" && _teamName == Team.TeamOne)
         {
@@ -41,6 +44,7 @@ public class BloomHitJudgment : MonoBehaviour
             PlayerBase PC = obj.GetComponent<PlayerBase>();
             PC.InitSpecialStatus();
             PC.RespawnPlayer();
+            PB.addReward(10);
         }
         if (other.tag == "FlowerBomb")
         {
