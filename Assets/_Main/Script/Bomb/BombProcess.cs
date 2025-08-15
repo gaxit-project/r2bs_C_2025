@@ -26,7 +26,7 @@ public class BombProcess : MonoBehaviour
     private int _bombRange;   // 爆破範囲
     private Color _bombColor; // 爆弾の色
     private MapBlockData _blockData; // 座標
-    private Team _teamName;        // チーム名
+    public Team _teamName;        // チーム名
 
     [SerializeField] private float _spreadTime = 0.2f;       // 起爆範囲が1マス広がるまでの秒数
     [SerializeField] private float _startSpreadTime = 2.5f;  // 起爆開始までの秒数
@@ -258,11 +258,13 @@ public class BombProcess : MonoBehaviour
                     if (renderer.gameObject.layer == LayerMask.NameToLayer("TeamTwoTile")) GatiArea.Instance.RemoveGatiArea(_teamName, _bombColor, MapManager.Instance.GetBlockData(x, y).type);
                     // 白紙の時は塗り割合を加算する
                     else if (renderer.gameObject.layer != LayerMask.NameToLayer("TeamOneTile")) GatiArea.Instance.AddGatiArea(_teamName, _bombColor, MapManager.Instance.GetBlockData(x, y).type);
+                    PB.addReward(DataBase.Instance.paintErea);
                 }
                 // レンダーが違うときに塗り割合を変更する
                 if (renderer.gameObject.layer == LayerMask.NameToLayer("TeamTwoTile")) BloomJudgement.Instance.RemoveBloomJudgement(_teamName);
                 // 白紙の時は塗り割合を加算する
                 else if(renderer.gameObject.layer != LayerMask.NameToLayer("TeamOneTile"))BloomJudgement.Instance.AddBloomJudgement(_teamName);
+                PB.addReward(DataBase.Instance.paintTile);
                 // レンダー変更
                 renderer.gameObject.layer = LayerMask.NameToLayer("TeamOneTile");
                 BloomEffect.Instance.CreateFlowerEffect(position, _teamName);
@@ -275,11 +277,13 @@ public class BombProcess : MonoBehaviour
                     if (renderer.gameObject.layer == LayerMask.NameToLayer("TeamOneTile")) GatiArea.Instance.RemoveGatiArea(_teamName, _bombColor, MapManager.Instance.GetBlockData(x, y).type);
                     // 白紙の時は塗り割合を加算する
                     else if (renderer.gameObject.layer != LayerMask.NameToLayer("TeamTwoTile")) GatiArea.Instance.AddGatiArea(_teamName, _bombColor, MapManager.Instance.GetBlockData(x, y).type);
+                    PB.addReward(DataBase.Instance.paintErea);
                 }
                 // レンダーが違うときに塗り割合を変更する
                 if (renderer.gameObject.layer == LayerMask.NameToLayer("TeamOneTile")) BloomJudgement.Instance.RemoveBloomJudgement(_teamName);
                 // 白紙の時は塗り割合を加算する
                 else if(renderer.gameObject.layer != LayerMask.NameToLayer("TeamTwoTile"))BloomJudgement.Instance.AddBloomJudgement(_teamName);
+                PB.addReward(DataBase.Instance.paintTile);
                 // レンダー変更
                 renderer.gameObject.layer = LayerMask.NameToLayer("TeamTwoTile");
                 BloomEffect.Instance.CreateFlowerEffect(position, _teamName);

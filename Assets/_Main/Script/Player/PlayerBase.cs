@@ -70,8 +70,10 @@ public class PlayerBase : MonoBehaviour
     private GameObject cyanChan;
 
     [SerializeField]
-    private PlayerUI playerUI;
+    protected PlayerUI playerUI;
     private int NowBombCnt;
+
+    protected bool anifirst = false;
 
     /// <summary>
     /// 自身のチーム名を返す関数
@@ -99,6 +101,17 @@ public class PlayerBase : MonoBehaviour
             }
         }
         playerUI.addNowBombCnt(NowBombCnt);
+        if ((GameTimer.instance.IsGameStart()) && !anifirst)
+        {
+            if (moveInput == Vector2.zero)
+            {
+                animator.SetBool("isWalking", false);
+            }
+            else
+            {
+                animator.SetBool("isWalking", true);
+            }
+        }
     }
 
     /// <summary>
@@ -154,6 +167,7 @@ public class PlayerBase : MonoBehaviour
         moveInput = context.ReadValue<Vector2>();
         if ((GameTimer.instance.IsGameStart()))
         {
+            anifirst = true;
             if (moveInput == Vector2.zero)
             {
                 animator.SetBool("isWalking", false);
@@ -328,7 +342,7 @@ public class PlayerBase : MonoBehaviour
     /// <param name="blockData"></param>
     protected void BombPlacement(MapBlockData blockData)
     {
-        if (!MapManager.Instance.GetBlockData(blockData.gridPosition.x, blockData.gridPosition.y).isBomb　&& MapManager.Instance.GetBlockData(blockData.gridPosition.x, blockData.gridPosition.y).name != "WarpRLObject" && MapManager.Instance.GetBlockData(blockData.gridPosition.x, blockData.gridPosition.y).name != "WarpUDObject")
+        if (!MapManager.Instance.GetBlockData(blockData.gridPosition.x, blockData.gridPosition.y).isBomb　&& MapManager.Instance.GetBlockData(blockData.gridPosition.x, blockData.gridPosition.y).name != "WarpRLObject" && MapManager.Instance.GetBlockData(blockData.gridPosition.x, blockData.gridPosition.y).name != "WarpUDObject" && MapManager.Instance.GetBlockData(blockData.gridPosition.x, blockData.gridPosition.y).name != "StartObject")
         {
             Vector3 position = blockData.tilePosition;
 
@@ -338,6 +352,7 @@ public class PlayerBase : MonoBehaviour
                 return;
             }
             SoundManager.PlaySE("bloom");
+            addReward(DataBase.Instance.placeBomb);
             // ここでリセット！
             obj.transform.SetParent(BombParent);
             obj.transform.position = position;
@@ -371,6 +386,7 @@ public class PlayerBase : MonoBehaviour
     private void addSetBomb()
     {
         GameObject BloomBomb = Instantiate(StandardBomb, BombParent);
+        BloomBomb.GetComponent<BombProcess>().PB = this;
         BloomBomb.SetActive(false);
         BloomBombPool.Add(BloomBomb);
     }
@@ -402,7 +418,7 @@ public class PlayerBase : MonoBehaviour
             _levelManager.AddExp(EXP_SIZE);
             SoundManager.PlaySE("getxp");
             Destroy(collision.gameObject);
-            addReward(1);
+            addReward(DataBase.Instance.getExp);
         }
     }
 
@@ -428,7 +444,7 @@ public class PlayerBase : MonoBehaviour
     public void RespawnPlayer()
     {
         //isFirst = true;
-        addReward(-10);
+        addReward(DataBase.Instance.death);
         Respawn();
     }
 

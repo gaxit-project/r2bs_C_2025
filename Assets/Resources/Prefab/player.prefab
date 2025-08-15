@@ -747,11 +747,11 @@ PrefabInstance:
     - target: {fileID: 2991272234786249953, guid: d88985cf3317f63499a98fcf5cc4b332, type: 3}
       propertyPath: bombCnt
       value: 
-      objectReference: {fileID: 8094739466442665022}
+      objectReference: {fileID: 3645005899181303342}
     - target: {fileID: 2991272234786249953, guid: d88985cf3317f63499a98fcf5cc4b332, type: 3}
       propertyPath: nowBombCnt
       value: 
-      objectReference: {fileID: 4673785019020118773}
+      objectReference: {fileID: 8094739466442665022}
     - target: {fileID: 3831795525179528140, guid: d88985cf3317f63499a98fcf5cc4b332, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -801,9 +801,9 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d88985cf3317f63499a98fcf5cc4b332, type: 3}
---- !u!114 &4673785019020118773 stripped
+--- !u!114 &3645005899181303342 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 236502536297496807, guid: d88985cf3317f63499a98fcf5cc4b332, type: 3}
+  m_CorrespondingSourceObject: {fileID: 8142806051652561980, guid: d88985cf3317f63499a98fcf5cc4b332, type: 3}
   m_PrefabInstance: {fileID: 4869701246086367762}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}

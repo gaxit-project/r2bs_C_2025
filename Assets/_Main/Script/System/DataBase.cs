@@ -7,6 +7,19 @@ public class DataBase : MonoBehaviour
     private bool areaBool = false;
     private bool resultBool = true;
 
+    //Reward
+    public float getExp = 1f;
+    public float placeBomb = 0.1f;
+    public float upLevel = 3f;
+    public float attackEnemy = 10f;
+    public float getErea = 30f;
+    public float win = 100f;
+    public float death = -10f;
+    public float lossErea = -30f;
+    public float lose = -100f;
+    public float paintErea = 1f;
+    public float paintTile = 0.5f;
+
     /// <summary>
     /// シングルトンインスタンス
     /// </summary>

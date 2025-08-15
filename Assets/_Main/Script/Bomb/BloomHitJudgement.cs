@@ -36,7 +36,7 @@ public class BloomHitJudgment : MonoBehaviour
             PlayerBase PC = obj.GetComponent<PlayerBase>();
             PC.InitSpecialStatus();
             PC.RespawnPlayer();
-            PB.addReward(10);
+            PB.addReward(DataBase.Instance.attackEnemy);
         }
         else if (other.tag == "TeamTwo" && _teamName == Team.TeamOne)
         {
@@ -44,7 +44,7 @@ public class BloomHitJudgment : MonoBehaviour
             PlayerBase PC = obj.GetComponent<PlayerBase>();
             PC.InitSpecialStatus();
             PC.RespawnPlayer();
-            PB.addReward(10);
+            PB.addReward(DataBase.Instance.attackEnemy);
         }
         if (other.tag == "FlowerBomb")
         {

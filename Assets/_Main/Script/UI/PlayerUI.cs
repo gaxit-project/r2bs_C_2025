@@ -27,10 +27,15 @@ public class PlayerUI : MonoBehaviour
     private string iniNeedExp;
 
     private int BombCnt = 1;
-    private int BombRange = 1;
-    private int Speed = 1;
 
-    private void Start()
+    public int BombRange = 1;
+    public int Speed = 1;
+
+    public int Rlevel = 1;
+    public int RnExp = 1;
+    public int Rexp = 0;
+    public int Rcnt = 1;
+    private void Awake()
     {
         iniLevel = level.text;
         iniBombCnt = bombCnt.text;
@@ -39,6 +44,9 @@ public class PlayerUI : MonoBehaviour
         iniSpeed = speed.text;
         iniCurrentExp = currentExp.text;
         iniNeedExp = needExp.text;
+    }
+    private void Start()
+    {
         addLevel(1);
         addBombCnt(0);
         addNowBombCnt(1);
@@ -50,6 +58,7 @@ public class PlayerUI : MonoBehaviour
     }
     public void addLevel(int value)
     {
+        Rlevel = value;
         level.text = iniLevel + value.ToString();
     }
 
@@ -61,6 +70,7 @@ public class PlayerUI : MonoBehaviour
 
     public void addNowBombCnt(int value)
     {
+        Rcnt = value;
         nowBombCnt.text = iniNowBombCnt + value.ToString();
     }
 
@@ -78,11 +88,13 @@ public class PlayerUI : MonoBehaviour
 
     public void addCurrentExp(int value)
     {
+        Rexp = value;
         currentExp.text = iniCurrentExp + value.ToString();
     }
 
     public void addNeedExp(int value)
     {
+        RnExp = value;
         needExp.text = iniNeedExp + value.ToString();
     }
 

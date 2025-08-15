@@ -462,6 +462,11 @@ public class MapManager : MonoBehaviour
         return null;
     }
 
+    public MapBlockData[,] GetMapData()
+    {
+        return _mapGrid;
+    }
+
     /// <summary>
     /// グリッド座標に変換
     /// </summary>

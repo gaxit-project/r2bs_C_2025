@@ -37,7 +37,7 @@ public class MainGameManager : MonoBehaviour
 
     public void OnPose()
     {
-        GameTimer.instance.StopTimer();
+        if(GameTimer.instance != null)GameTimer.instance.StopTimer();
         _posePanel.SetActive(true);
         EventSystem.current.SetSelectedGameObject(null);
         _posePanel.transform.Find("Back").GetComponent<Button>().Select();
@@ -48,7 +48,7 @@ public class MainGameManager : MonoBehaviour
     public void OnReStart()
     {
         Time.timeScale = 1f;
-        GameTimer.instance.StartTimer();
+        if (GameTimer.instance != null) GameTimer.instance.StartTimer();
         _posePanel.SetActive(false);
         isPose = false;
     }
