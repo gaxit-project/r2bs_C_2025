@@ -4,10 +4,16 @@ using System.Text;
 using System.Collections;
 using UnityEngine;
 using static MapManager;
+using System.Linq;
+using System.Diagnostics;
+using System.IO;
+
+
 
 public class BloomRushAgent : PlayerBase
 {
     public string pythonIP = "127.0.0.1";
+
     public int sendPort = 5005;
     public int receivePort = 5006;
 
@@ -15,13 +21,27 @@ public class BloomRushAgent : PlayerBase
     UdpClient udpReceive;
     IPEndPoint pythonEndPoint;
 
-    private float[][] Cground;
-    private float[][] Cwall;
-    private float[][] CbreakWall;
-    private float[][] CwarpRL;
-    private float[][] CwarpUD;
-    private float[][] Carea;
-    private float[][] Cspawn;
+    private bool soFirst = false;
+    Process process = new Process();
+
+
+    private const int GROUND = 500;
+    private const int WALL = 200;
+    private const int BREAKWALL = 100;
+    private const int WARPRL = 20;
+    private const int WARPUD = 20;
+    private const int AREA = 100;
+    private const int SPAWN = 50;
+    private const int BOMB = 40;
+    private const int EXP = 50;
+
+    private float[][] Cground = new float[3][];
+    private float[][] Cwall = new float[2][];
+    private float[][] CbreakWall = new float[2][];
+    private float[][] CwarpRL = new float[2][];
+    private float[][] CwarpUD = new float[2][];
+    private float[][] Carea = new float[3][];
+    private float[][] Cspawn = new float[2][];
 
 
     private void Awake()
@@ -38,7 +58,37 @@ public class BloomRushAgent : PlayerBase
         TeamSplit();
 
         InitSpecialStatus();
+        sendPort += (playerIndex * 2);
+        receivePort += (playerIndex * 2);
+        StartPythonProcess();
+        UnityEngine.Debug.Log("port" + sendPort + "," + receivePort);
 
+    }
+    private void StartPythonProcess()
+    {
+        ProcessStartInfo psi = new ProcessStartInfo
+        {
+            FileName = Path.Combine(Application.dataPath, "../Python/Python311/python.exe"),
+            Arguments = $"\"{Path.Combine(Application.dataPath, "../Python/BloomRushAi.py")}\" --receive_port {sendPort} --send_port {receivePort}",
+            UseShellExecute = false,
+            CreateNoWindow = true,
+            RedirectStandardOutput = true,
+            RedirectStandardError = true
+        };
+
+        process.StartInfo = psi;
+        process.OutputDataReceived += (sender, e) =>
+        {
+            if (e.Data != null && e.Data.Contains("READY"))  // Python側で "READY" を出力させる
+            {
+                soFirst = true; // フラグだけ立てる
+            }
+        };
+        process.ErrorDataReceived += (sender, e) => { if (e.Data != null) UnityEngine.Debug.LogError(e.Data); };
+
+        process.Start();
+        process.BeginOutputReadLine();
+        process.BeginErrorReadLine();
     }
     private void NPCTeamTag()
     {
@@ -55,12 +105,42 @@ public class BloomRushAgent : PlayerBase
     protected override void Start()
     {
         base.Start();
+        Cground[0] = new float[GROUND];
+        Cground[1] = new float[GROUND];
+        Cground[2] = new float[GROUND];
+        Cwall[0] = new float[WALL];
+        Cwall[1] = new float[WALL];
+        CbreakWall[0] = new float[BREAKWALL];
+        CbreakWall[1] = new float[BREAKWALL];
+        CwarpRL[0] = new float[WARPRL];
+        CwarpRL[1] = new float[WARPRL];
+        CwarpUD[0] = new float[WARPUD];
+        CwarpUD[1] = new float[WARPUD];
+        Carea[0] = new float[AREA];
+        Carea[1] = new float[AREA];
+        Carea[2] = new float[AREA];
+        Cspawn[0] = new float[SPAWN];
+        Cspawn[1] = new float[SPAWN];
+    }
 
-        GetMapState();
-        udpSend = new UdpClient();
-        udpReceive = new UdpClient(receivePort);
-        pythonEndPoint = new IPEndPoint(IPAddress.Parse(pythonIP), sendPort);
-        StartCoroutine(AgentLoop());
+    protected override void Update()
+    {
+        base.Update();
+        if (soFirst)
+        {
+            udpSend = new UdpClient(sendPort);
+            udpReceive = new UdpClient(receivePort);
+            udpReceive.Client.ReceiveTimeout = 5000;
+            pythonEndPoint = new IPEndPoint(IPAddress.Parse(pythonIP), sendPort);
+            StartCoroutine(AgentLoop());
+            soFirst = false;
+        }
+        if (IsEpisodeDone())
+        {
+            udpSend.Close();
+            udpReceive.Close();
+            StopAllCoroutines();
+        }
     }
 
     private void NPCMove(Vector2 dir)
@@ -92,30 +172,41 @@ public class BloomRushAgent : PlayerBase
     {
         while (true)
         {
-            // 1. 状態送信
-            StateMsg stateMsg = GetStateMsg();
-            string stateJson = JsonUtility.ToJson(stateMsg);
-            byte[] stateBytes = Encoding.UTF8.GetBytes(stateJson);
-            udpSend.Send(stateBytes, stateBytes.Length, pythonEndPoint);
+            try
+            {
+                // 1. 状態送信
+                StateMsg stateMsg = GetStateMsg();
+                string stateJson = JsonUtility.ToJson(stateMsg);
+                byte[] stateBytes = Encoding.UTF8.GetBytes(stateJson);
+                udpSend.Send(stateBytes, stateBytes.Length, pythonEndPoint);
 
-            // 2. 行動受信
-            IPEndPoint remoteEP = null;
-            byte[] actionBytes = udpReceive.Receive(ref remoteEP);
-            string actionJson = Encoding.UTF8.GetString(actionBytes);
-            ActionMsg actionMsg = JsonUtility.FromJson<ActionMsg>(actionJson);
-            int actionIdx = actionMsg.action;
+                // 2. 行動受信
+                IPEndPoint remoteEP = null;
+                byte[] actionBytes = udpReceive.Receive(ref remoteEP);
+                string actionJson = Encoding.UTF8.GetString(actionBytes);
+                ActionMsg actionMsg = JsonUtility.FromJson<ActionMsg>(actionJson);
+                int actionIdx = actionMsg.action;
+            
 
-            // 3. 行動を適用
-            ApplyAction(actionIdx);
+                // 3. 行動を適用
+                ApplyAction(actionIdx);
 
-            // 4. 報酬送信
-            RewardMsg rewardMsg = new RewardMsg();
-            rewardMsg.reward = GetReward();
-            rewardMsg.next_state = GetStateMsg();
-            rewardMsg.done = IsEpisodeDone();
-            string rewardJson = JsonUtility.ToJson(rewardMsg);
-            byte[] rewardBytes = Encoding.UTF8.GetBytes(rewardJson);
-            udpSend.Send(rewardBytes, rewardBytes.Length, pythonEndPoint);
+                // 4. 報酬送信
+                RewardMsg rewardMsg = new RewardMsg();
+                rewardMsg.reward = GetReward();
+                rewardMsg.next_state = GetStateMsg();
+                rewardMsg.done = IsEpisodeDone();
+                string rewardJson = JsonUtility.ToJson(rewardMsg);
+                byte[] rewardBytes = Encoding.UTF8.GetBytes(rewardJson);
+                udpSend.Send(rewardBytes, rewardBytes.Length, pythonEndPoint);
+            }catch (SocketException e)
+            {
+                UnityEngine.Debug.Log(e + ":pthonとの通信が途絶えました。");
+                udpSend.Close();
+                udpReceive.Close();
+                FBSceneManager.Instance.LoadTeamSelectScene();
+                break;
+            }
 
             yield return null;
         }
@@ -146,16 +237,18 @@ public class BloomRushAgent : PlayerBase
     {
         GetMapState();
         StateMsg stateMsg = new StateMsg();
-        stateMsg.ground = Cground;
-        stateMsg.wall = Cwall;
-        stateMsg.breakWall = CbreakWall;
-        stateMsg.warpRL = CwarpRL;
-        stateMsg.warpUD = CwarpUD;
-        stateMsg.area = Carea;
-        stateMsg.spawn = Cspawn;
+        stateMsg.ground = Flatten(Cground);
+        stateMsg.wall = Flatten(Cwall);
+        stateMsg.breakWall = Flatten(CbreakWall);
+        stateMsg.warpRL = Flatten(CwarpRL);
+        stateMsg.warpUD = Flatten(CwarpUD);
+        stateMsg.area = Flatten(Carea);
+        stateMsg.spawn = Flatten(Cspawn);
         stateMsg.player = GetPlayerState();
         stateMsg.self = GetSelfState();
-        stateMsg.bomb = GetBombState();
+        stateMsg.bomb = Flatten(GetBombState());
+        stateMsg.exp = Flatten(GetExpState());
+        stateMsg.time = GetTimeState();
         stateMsg.done = IsEpisodeDone();
         return stateMsg;
     }
@@ -175,47 +268,47 @@ public class BloomRushAgent : PlayerBase
             switch(block.name)
             {
                 case "GroundObject":
-                    Cground[g][0] = block.gridPosition.x;
-                    Cground[g][1] = block.gridPosition.y;
+                    Cground[0][g] = (float)block.gridPosition.x;
+                    Cground[1][g] = (float)block.gridPosition.y;
                     Renderer renderer = block.instance.GetComponent<Renderer>();
                     if (this.gameObject.tag == "TeamOne")
                     {
-                        if ((renderer.gameObject.layer == LayerMask.NameToLayer("TeamOneTile"))){ Cground[g++][2] = 1; }
-                        else if ((renderer.gameObject.layer == LayerMask.NameToLayer("TeamTwoTile"))) { Cground[g++][2] = 2; }
-                        else { Cground[g ++][2] = 0; }
+                        if ((renderer.gameObject.layer == LayerMask.NameToLayer("TeamOneTile"))){ Cground[2][g++] = 1; }
+                        else if ((renderer.gameObject.layer == LayerMask.NameToLayer("TeamTwoTile"))) { Cground[2][g++] = 2; }
+                        else { Cground[2][g++] = 0; }
 
                     }
                     else
                     {
-                        if ((renderer.gameObject.layer == LayerMask.NameToLayer("TeamTwoTile"))) { Cground[g++][2] = 1; }
-                        else if ((renderer.gameObject.layer == LayerMask.NameToLayer("TeamOneTile"))) { Cground[g++][2] = 2; }
-                        else { Cground[g++][2] = 0; }
+                        if ((renderer.gameObject.layer == LayerMask.NameToLayer("TeamTwoTile"))) { Cground[2][g++] = 1; }
+                        else if ((renderer.gameObject.layer == LayerMask.NameToLayer("TeamOneTile"))) { Cground[2][g++] = 2; }
+                        else { Cground[2][g++] = 0; }
                     }
                     break;
                 case "WallObject":
-                    Cwall[w][0] = block.gridPosition.x;
-                    Cwall[w++][1] = block.gridPosition.y;
+                    Cwall[0][w] = (float)block.gridPosition.x;
+                    Cwall[1][w++] = (float)block.gridPosition.y;
                     break;
                 case "BreakWallObject":
-                    CbreakWall[b][0] = block.gridPosition.x;
-                    CbreakWall[b++][1] = block.gridPosition.y;
+                    CbreakWall[0][b] = (float)block.gridPosition.x;
+                    CbreakWall[1][b++] = (float)block.gridPosition.y;
                     break;
                 case "WarpRLObject":
-                    CwarpRL[rl][0] = block.gridPosition.x;
-                    CwarpRL[rl++][1] = block.gridPosition.y;
+                    CwarpRL[0][rl] = (float)block.gridPosition.x;
+                    CwarpRL[1][rl++] = (float)block.gridPosition.y;
                     break;
                 case "WarpUDObject":
-                    CwarpUD[ud][0] = block.gridPosition.x;
-                    CwarpUD[ud++][1] = block.gridPosition.y;
+                    CwarpUD[0][ud] = (float)block.gridPosition.x;
+                    CwarpUD[1][ud++] = (float)block.gridPosition.y;
                     break;
                 case "GatiAreaObject":
-                    Carea[a][0] = block.gridPosition.x;
-                    Carea[a][1] = block.gridPosition.y;
-                    Carea[a++][2] = block.type;
+                    Carea[0][a] = (float)block.gridPosition.x;
+                    Carea[1][a] = (float)block.gridPosition.y;
+                    Carea[2][a++] = (float)block.type;
                     break;
                 case "StartObject":
-                    Cspawn[s][0] = block.gridPosition.x;
-                    Cspawn[s++][1] = block.gridPosition.y;
+                    Cspawn[0][s] = (float)block.gridPosition.x;
+                    Cspawn[1][s++] = (float)block.gridPosition.y;
                     break;
             }
         }
@@ -237,14 +330,14 @@ public class BloomRushAgent : PlayerBase
         float[] player = new float[(team.Length+enemy.Length)*2];
         foreach (GameObject t in team)
         {
-            player[i++] = MapManager.Instance.WorldToGridPosition(t.transform.position).x;
-            player[i++] = MapManager.Instance.WorldToGridPosition(t.transform.position).y;
+            player[i++] = (float)MapManager.Instance.WorldToGridPosition(t.transform.position).x;
+            player[i++] = (float)MapManager.Instance.WorldToGridPosition(t.transform.position).y;
         }
 
         foreach (GameObject e in enemy)
         {
-            player[i++] = MapManager.Instance.WorldToGridPosition(e.transform.position).x;
-            player[i++] = MapManager.Instance.WorldToGridPosition(e.transform.position).y;
+            player[i++] = (float)MapManager.Instance.WorldToGridPosition(e.transform.position).x;
+            player[i++] = (float)MapManager.Instance.WorldToGridPosition(e.transform.position).y;
         }
 
         return player;
@@ -260,29 +353,53 @@ public class BloomRushAgent : PlayerBase
     {
         int i = 0;
         GameObject[] bomb = GameObject.FindGameObjectsWithTag("FlowerBomb");
-        float[][] bombState= new float[bomb.Length][];
+        float[][] bombState= new float[3][];
+        bombState[0] = new float[BOMB];
+        bombState[1] = new float[BOMB];
+        bombState[2] = new float[BOMB];
         foreach (GameObject b in bomb)
         {
-            bombState[i][0] = MapManager.Instance.WorldToGridPosition(b.transform.position).x;
-            bombState[i][1] = MapManager.Instance.WorldToGridPosition(b.transform.position).y;
+            bombState[0][i] = (float)MapManager.Instance.WorldToGridPosition(b.transform.position).x;
+            bombState[1][i] = (float)MapManager.Instance.WorldToGridPosition(b.transform.position).y;
             if (this.gameObject.tag == "TeamOne")
             {
-                if (b.GetComponent<BombProcess>()._teamName == Team.TeamOne) { bombState[i++][2] = 0; }
-                else { bombState[i++][2] = 1; }
+                if (b.GetComponent<BombProcess>()._teamName == Team.TeamOne) { bombState[2][i++] = 0; }
+                else { bombState[2][i++] = 1; }
             }
             else
             {
-                if (b.GetComponent<BombProcess>()._teamName == Team.TeamTwo) { bombState[i++][2] = 0; }
-                else { bombState[i++][2] = 1; }
+                if (b.GetComponent<BombProcess>()._teamName == Team.TeamTwo) { bombState[2][i++] = 0; }
+                else { bombState[2][i++] = 1; }
             }
         }
         return bombState;
     }
 
+    private float[][] GetExpState()
+    {
+        int i = 0;
+        GameObject[] Exp = GameObject.FindGameObjectsWithTag("Exp");
+        float[][] expState = new float[2][];
+        expState[0] = new float[EXP];
+        expState[1] = new float[EXP];
+        foreach (GameObject e in Exp)
+        {
+            expState[0][i] = (float)MapManager.Instance.WorldToGridPosition(e.transform.position).x;
+            expState[1][i] = (float)MapManager.Instance.WorldToGridPosition(e.transform.position).y;
+        }
+        return expState;
+    }
+
+    private float GetTimeState()
+    {
+        return GameTimer.instance.GetTime();
+    }
+
 
     bool IsEpisodeDone()
     {
-        return false;
+        float gameTime = GameTimer.instance.GetTime();
+        return gameTime <= 0f;
     }
 
     void ApplyAction(int actionIdx)
@@ -302,6 +419,9 @@ public class BloomRushAgent : PlayerBase
                 NPCMove(new Vector2(-1, 0));
                 break;
             case 4:
+                NPCMove(new Vector2(0, 0));
+                break;
+            case 5:
                 NPCBomb();
                 break;
         }
@@ -314,19 +434,27 @@ public class BloomRushAgent : PlayerBase
         return reward;
     }
 
+    private float[] Flatten(float[][] array)
+    {
+        if (array == null) return new float[0];
+        return array.SelectMany(x => x ?? new float[0]).ToArray();
+    }
+
     [System.Serializable]
     public class StateMsg
     {
-        public float[][] ground;
-        public float[][] wall;
-        public float[][] breakWall;
-        public float[][] warpRL;
-        public float[][] warpUD;
-        public float[][] area;
-        public float[][] spawn;
+        public float[] ground;
+        public float[] wall;
+        public float[] breakWall;
+        public float[] warpRL;
+        public float[] warpUD;
+        public float[] area;
+        public float[] spawn;
         public float[] player;
         public float[] self;
-        public float[][] bomb;
+        public float[] bomb;
+        public float[] exp;
+        public float time;
         public bool done;
     }
 

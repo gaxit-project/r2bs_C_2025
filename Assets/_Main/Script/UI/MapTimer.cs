@@ -47,10 +47,36 @@ public class MapTimer : MonoBehaviour
             _ResultData.redTile = BloomJudgement.Instance.GetTeamTwoBloomPer();
 
             _ResultData.blueArea = GatiArea.Instance.GetGatiArea(Team.TeamOne);
-            _ResultData.redArea = GatiArea.Instance.GetGatiArea(Team.TeamTwo); ;
+            _ResultData.redArea = GatiArea.Instance.GetGatiArea(Team.TeamTwo);
+
+            if(GatiArea.Instance.GetGatiArea(Team.TeamOne) > GatiArea.Instance.GetGatiArea(Team.TeamTwo))
+            {
+                GameObject[] p12 = GameObject.FindGameObjectsWithTag("TeamOne");
+                foreach (GameObject pb in p12)
+                {
+                    pb.gameObject.GetComponent<PlayerBase>().addReward(DataBase.Instance.win);
+                }
+                GameObject[] p34 = GameObject.FindGameObjectsWithTag("TeamTwo");
+                foreach (GameObject pb in p34)
+                {
+                    pb.gameObject.GetComponent<PlayerBase>().addReward(DataBase.Instance.lose);
+                }
+            }else if (GatiArea.Instance.GetGatiArea(Team.TeamOne) < GatiArea.Instance.GetGatiArea(Team.TeamTwo))
+            {
+                GameObject[] p12 = GameObject.FindGameObjectsWithTag("TeamTwo");
+                foreach (GameObject pb in p12)
+                {
+                    pb.gameObject.GetComponent<PlayerBase>().addReward(DataBase.Instance.win);
+                }
+                GameObject[] p34 = GameObject.FindGameObjectsWithTag("TeamOne");
+                foreach (GameObject pb in p34)
+                {
+                    pb.gameObject.GetComponent<PlayerBase>().addReward(DataBase.Instance.lose);
+                }
+            }
 
 #if UNITY_EDITOR
-            EditorUtility.SetDirty(_ResultData);
+                EditorUtility.SetDirty(_ResultData);
 #else
         ResultDataIO.Save(_ResultData);
 #endif

@@ -15,7 +15,7 @@ public class DataBase : MonoBehaviour
     public float getErea = 30f;
     public float win = 100f;
     public float death = -10f;
-    public float lossErea = -30f;
+    public float lossErea = -20;
     public float lose = -100f;
     public float paintErea = 1f;
     public float paintTile = 0.5f;

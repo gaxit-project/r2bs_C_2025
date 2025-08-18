@@ -125,6 +125,11 @@ public class GatiArea: MonoBehaviour
         // Žæ“¾”‚Ì”äŠr
         if (areaTileCnt >= areaSecuredCnt[type] && !isAreaObtained[type])
         {
+            GameObject[] p = GameObject.FindGameObjectsWithTag(teamName.ToString());
+            foreach(GameObject pb in p)
+            {
+                pb.gameObject.GetComponent<PlayerBase>().addReward(DataBase.Instance.getErea);
+            }
             BloomAllArea(teamName, _bombColor, type);
         }
         // ‚à‚µƒGƒŠƒAŽæ“¾Ï‚Ìê‡
@@ -144,6 +149,21 @@ public class GatiArea: MonoBehaviour
             if(areaTileCnt >= areaHalfCnt[type])
             {
                 isAreaObtained[type] = false;
+                if(teamName == Team.TeamOne)
+                {
+                    GameObject[] p = GameObject.FindGameObjectsWithTag("TeamTwo");
+                    foreach (GameObject pb in p)
+                    {
+                        pb.gameObject.GetComponent<PlayerBase>().addReward(DataBase.Instance.lossErea);
+                    }
+                }else
+                {
+                    GameObject[] p = GameObject.FindGameObjectsWithTag("TeamOne");
+                    foreach (GameObject pb in p)
+                    {
+                        pb.gameObject.GetComponent<PlayerBase>().addReward(DataBase.Instance.lossErea);
+                    }
+                }
             }
         }
     }

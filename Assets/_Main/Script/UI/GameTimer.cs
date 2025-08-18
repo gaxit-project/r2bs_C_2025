@@ -151,4 +151,9 @@ public class GameTimer : MonoBehaviour
     {
         _isGameStart = true;
     }
+
+    public float GetTime()
+    {
+        return _startTime - _timer;
+    }
 }
