@@ -19,6 +19,7 @@ public class DataBase : MonoBehaviour
     public float lose = -100f;
     public float paintErea = 1f;
     public float paintTile = 0.5f;
+    public float spawnBatu = -1f;
 
     /// <summary>
     /// シングルトンインスタンス

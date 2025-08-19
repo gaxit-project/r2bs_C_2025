@@ -92,9 +92,9 @@ def send_json(sock, addr, obj):
     sock.sendto(msg, addr)
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-MODEL_PATH = os.path.join(SCRIPT_DIR, "dqn_model.pth")
-REWARD_LOG_PATH = os.path.join(SCRIPT_DIR, "reward_log.json")
-REWARD_PLOT_PATH = os.path.join(SCRIPT_DIR, "reward_plot.png")
+MODEL_PATH = os.path.join(SCRIPT_DIR, "dqn_model1.pth")
+REWARD_LOG_PATH = os.path.join(SCRIPT_DIR, "reward_log1.json")
+REWARD_PLOT_PATH = os.path.join(SCRIPT_DIR, "reward_plot1.png")
 
 def load_rewards():
     if os.path.exists(REWARD_LOG_PATH):

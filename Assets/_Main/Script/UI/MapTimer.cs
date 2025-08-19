@@ -10,6 +10,7 @@ public class MapTimer : MonoBehaviour
     [SerializeField] private Image _mapTimerImage;   //タイマーとして使うImageをいれる
     private GameTimer _gameTimer;
     private ResultData _ResultData;
+    private bool oneBool = false;
 
     private void Start()
     {
@@ -48,31 +49,35 @@ public class MapTimer : MonoBehaviour
 
             _ResultData.blueArea = GatiArea.Instance.GetGatiArea(Team.TeamOne);
             _ResultData.redArea = GatiArea.Instance.GetGatiArea(Team.TeamTwo);
-
-            if(GatiArea.Instance.GetGatiArea(Team.TeamOne) > GatiArea.Instance.GetGatiArea(Team.TeamTwo))
+            if (!oneBool)
             {
-                GameObject[] p12 = GameObject.FindGameObjectsWithTag("TeamOne");
-                foreach (GameObject pb in p12)
+                if (GatiArea.Instance.GetGatiArea(Team.TeamOne) > GatiArea.Instance.GetGatiArea(Team.TeamTwo))
                 {
-                    pb.gameObject.GetComponent<PlayerBase>().addReward(DataBase.Instance.win);
+                    GameObject[] p12 = GameObject.FindGameObjectsWithTag("TeamOne");
+                    foreach (GameObject pb in p12)
+                    {
+                        pb.gameObject.GetComponent<PlayerBase>().addReward(DataBase.Instance.win);
+                    }
+                    GameObject[] p34 = GameObject.FindGameObjectsWithTag("TeamTwo");
+                    foreach (GameObject pb in p34)
+                    {
+                        pb.gameObject.GetComponent<PlayerBase>().addReward(DataBase.Instance.lose);
+                    }
                 }
-                GameObject[] p34 = GameObject.FindGameObjectsWithTag("TeamTwo");
-                foreach (GameObject pb in p34)
+                else if (GatiArea.Instance.GetGatiArea(Team.TeamOne) < GatiArea.Instance.GetGatiArea(Team.TeamTwo))
                 {
-                    pb.gameObject.GetComponent<PlayerBase>().addReward(DataBase.Instance.lose);
+                    GameObject[] p12 = GameObject.FindGameObjectsWithTag("TeamTwo");
+                    foreach (GameObject pb in p12)
+                    {
+                        pb.gameObject.GetComponent<PlayerBase>().addReward(DataBase.Instance.win);
+                    }
+                    GameObject[] p34 = GameObject.FindGameObjectsWithTag("TeamOne");
+                    foreach (GameObject pb in p34)
+                    {
+                        pb.gameObject.GetComponent<PlayerBase>().addReward(DataBase.Instance.lose);
+                    }
                 }
-            }else if (GatiArea.Instance.GetGatiArea(Team.TeamOne) < GatiArea.Instance.GetGatiArea(Team.TeamTwo))
-            {
-                GameObject[] p12 = GameObject.FindGameObjectsWithTag("TeamTwo");
-                foreach (GameObject pb in p12)
-                {
-                    pb.gameObject.GetComponent<PlayerBase>().addReward(DataBase.Instance.win);
-                }
-                GameObject[] p34 = GameObject.FindGameObjectsWithTag("TeamOne");
-                foreach (GameObject pb in p34)
-                {
-                    pb.gameObject.GetComponent<PlayerBase>().addReward(DataBase.Instance.lose);
-                }
+                oneBool = true;
             }
 
 #if UNITY_EDITOR
