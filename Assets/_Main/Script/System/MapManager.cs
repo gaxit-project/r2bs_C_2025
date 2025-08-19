@@ -199,7 +199,7 @@ public class MapManager : MonoBehaviour
                         position = new Vector3(reversedX * _tileSize + _tileSize / 2f, -0.5f, y * _tileSize + _tileSize / 2f);
                         name = "GatiAreaObject";
                         isWalkable = true;
-                        generatePrefab = _groundPrefab[0];
+                        generatePrefab = _groundPrefab[3];
                         CreateMap(generatePrefab, GatiAreaTileParent[type], x, y, key, name, type, isWalkable, position);
                         break;
 

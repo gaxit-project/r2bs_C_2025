@@ -1693,6 +1693,7 @@ MonoBehaviour:
   - {fileID: 3455758424205611846, guid: f9e316afa553f174f8af4d935fb815e1, type: 3}
   - {fileID: 2087431106080161872, guid: db8b34db84df8de44868dd390fab7f88, type: 3}
   - {fileID: 2087431106080161872, guid: 95f7116c16d20574d97b0000172e4167, type: 3}
+  - {fileID: 3455758424205611846, guid: d5e412e27d4ae804bb0cbd0e64616f5e, type: 3}
   _wallPrefab:
   - {fileID: 3848178743019493355, guid: 5957777e73e1cdc4283d16ccfce566be, type: 3}
   - {fileID: 4986391969724115131, guid: 9e71157b0fa8b7641a0f570fbce78aaf, type: 3}
