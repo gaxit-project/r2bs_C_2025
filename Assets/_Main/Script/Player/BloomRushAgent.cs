@@ -134,6 +134,7 @@ public class BloomRushAgent : PlayerBase
             udpReceive.Client.ReceiveTimeout = 5000;
             pythonEndPoint = new IPEndPoint(IPAddress.Parse(pythonIP), sendPort);
             StartCoroutine(AgentLoop());
+            StartCoroutine(spawnPointBatu());
             soFirst = false;
         }
         if (IsEpisodeDone() && !oneBool)
@@ -166,6 +167,18 @@ public class BloomRushAgent : PlayerBase
         if (currentState == PlayerState.Alive && GameTimer.instance.IsGameStart())
         {
             BombPlacement(CatchPlayerPos());
+        }
+    }
+
+    IEnumerator spawnPointBatu()
+    {
+        while(true)
+        {
+            if(MapManager.Instance.GetBlockData(MapManager.Instance.WorldToGridPosition(this.transform.position).x, MapManager.Instance.WorldToGridPosition(this.transform.position).y).name == "StartObject")
+            {
+                addReward(DataBase.Instance.spawnBatu);
+            }
+            yield return new WaitForSeconds(0.5f);
         }
     }
 
