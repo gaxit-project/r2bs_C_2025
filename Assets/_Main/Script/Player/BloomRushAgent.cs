@@ -22,6 +22,7 @@ public class BloomRushAgent : PlayerBase
     IPEndPoint pythonEndPoint;
 
     private bool soFirst = false;
+    private bool oneBool = false;
     Process process = new Process();
 
 
@@ -69,7 +70,7 @@ public class BloomRushAgent : PlayerBase
         ProcessStartInfo psi = new ProcessStartInfo
         {
             FileName = Path.Combine(Application.dataPath, "../Python/Python311/python.exe"),
-            Arguments = $"\"{Path.Combine(Application.dataPath, "../Python/BloomRushAi.py")}\" --receive_port {sendPort} --send_port {receivePort}",
+            Arguments = $"\"{Path.Combine(Application.dataPath, "../Python/BloomRushAi"+playerIndex.ToString()+".py")}\" --receive_port {sendPort} --send_port {receivePort}",
             UseShellExecute = false,
             CreateNoWindow = true,
             RedirectStandardOutput = true,
@@ -135,11 +136,12 @@ public class BloomRushAgent : PlayerBase
             StartCoroutine(AgentLoop());
             soFirst = false;
         }
-        if (IsEpisodeDone())
+        if (IsEpisodeDone() && !oneBool)
         {
+            oneBool = true;
             udpSend.Close();
             udpReceive.Close();
-            StopAllCoroutines();
+            UnityEngine.Debug.Log(playerIndex + "udp.close");
         }
     }
 
@@ -398,8 +400,7 @@ public class BloomRushAgent : PlayerBase
 
     bool IsEpisodeDone()
     {
-        float gameTime = GameTimer.instance.GetTime();
-        return gameTime <= 0f;
+        return GameTimer.instance.IsMapTimer0();
     }
 
     void ApplyAction(int actionIdx)
