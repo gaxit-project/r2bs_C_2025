@@ -269,7 +269,7 @@ public class PlayerBase : MonoBehaviour
     /// <summary>
     /// リスポーン処理を行うコルーチン
     /// </summary>
-    private IEnumerator StartRespawnRoutine()
+    protected virtual IEnumerator StartRespawnRoutine()
     {
         // 動けなくする（死亡）
         currentState = PlayerState.Death;

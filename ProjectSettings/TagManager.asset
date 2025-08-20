@@ -33,10 +33,10 @@ TagManager:
   - Player2UI
   - Player3UI
   - Player4UI
-  - 
-  - 
-  - 
-  - 
+  - Exp
+  - Tile
+  - NavMeshCollider
+  - Wall
   - 
   - 
   - 

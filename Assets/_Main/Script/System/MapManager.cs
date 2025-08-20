@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Collections;
+using Unity.AI.Navigation;
 using System.Globalization;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -66,15 +68,34 @@ public class MapManager : MonoBehaviour
 
     public static MapManager Instance;
     public bool IsReady { get; private set; }
+
+    [SerializeField] NavMeshSurface surface;
     private void Awake()
     {
         Instance = this;
         // ステージ作成
         CreateMap();
         IsReady = true;
+
+
+        // なんか調整
+        surface.transform.position = new Vector3(Mathf.FloorToInt((_width * _tileSize) / _tileSize), 0, 0);
     }
 
 
+
+    private void Start()
+    {
+        StartCoroutine(BuildNavMeshAfterDelay());
+    }
+    private IEnumerator BuildNavMeshAfterDelay()
+    {
+        // オブジェクトが完全にシーンに生成されるのを待つ	
+        yield return null;
+        surface.RemoveData();
+        surface.AddData();
+        surface.BuildNavMesh();
+    }
 
     # region マップを生成する関数
 
@@ -374,6 +395,13 @@ public class MapManager : MonoBehaviour
 
         // 床ブロックの生成
         CreateMap(_groundPrefab[0], WallParent, x, y, 0, "GroundObject", 0, true, position);
+
+        StartCoroutine(MeshUpdate());
+    }
+    private IEnumerator MeshUpdate()
+    {
+        yield return null;
+        surface.UpdateNavMesh(surface.navMeshData);
     }
 
 

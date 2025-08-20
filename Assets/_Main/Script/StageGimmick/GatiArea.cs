@@ -23,7 +23,7 @@ public class GatiArea: MonoBehaviour
     public Transform[] GatiAreaGenerate; // エリアタイルの親オブジェクトを取得
 
 
-    Team[] currentAreaTeam = new Team[] { Team.No, Team.No, Team.No, Team.No, Team.No, Team.No, Team.No, Team.No, Team.No, Team.No};
+    public Team[] currentAreaTeam = new Team[] { Team.No, Team.No, Team.No, Team.No, Team.No, Team.No, Team.No, Team.No, Team.No, Team.No};
 
     public static GatiArea Instance;
     private void Awake()
