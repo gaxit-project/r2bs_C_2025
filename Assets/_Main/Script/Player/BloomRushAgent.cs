@@ -1,12 +1,14 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using System.Collections;
+using System.Threading;
 using UnityEngine;
 using static MapManager;
-using System.Linq;
-using System.Diagnostics;
-using System.IO;
 
 
 
@@ -14,12 +16,17 @@ public class BloomRushAgent : PlayerBase
 {
     public string pythonIP = "127.0.0.1";
 
-    public int sendPort = 5005;
+    public int send1Port = 5004;
+    public int send2Port = 5005;
     public int receivePort = 5006;
 
-    UdpClient udpSend;
+    UdpClient udpSend1;
+    UdpClient udpSend2;
     UdpClient udpReceive;
-    IPEndPoint pythonEndPoint;
+    IPEndPoint pythonEndPoint1;
+    IPEndPoint pythonEndPoint2;
+
+    private Thread receiveThread;
 
     private bool soFirst = false;
     private bool oneBool = false;
@@ -59,10 +66,11 @@ public class BloomRushAgent : PlayerBase
         TeamSplit();
 
         InitSpecialStatus();
-        sendPort += (playerIndex * 2);
-        receivePort += (playerIndex * 2);
+        send1Port += (playerIndex * 3);
+        send2Port += (playerIndex * 3);
+        receivePort += (playerIndex *3);
         StartPythonProcess();
-        UnityEngine.Debug.Log("port" + sendPort + "," + receivePort);
+        UnityEngine.Debug.Log("port:" + send1Port + ","+ send2Port + "," + receivePort);
 
     }
     private void StartPythonProcess()
@@ -70,7 +78,7 @@ public class BloomRushAgent : PlayerBase
         ProcessStartInfo psi = new ProcessStartInfo
         {
             FileName = Path.Combine(Application.dataPath, "../Python/Python311/python.exe"),
-            Arguments = $"\"{Path.Combine(Application.dataPath, "../Python/BloomRushAi"+playerIndex.ToString()+".py")}\" --receive_port {sendPort} --send_port {receivePort}",
+            Arguments = $"\"{Path.Combine(Application.dataPath, "../Python/BloomRushAi"+playerIndex.ToString()+".py")}\" --receive1_port {send1Port} --receive2_port {send2Port} --send_port {receivePort}",
             UseShellExecute = false,
             CreateNoWindow = true,
             RedirectStandardOutput = true,
@@ -124,15 +132,20 @@ public class BloomRushAgent : PlayerBase
         Cspawn[1] = new float[SPAWN];
     }
 
+    private int actionIdx = 4;
+
     protected override void Update()
     {
         base.Update();
         if (soFirst)
         {
-            udpSend = new UdpClient(sendPort);
+            udpSend1 = new UdpClient(send1Port);
+            udpSend2 = new UdpClient(send2Port);
             udpReceive = new UdpClient(receivePort);
             udpReceive.Client.ReceiveTimeout = 5000;
-            pythonEndPoint = new IPEndPoint(IPAddress.Parse(pythonIP), sendPort);
+            pythonEndPoint1 = new IPEndPoint(IPAddress.Parse(pythonIP), send1Port);
+            pythonEndPoint2 = new IPEndPoint(IPAddress.Parse(pythonIP), send2Port);
+            StartReceiving();
             StartCoroutine(AgentLoop());
             StartCoroutine(spawnPointBatu());
             soFirst = false;
@@ -140,10 +153,49 @@ public class BloomRushAgent : PlayerBase
         if (IsEpisodeDone() && !oneBool)
         {
             oneBool = true;
-            udpSend.Close();
+            udpSend1.Close();
+            udpSend2.Close();
             udpReceive.Close();
             UnityEngine.Debug.Log(playerIndex + "udp.close");
         }
+        // 3. 行動を適用
+        ApplyAction(actionIdx);
+    }
+
+
+
+    void StartReceiving()
+    {
+
+        receiveThread = new Thread(() =>
+        {
+            while (true)
+            {
+                try
+                {
+                    IPEndPoint remoteEP = null;
+                    byte[] actionBytes = udpReceive.Receive(ref remoteEP);
+                    string actionJson = Encoding.UTF8.GetString(actionBytes);
+                    ActionMsg actionMsg = JsonUtility.FromJson<ActionMsg>(actionJson);
+                    actionIdx = actionMsg.action;
+                }
+                catch (SocketException e)
+                {
+                    if (!IsEpisodeDone())
+                    {
+                        UnityEngine.Debug.Log(e + ":pthonとの通信が途絶えました。");
+                        udpSend1.Close();
+                        udpSend2.Close();
+                        udpReceive.Close();
+                        FBSceneManager.Instance.LoadTeamSelectScene();
+                        break;
+                    }
+                }
+            }
+        });
+
+        receiveThread.IsBackground = true;
+        receiveThread.Start();
     }
 
     private void NPCMove(Vector2 dir)
@@ -193,18 +245,18 @@ public class BloomRushAgent : PlayerBase
                 StateMsg stateMsg = GetStateMsg();
                 string stateJson = JsonUtility.ToJson(stateMsg);
                 byte[] stateBytes = Encoding.UTF8.GetBytes(stateJson);
-                udpSend.Send(stateBytes, stateBytes.Length, pythonEndPoint);
+                udpSend1.Send(stateBytes, stateBytes.Length, pythonEndPoint1);
 
-                // 2. 行動受信
+                /*// 2. 行動受信
                 IPEndPoint remoteEP = null;
                 byte[] actionBytes = udpReceive.Receive(ref remoteEP);
                 string actionJson = Encoding.UTF8.GetString(actionBytes);
                 ActionMsg actionMsg = JsonUtility.FromJson<ActionMsg>(actionJson);
                 int actionIdx = actionMsg.action;
-            
 
                 // 3. 行動を適用
-                ApplyAction(actionIdx);
+                ApplyAction(actionIdx);*/
+            
 
                 // 4. 報酬送信
                 RewardMsg rewardMsg = new RewardMsg();
@@ -213,11 +265,12 @@ public class BloomRushAgent : PlayerBase
                 rewardMsg.done = IsEpisodeDone();
                 string rewardJson = JsonUtility.ToJson(rewardMsg);
                 byte[] rewardBytes = Encoding.UTF8.GetBytes(rewardJson);
-                udpSend.Send(rewardBytes, rewardBytes.Length, pythonEndPoint);
+                udpSend2.Send(rewardBytes, rewardBytes.Length, pythonEndPoint2);
             }catch (SocketException e)
             {
                 UnityEngine.Debug.Log(e + ":pthonとの通信が途絶えました。");
-                udpSend.Close();
+                udpSend1.Close();
+                udpSend2.Close();
                 udpReceive.Close();
                 FBSceneManager.Instance.LoadTeamSelectScene();
                 break;
@@ -342,7 +395,7 @@ public class BloomRushAgent : PlayerBase
         {
             enemy = GameObject.FindGameObjectsWithTag("TeamOne");
         }
-        float[] player = new float[(team.Length+enemy.Length)*2];
+        float[] player = new float[8];
         foreach (GameObject t in team)
         {
             player[i++] = (float)MapManager.Instance.WorldToGridPosition(t.transform.position).x;
