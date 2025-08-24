@@ -13,16 +13,14 @@ import matplotlib.pyplot as plt
 class DQN(nn.Module):
     def __init__(self, state_size, action_size):
         super(DQN, self).__init__()
-        self.fc1 = nn.Linear(state_size, 512)
-        self.fc2 = nn.Linear(512, 256)
-        self.fc3 = nn.Linear(256, 128)
-        self.fc4 = nn.Linear(128, action_size)
+        self.fc1 = nn.Linear(state_size, 256)
+        self.fc2 = nn.Linear(256, 128)
+        self.fc3 = nn.Linear(128, action_size)
 
     def forward(self, x):
         x = torch.relu(self.fc1(x))
         x = torch.relu(self.fc2(x))
-        x = torch.relu(self.fc3(x))
-        return self.fc4(x)
+        return self.fc3(x)
 
 
 class DQNAgent:
@@ -36,9 +34,16 @@ class DQNAgent:
         self.epsilon_decay = 0.995
         self.learning_rate = 0.001
 
+        # オンラインネットとターゲットネット
         self.model = DQN(state_size, action_size)
+        self.target_model = DQN(state_size, action_size)
+        self.target_model.load_state_dict(self.model.state_dict())
+        self.target_model.eval()
+
         self.optimizer = optim.Adam(self.model.parameters(), lr=self.learning_rate)
-        self.criterion = nn.MSELoss()
+        self.criterion = nn.SmoothL1Loss()   # HuberLoss
+        self.update_target_steps = 1000
+        self.train_step = 0
 
     def select_action(self, state):
         if np.random.rand() <= self.epsilon:
@@ -55,22 +60,28 @@ class DQNAgent:
         if len(self.memory) < batch_size:
             return
         minibatch = random.sample(self.memory, batch_size)
+
         for state, action, reward, next_state, done in minibatch:
             state = torch.FloatTensor(state)
             next_state = torch.FloatTensor(next_state)
-            target = reward
-            if not done:
-                target = reward + self.gamma * torch.max(self.model(next_state)).item()
-            target_f = self.model(state)
-            target_f = target_f.clone().detach()
-            target_f[action] = target
+
+            with torch.no_grad():
+                if done:
+                    target = reward
+                else:
+                    target = reward + self.gamma * torch.max(self.target_model(next_state)).item()
+
             output = self.model(state)[action]
             loss = self.criterion(output, torch.tensor(target))
+
             self.optimizer.zero_grad()
             loss.backward()
             self.optimizer.step()
-        if self.epsilon > self.epsilon_min:
-            self.epsilon *= self.epsilon_decay
+
+            # ターゲットネットの同期
+            self.train_step += 1
+            if self.train_step % self.update_target_steps == 0:
+                self.target_model.load_state_dict(self.model.state_dict())
 
 # 行動リスト
 ACTIONS = ["forward", "backward", "right", "left", "wait", "set_bomb"]

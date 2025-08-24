@@ -4,6 +4,7 @@ using Unity.AI.Navigation;
 using System.Globalization;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using static UnityEngine.UI.GridLayoutGroup;
 
@@ -73,6 +74,7 @@ public class MapManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        DontDestroyOnLoad(gameObject);
         // ステージ作成
         CreateMap();
         IsReady = true;
@@ -80,6 +82,11 @@ public class MapManager : MonoBehaviour
 
         // なんか調整
         surface.transform.position = new Vector3(Mathf.FloorToInt((_width * _tileSize) / _tileSize), 0, 0);
+    }
+
+    public void DontKaijo()
+    {
+        SceneManager.MoveGameObjectToScene(gameObject, SceneManager.GetActiveScene());
     }
 
 
