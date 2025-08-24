@@ -2,6 +2,7 @@
 using System.Globalization;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 using static UnityEngine.UI.GridLayoutGroup;
 
@@ -69,9 +70,15 @@ public class MapManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
+        DontDestroyOnLoad(gameObject);
         // ステージ作成
         CreateMap();
         IsReady = true;
+    }
+
+    public void DontKaijo()
+    {
+        SceneManager.MoveGameObjectToScene(gameObject, SceneManager.GetActiveScene());
     }
 
 

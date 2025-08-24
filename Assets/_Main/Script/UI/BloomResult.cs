@@ -1,6 +1,7 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class BloomResult : MonoBehaviour
@@ -40,6 +41,7 @@ public class BloomResult : MonoBehaviour
     private ResultData _ResultData;
     void Start()
     {
+        MapManager.Instance.DontKaijo();
         _ResultData = Resources.Load<ResultData>("ResultData");
 
 #if !UNITY_EDITOR
