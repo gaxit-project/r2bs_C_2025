@@ -8,7 +8,7 @@ public class ShowTimerText : MonoBehaviour
     [SerializeField] private GameTimer GameTimer; //ゲームタイマーを入れる用
     void Start()
     {
-        GameTimer.StartTimer();
+        //GameTimer.StartTimer();
     }
 
     void Update()

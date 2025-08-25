@@ -1404,11 +1404,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5957777e73e1cdc4283d16ccfce566be, type: 3}
---- !u!4 &205153537 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6797242538297133649, guid: 9f8690fd600dab54c94941cfddd4c5ac, type: 3}
-  m_PrefabInstance: {fileID: 1545199162}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &207225275
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5396,11 +5391,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5957777e73e1cdc4283d16ccfce566be, type: 3}
---- !u!4 &839861997 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6797242538297133649, guid: 9f8690fd600dab54c94941cfddd4c5ac, type: 3}
-  m_PrefabInstance: {fileID: 174222672}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &843004567 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6299072077121623823, guid: 5957777e73e1cdc4283d16ccfce566be, type: 3}
@@ -7355,6 +7345,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5957777e73e1cdc4283d16ccfce566be, type: 3}
+--- !u!4 &1110904595 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 416035075358512252, guid: 9f8690fd600dab54c94941cfddd4c5ac, type: 3}
+  m_PrefabInstance: {fileID: 174222672}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1114089362 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6299072077121623823, guid: 5957777e73e1cdc4283d16ccfce566be, type: 3}
@@ -8142,7 +8137,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 124663
+    m_Bits: 1173239
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -9699,6 +9694,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5957777e73e1cdc4283d16ccfce566be, type: 3}
+--- !u!4 &1442056796 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 416035075358512252, guid: 9f8690fd600dab54c94941cfddd4c5ac, type: 3}
+  m_PrefabInstance: {fileID: 1545199162}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1449978991
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13016,8 +13016,8 @@ Transform:
   - {fileID: 530472314}
   - {fileID: 2126369848}
   - {fileID: 1585685493}
-  - {fileID: 205153537}
-  - {fileID: 839861997}
+  - {fileID: 1442056796}
+  - {fileID: 1110904595}
   - {fileID: 1856490687}
   - {fileID: 971453528}
   m_Father: {fileID: 0}

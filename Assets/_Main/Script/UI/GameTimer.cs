@@ -99,6 +99,11 @@ public class GameTimer : MonoBehaviour
         _isGameStart = false;
     }
 
+    public void SStopTimerr()
+    {
+        _isGameStart = false;
+    }
+
     /// <summary>
     /// タイマーをリセットする
     /// </summary>
@@ -149,7 +154,10 @@ public class GameTimer : MonoBehaviour
     /// </summary>
     public void MainGameStart()
     {
-        _isGameStart = true;
+        if (_isActiveTime)
+        {
+            _isGameStart = true;
+        }
     }
 
     public float GetTime()
