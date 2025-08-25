@@ -74,7 +74,6 @@ public class MapManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        DontDestroyOnLoad(gameObject);
         // ステージ作成
         CreateMap();
         IsReady = true;
@@ -87,6 +86,11 @@ public class MapManager : MonoBehaviour
     public void DontKaijo()
     {
         SceneManager.MoveGameObjectToScene(gameObject, SceneManager.GetActiveScene());
+    }
+
+    public void DontDest()
+    {
+        DontDestroyOnLoad(gameObject);
     }
 
 

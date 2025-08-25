@@ -40,6 +40,7 @@ public class FBSceneManager : MonoBehaviour
         {
             SoundManager.PlaySE("gameset");
         }
+        MapManager.Instance.DontDest();
         StartCoroutine(ToResultScene());
     }
 
