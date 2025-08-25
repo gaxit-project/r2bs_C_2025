@@ -185,7 +185,10 @@ public class BloomResult : MonoBehaviour
         yield return new WaitForSeconds(1f);
         
         ResultPanel.SetActive(true);
-        
+
+        yield return new WaitForSeconds(4f);
+        FBSceneManager.Instance.LoadMainScene();
+
 
 
     }

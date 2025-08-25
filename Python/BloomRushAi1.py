@@ -13,14 +13,16 @@ import matplotlib.pyplot as plt
 class DQN(nn.Module):
     def __init__(self, state_size, action_size):
         super(DQN, self).__init__()
-        self.fc1 = nn.Linear(state_size, 256)
-        self.fc2 = nn.Linear(256, 128)
-        self.fc3 = nn.Linear(128, action_size)
+        self.fc1 = nn.Linear(state_size, 512)
+        self.fc2 = nn.Linear(512, 256)
+        self.fc3 = nn.Linear(256, 128)
+        self.fc4 = nn.Linear(128, action_size)
 
     def forward(self, x):
         x = torch.relu(self.fc1(x))
         x = torch.relu(self.fc2(x))
-        return self.fc3(x)
+        x = torch.relu(self.fc3(x))
+        return self.fc4(x)
 
 
 class DQNAgent:
@@ -119,13 +121,15 @@ def save_rewards(rewards):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--receive_port', type=int, default=5005)
+    parser.add_argument('--receive1_port', type=int, default=5004)
+    parser.add_argument('--receive2_port', type=int, default=5005)
     parser.add_argument('--send_port', type=int, default=5006)
     args = parser.parse_args()
 
-    UDP_PORT_RECEIVE = args.receive_port
+    UDP_PORT_RECEIVE1 = args.receive1_port
+    UDP_PORT_RECEIVE2 = args.receive2_port
     UDP_PORT_SEND = args.send_port
-    print(f"受信ポート: {UDP_PORT_RECEIVE}, 送信ポート: {UDP_PORT_SEND}")
+    print(f"受信ポート: {UDP_PORT_RECEIVE1},{UDP_PORT_RECEIVE2}, 送信ポート: {UDP_PORT_SEND}")
     state_size = 2815  # 状態の次元数（Unity側と合わせる）
     action_size = len(ACTIONS)
     agent = DQNAgent(state_size, action_size)
@@ -135,9 +139,12 @@ if __name__ == "__main__":
         agent.model.load_state_dict(torch.load(MODEL_PATH))
         print("学習済みモデルをロードしました")
 
-    sock_receive = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    sock_receive.bind((UDP_IP, UDP_PORT_RECEIVE))
-    sock_receive.settimeout(5.0)  # 1秒ごとにタイムアウト
+    sock_receive1 = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    sock_receive1.bind((UDP_IP, UDP_PORT_RECEIVE1))
+    sock_receive2 = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    sock_receive2.bind((UDP_IP, UDP_PORT_RECEIVE2))
+    sock_receive1.settimeout(5.0)  # 1秒ごとにタイムアウト
+    sock_receive2.settimeout(5.0)  # 1秒ごとにタイムアウト
     sock_send = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 
     #Unity側のflag
@@ -149,7 +156,7 @@ if __name__ == "__main__":
     try:
         while True:
             # 1. Unityから状態を受信
-            state_data, unity_addr = receive_json(sock_receive)
+            state_data, unity_addr = receive_json(sock_receive1)
             if state_data is None:
                 break  # タイムアウト時は終了
             
@@ -192,7 +199,7 @@ if __name__ == "__main__":
             send_json(sock_send, (unity_addr[0], UDP_PORT_SEND), {"action": action_idx})
 
             # 4. Unityから報酬・次状態を受信
-            reward_data, _ = receive_json(sock_receive)
+            reward_data, _ = receive_json(sock_receive2)
             if reward_data is None:
                 break  # タイムアウト時は終了
             reward = reward_data["reward"]  # float型
@@ -221,7 +228,8 @@ if __name__ == "__main__":
             agent.observe(state, action_idx, reward, next_state, done)
     finally:
         print("エピソード終了")
-        sock_receive.close()
+        sock_receive1.close()
+        sock_receive2.close()
         sock_send.close()
         # モデル保存
         torch.save(agent.model.state_dict(), MODEL_PATH)

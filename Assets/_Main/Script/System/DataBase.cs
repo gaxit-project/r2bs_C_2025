@@ -8,9 +8,9 @@ public class DataBase : MonoBehaviour
     private bool resultBool = true;
 
     //Reward
-    public float getExp = 1f;
-    public float placeBomb = 0.1f;
-    public float upLevel = 3f;
+    public float getExp = 3f;
+    public float placeBomb = 1f;
+    public float upLevel = 5f;
     public float attackEnemy = 10f;
     public float getErea = 30f;
     public float win = 100f;
