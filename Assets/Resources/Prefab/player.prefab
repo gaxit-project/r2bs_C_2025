@@ -764,6 +764,18 @@ PrefabInstance:
       propertyPath: m_ReferenceResolution.x
       value: 1300
       objectReference: {fileID: 0}
+    - target: {fileID: 5000616073934958174, guid: d88985cf3317f63499a98fcf5cc4b332, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5000616073934958174, guid: d88985cf3317f63499a98fcf5cc4b332, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5000616073934958174, guid: d88985cf3317f63499a98fcf5cc4b332, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -94
+      objectReference: {fileID: 0}
     - target: {fileID: 5201155878276370730, guid: d88985cf3317f63499a98fcf5cc4b332, type: 3}
       propertyPath: m_IsActive
       value: 0

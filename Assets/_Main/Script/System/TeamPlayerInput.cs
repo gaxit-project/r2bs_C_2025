@@ -40,8 +40,8 @@ public class TeamPlayerInput : MonoBehaviour
         else if (playerCount == 2)
         {
             return index == 0
-                ? new Rect(0f, 0.25f, 0.5f, 0.5f)   // 左
-                : new Rect(0.5f, 0.25f, 0.5f, 0.5f); // 右
+                ? new Rect(0f, 0f, 0.5f, 1f)   // 左
+                : new Rect(0.5f, 0f, 0.5f, 1f); // 右
         }
         else if (playerCount == 3)
         {
