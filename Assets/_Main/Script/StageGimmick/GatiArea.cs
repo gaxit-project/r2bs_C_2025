@@ -21,6 +21,9 @@ public class GatiArea: MonoBehaviour
 
 
     public Transform[] GatiAreaGenerate; // エリアタイルの親オブジェクトを取得
+    public Transform[] GatiMap;
+    public Sprite blueF;
+    public Sprite redF;
 
 
     public Team[] currentAreaTeam = new Team[] { Team.No, Team.No, Team.No, Team.No, Team.No, Team.No, Team.No, Team.No, Team.No, Team.No};
@@ -175,7 +178,9 @@ public class GatiArea: MonoBehaviour
     /// </summary>
     private void BloomAllArea(Team teamName, Color bombColor, int type)
     {
+
         isAreaObtained[type] = true;
+        Vector3 center = new Vector3((GatiAreaGenerate[type].GetChild(0).gameObject.transform.position.x + GatiAreaGenerate[type].GetChild(areaTileMaxCnt[type] - 1).gameObject.transform.position.x) / 2, 0.5f, (GatiAreaGenerate[type].GetChild(0).gameObject.transform.position.z + GatiAreaGenerate[type].GetChild(areaTileMaxCnt[type] - 1).gameObject.transform.position.z) / 2);
         for (int i = 0; i < areaTileMaxCnt[type]; i++)
         {
             Transform child = GatiAreaGenerate[type].GetChild(i);
@@ -196,6 +201,15 @@ public class GatiArea: MonoBehaviour
                         break;
                 }
             }
+        }
+        GatiMap[type].position = center;
+        if(teamName == Team.TeamOne)
+        {
+            GatiMap[type].GetComponent<SpriteRenderer>().sprite = blueF;
+        }
+        else
+        {
+            GatiMap[type].GetComponent<SpriteRenderer>().sprite = redF;
         }
         switch (teamName)
         {

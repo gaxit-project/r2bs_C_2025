@@ -51,6 +51,8 @@ public class NPCcontroller : NPCBase
     }
 
     bool a = false;
+    int reCnt = 0;
+    bool rFirst = false;
 
     protected new void FixedUpdate()
     {
@@ -58,6 +60,7 @@ public class NPCcontroller : NPCBase
 
         if (GameTimer.instance.IsGameStart())
         {
+
             if (!a)
             {
                 animator.SetBool("isWalking", true);
@@ -66,11 +69,25 @@ public class NPCcontroller : NPCBase
                 agent.updateRotation = false;
             }
 
+            reCnt++;
+            if (!rFirst && reCnt <= 50 * playerIndex)
+            {
+                return;
+            }
+            else
+            {
+                reCnt = 0;
+                rFirst = true;
+            }
+
+
+
             // 目的地に到達した、またはまだパスがない場合に、次の目的地を設定する
-            if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+            if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance || reCnt >= 400)
             {
                 Debug.Log("ポジ損修正");
                 MoveToNextRandomPoint();
+                reCnt = 0;
             }
         }
         Vector3 velocity = agent.velocity;
