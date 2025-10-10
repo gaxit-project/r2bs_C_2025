@@ -30,7 +30,7 @@ public class BloomHitJudgment : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "TeamOne" && _teamName == Team.TeamTwo)
+        if(other.tag == "TeamOne" && _teamName == Team.TeamTwo && !other.gameObject.GetComponent<PlayerBase>().isInvincibility)
         {
             GameObject obj = other.gameObject;
             PlayerBase PC = obj.GetComponent<PlayerBase>();
@@ -38,7 +38,7 @@ public class BloomHitJudgment : MonoBehaviour
             PC.RespawnPlayer();
             PB.addReward(DataBase.Instance.attackEnemy);
         }
-        else if (other.tag == "TeamTwo" && _teamName == Team.TeamOne)
+        else if (other.tag == "TeamTwo" && _teamName == Team.TeamOne&& !other.gameObject.GetComponent<PlayerBase>().isInvincibility)
         {
             GameObject obj = other.gameObject;
             PlayerBase PC = obj.GetComponent<PlayerBase>();

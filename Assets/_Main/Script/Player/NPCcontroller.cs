@@ -255,6 +255,7 @@ public class NPCcontroller : NPCBase
         if (agent != null) agent.enabled = true;
         currentState = PlayerState.Alive;
         animator.SetBool("isDeath", false);
+        Invincibility();
     }
 
     // =======================================================================================

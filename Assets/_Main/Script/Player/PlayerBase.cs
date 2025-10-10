@@ -325,9 +325,41 @@ public class PlayerBase : MonoBehaviour
         // 動けるようにする（生存）
         currentState = PlayerState.Alive;
         animator.SetBool("isDeath", false);
+        Invincibility();
+    }
+    public bool isInvincibility = false;
+    public void Invincibility()
+    {
+        StartCoroutine(InvincibilityTimer());
+        //StartCoroutine(BlinkCoroutine(5f, 0.2f));
     }
 
+    IEnumerator InvincibilityTimer()
+    {
+        isInvincibility = true;
+        Debug.Log("無敵化！！");
+        yield return new WaitForSeconds(5f);
+        isInvincibility = false;
+        Debug.Log("無敵化解除！！");
+    }
+    private IEnumerator BlinkCoroutine(float duration, float interval)
+    {
+        float timer = 0f;
+        Renderer objRenderer = this.gameObject.GetComponent<Renderer>();
+        while (timer < duration)
+        {
+            // 表示/非表示を切り替え
+            objRenderer.enabled = !objRenderer.enabled;
 
+            // interval秒待機
+            yield return new WaitForSeconds(interval);
+
+            timer += interval;
+        }
+
+        // 最後に必ず表示状態に戻す
+        objRenderer.enabled = true;
+    }
 
     public void WarpPosition(Vector3 warpPos)
     {
