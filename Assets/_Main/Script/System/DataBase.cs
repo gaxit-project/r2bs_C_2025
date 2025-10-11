@@ -6,6 +6,7 @@ public class DataBase : MonoBehaviour
     private string stageName = "stage5";
     private bool areaBool = false;
     private bool resultBool = true;
+    private bool aiMode = false;
 
     //Reward
     public float getExp = 3f;
@@ -66,5 +67,15 @@ public class DataBase : MonoBehaviour
     public bool GetRssultBool()
     {
         return resultBool;
+    }
+
+    public void SetAiMode(bool aiMode)
+    {
+        this.aiMode = aiMode;
+    }
+
+    public bool GetAiMode()
+    {
+        return aiMode;
     }
 }

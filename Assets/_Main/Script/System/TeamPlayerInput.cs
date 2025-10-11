@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Layouts;
@@ -33,7 +34,17 @@ public class TeamPlayerInput : MonoBehaviour
     //カメラの分割割り当て
     private Rect GetCameraRect(int playerCount, int index)
     {
-        if (playerCount <= 1)
+        if (playerCount <= 0)
+        {
+            switch (index)
+            {
+                case 0: return new Rect(0f, 0.5f, 0.5f, 0.5f);   // 左上
+                case 1: return new Rect(0.5f, 0.5f, 0.5f, 0.5f); // 右上
+                case 2: return new Rect(0f, 0f, 0.5f, 0.5f);     // 左下
+                case 3: return new Rect(0.5f, 0f, 0.5f, 0.5f);   // 右下
+            }
+        }
+        if (playerCount == 1)
         {
             return new Rect(0f, 0f, 1f, 1f); // 全画面
         }
@@ -86,7 +97,7 @@ public class TeamPlayerInput : MonoBehaviour
         // NPCをスポーン
         for (int i = _playerData.PlayerTable.Count; i < 4; i++)
         {
-            SpownAi();
+            SpownAi(i);
         }
     }
 
@@ -169,8 +180,12 @@ public class TeamPlayerInput : MonoBehaviour
         Debug.Log($"プレイヤー {index} を {matchedDevices.Count} 個のデバイスでスポーンしました。");
     }
 
-    private void SpownAi()
+    private void SpownAi(int i)
     {
-        Instantiate(_aiPrefab);
+        GameObject ai =  Instantiate(_aiPrefab);
+
+        Camera playerCam =ai.gameObject.transform.GetChild(0).GetComponent<Camera>();
+
+        playerCam.rect = GetCameraRect(_playerData.PlayerTable.Count, i);
     }
 }

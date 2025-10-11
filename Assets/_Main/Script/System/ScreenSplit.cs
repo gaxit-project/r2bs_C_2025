@@ -21,6 +21,12 @@ public class ScreenSplit : MonoBehaviour
 
         switch (_playerData.PlayerTable.Count)
         {
+            case 0:
+                tateFrame.SetActive(true);
+                yokoFrame.SetActive(true);
+                SoloMap.SetActive(false);
+                MultiMap.SetActive(true);
+                break;
             case 1:
                 tateFrame.SetActive(false);
                 yokoFrame.SetActive(false);

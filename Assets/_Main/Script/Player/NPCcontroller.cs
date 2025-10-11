@@ -29,7 +29,12 @@ public class NPCcontroller : NPCBase
         InitSpecialStatus();
 
         Camera playerCam = GetComponentInChildren<Camera>();
-        playerCam.cullingMask = LayerMask.GetMask("Default", "TransparentFX", "ignore RayCast", "Water", "UI", "TeamOneTile", "TeamTwoTile", "Player", "Back", "Player" + (playerIndex + 1) + "UI");
+        //playerCam.cullingMask = LayerMask.GetMask("Default", "TransparentFX", "ignore RayCast", "Water", "UI", "TeamOneTile", "TeamTwoTile", "Player", "Back", "Player" + (playerIndex + 1) + "UI");
+
+        if (!DataBase.Instance.GetAiMode())
+        {
+            playerCam.gameObject.SetActive(false);
+        }
     }
     private void NPCTeamTag()
     {
@@ -260,7 +265,7 @@ public class NPCcontroller : NPCBase
 
     // =======================================================================================
 
-    private bool[] IsNearWall()
+    /*private bool[] IsNearWall()
     {
         int index = 0;
         RaycastHit hit;
@@ -286,7 +291,7 @@ public class NPCcontroller : NPCBase
             index++;
         }
         return result;
-    }
+    }*/
 
     private bool chescChangeIsWall(bool[] isWall)
     {
