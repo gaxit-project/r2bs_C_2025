@@ -1,5 +1,7 @@
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class ScreenSplit : MonoBehaviour
 {
@@ -7,6 +9,7 @@ public class ScreenSplit : MonoBehaviour
     public GameObject yokoFrame;
     public GameObject SoloMap;
     public GameObject MultiMap;
+    public GameObject ToTitle;
 
     /// <summary>
     /// プレイヤーデータ（ScriptableObject）
@@ -26,30 +29,36 @@ public class ScreenSplit : MonoBehaviour
                 yokoFrame.SetActive(true);
                 SoloMap.SetActive(false);
                 MultiMap.SetActive(true);
+                ToTitle.SetActive(true);
+                ToTitle.GetComponent<Button>().Select();
                 break;
             case 1:
                 tateFrame.SetActive(false);
                 yokoFrame.SetActive(false);
                 SoloMap.SetActive(true);
                 MultiMap.SetActive(false);
+                ToTitle.SetActive(false);
                 break;
             case 2:
                 tateFrame.SetActive(true);
                 yokoFrame.SetActive(false);
                 SoloMap.SetActive(false);
                 MultiMap.SetActive(true);
+                ToTitle.SetActive(false);
                 break;
             case 3:
                 tateFrame.SetActive(true);
                 yokoFrame.SetActive(true);
                 SoloMap.SetActive(false);
                 MultiMap.SetActive(true);
+                ToTitle.SetActive(false);
                 break;
             case 4:
                 tateFrame.SetActive(true);
                 yokoFrame.SetActive(true);
                 SoloMap.SetActive(false);
                 MultiMap.SetActive(true);
+                ToTitle.SetActive(false);
                 break;
         }
     }

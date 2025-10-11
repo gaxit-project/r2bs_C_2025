@@ -1445,6 +1445,17 @@
                 },
                 {
                     "name": "",
+                    "id": "e84dd841-bd90-482d-9aa0-e6f818feb10d",
+                    "path": "<Gamepad>/rightStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad",
+                    "action": "F10",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "173e4c60-543e-4178-805c-f5c99521457a",
                     "path": "<Keyboard>/f11",
                     "interactions": "",

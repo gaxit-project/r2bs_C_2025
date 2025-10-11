@@ -59,6 +59,7 @@ public class FBSceneManager : MonoBehaviour
     public void LoadTeamSelectScene()
     {
         Time.timeScale = 1f;
+        DataBase.Instance.SetAiMode(false);
         SoundManager.StopBgm();
         SceneManager.LoadScene("TeamSelectScene");
     }

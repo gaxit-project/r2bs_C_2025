@@ -29,7 +29,7 @@ public class NPCcontroller : NPCBase
         InitSpecialStatus();
 
         Camera playerCam = GetComponentInChildren<Camera>();
-        //playerCam.cullingMask = LayerMask.GetMask("Default", "TransparentFX", "ignore RayCast", "Water", "UI", "TeamOneTile", "TeamTwoTile", "Player", "Back", "Player" + (playerIndex + 1) + "UI");
+        playerCam.cullingMask = LayerMask.GetMask("Default", "Exp", "TransparentFX", "ignore RayCast", "Water", "UI", "TeamOneTile", "TeamTwoTile", "Player", "Back", "Player" + (playerIndex + 1) + "UI", "Tile", "Wall");
 
         if (!DataBase.Instance.GetAiMode())
         {

@@ -7,8 +7,11 @@ public class AIMode : MonoBehaviour
     {
         _playerData = Resources.Load<PlayerTeamData>("PlayerData");
         _playerData.PlayerTable.Clear();
-        FBSceneManager.Instance.LoadMainScene();
+#if !UNITY_EDITOR
+    PlayerDataIO.Reset();
+#endif
         DataBase.Instance.SetAiMode(true);
+        FBSceneManager.Instance.LoadMainScene();
     }
 
     public void AiOff()
