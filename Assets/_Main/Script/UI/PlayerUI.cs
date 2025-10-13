@@ -74,13 +74,13 @@ public class PlayerUI : MonoBehaviour
         nowBombCnt.text = iniNowBombCnt + value.ToString();
     }
 
-    private void addBombRange(int value)
+    public void addBombRange(int value)
     {
         BombRange += value;
         bombRange.text = iniBombRange + BombRange.ToString();
     }
 
-    private void addSpeed(int value)
+    public void addSpeed(int value)
     {
         Speed += value;
         speed.text = iniSpeed + Speed.ToString();

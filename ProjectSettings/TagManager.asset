@@ -15,6 +15,9 @@ TagManager:
   - GatiHoko
   - Exp
   - MapTimer
+  - SpeedExp
+  - RangeExp
+  - CountExp
   layers:
   - Default
   - TransparentFX

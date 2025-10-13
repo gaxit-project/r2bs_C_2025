@@ -2940,6 +2940,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1451251709}
   - component: {fileID: 1451251708}
+  - component: {fileID: 1451251710}
   m_Layer: 0
   m_Name: ItemManager
   m_TagString: Untagged
@@ -2954,7 +2955,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1451251707}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 910091fd656982f4b8c6f792ceb323a1, type: 3}
   m_Name: 
@@ -2979,6 +2980,28 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1451251710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1451251707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b881000c9e0ba1144aa3245fdcf72a5e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _speedItemPrefab: {fileID: 2468505861401802279, guid: acb35cf4942cbaa49bef746ad3747c7d, type: 3}
+  _rangeItemPrefab: {fileID: 2468505861401802279, guid: e46e730993e6e434ebe5e1da55cbc001, type: 3}
+  _countItemPrefab: {fileID: 2468505861401802279, guid: 4b44e8a3f16413a448e2bf8bd9472746, type: 3}
+  speedItemCnt: 12
+  rangeItemCnt: 10
+  countItemCnt: 8
+  _debugSeed: 0
+  _boxCount: 0
+  _mapManager: {fileID: 1243405410}
+  _dropFlags: 
 --- !u!1 &1659616706
 GameObject:
   m_ObjectHideFlags: 0
