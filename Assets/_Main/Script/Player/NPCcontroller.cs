@@ -211,7 +211,7 @@ public class NPCcontroller : NPCBase
         //Vector2 gridPos = MapManager.Instance.WorldToGridPosition(this.transform.position); 
         Vector2Int pos = MapManager.Instance.GetBlockData((int)this.transform.position.x, (int)this.transform.position.z).gridPosition;
         Vector3 newPos = new Vector3(pos.x, 0f, pos.y);
-        ItemGenerator.Instance.DropExp(newPos, this.GetComponent<LevelManager>().CurrentLevel);
+        NewItemGenerator.Instance.DropExp(newPos, speedLevel + bombRangeLevel + bombCntLevel);
         // フェードイン処理（仮）
         Debug.Log("Fade In Start");
         Rigidbody rb = GetComponent<Rigidbody>();

@@ -205,7 +205,7 @@ public class BombProcess : MonoBehaviour
                 MapManager.Instance.ChangeBlock(targetX, targetY);
 
                 Vector3 dropPosition = MapManager.Instance.GetBlockData(targetX, targetY).tilePosition;
-                ItemGenerator.Instance.TryDropExp(dropPosition);
+                NewItemGenerator.Instance.TryDropExp(dropPosition);
 
 
                 break;

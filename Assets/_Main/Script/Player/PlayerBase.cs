@@ -10,8 +10,8 @@ public class PlayerBase : MonoBehaviour
 {
     // プレイヤー関連の変数
     protected const int EXP_SIZE = 1;    //Exp1つあたりの経験値量 
-    protected LevelManager _levelManager;    //レベルアップ管理
-    protected PlayerStatus _status;  //レベルアップデータ
+    //protected LevelManager _levelManager;    //レベルアップ管理 86
+    //protected PlayerStatus _status;  //レベルアップデータ 85 126
 
     [SerializeField]
     protected float PlayerSpeed = 7f; //プレイヤーの速度
@@ -70,6 +70,11 @@ public class PlayerBase : MonoBehaviour
     private GameObject cyanChan;
 
     [SerializeField]
+    protected int speedLevel = 1;
+    protected int bombRangeLevel = 1; // ボムの爆発範囲
+    protected int bombCntLevel = 1;   // ボムの所持数 
+
+    [SerializeField]
     protected PlayerUI playerUI;
     private int NowBombCnt;
 
@@ -82,8 +87,8 @@ public class PlayerBase : MonoBehaviour
 
     protected virtual void Start()
     {
-        _status = GetComponent<PlayerStatus>();
-        _levelManager = GetComponent<LevelManager>();
+        //_status = GetComponent<PlayerStatus>();
+        //_levelManager = GetComponent<LevelManager>();
         SetStatus();
         playerID = playerIndex;
     }
@@ -123,12 +128,23 @@ public class PlayerBase : MonoBehaviour
         SetStatusInternal();
     }
 
-    protected virtual void SetStatusInternal()
+    /*protected virtual void SetStatusInternal()
     {
         if (_status == null) return;
         PlayerSpeed = 2.0f + (_status.GetValue(StatusType.Speed) - 1) * 0.5f;
         BombRange = 1 + (_status.GetValue(StatusType.Power) - 1);
         BloomBombMax = 1 + (_status.GetValue(StatusType.BombCount) - 1);
+        for (int i = BloomBombPool.Count; i < BloomBombMax; i++)
+        {
+            addSetBomb();
+        }
+    }*/
+
+    protected void SetStatusInternal()
+    {
+        PlayerSpeed = 2.0f + (speedLevel-1) * 0.3f;
+        BombRange = 1 + bombRangeLevel-1;
+        BloomBombMax = 1 + bombCntLevel-1;
         for (int i = BloomBombPool.Count; i < BloomBombMax; i++)
         {
             addSetBomb();
@@ -278,7 +294,7 @@ public class PlayerBase : MonoBehaviour
         //Vector2 gridPos = MapManager.Instance.WorldToGridPosition(this.transform.position); 
         Vector2Int pos = MapManager.Instance.GetBlockData((int)this.transform.position.x, (int)this.transform.position.z).gridPosition;
         Vector3 newPos = new Vector3(pos.x, 0f, pos.y);
-        ItemGenerator.Instance.DropExp(newPos, this.GetComponent<LevelManager>().CurrentLevel);
+        NewItemGenerator.Instance.DropExp(newPos, speedLevel+bombRangeLevel+bombCntLevel);
         // フェードイン処理（仮）
         Debug.Log("Fade In Start");
         Rigidbody rb = GetComponent<Rigidbody>();
@@ -443,13 +459,39 @@ public class PlayerBase : MonoBehaviour
 
     #endregion
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if(collision.transform.tag == "Exp" && currentState == PlayerState.Alive)
+        /*if(collision.transform.tag == "Exp" && currentState == PlayerState.Alive)
         {
             _levelManager.AddExp(EXP_SIZE);
             SoundManager.PlaySE("getxp");
             Destroy(collision.gameObject);
+            addReward(DataBase.Instance.getExp);
+        }*/
+        if (other.transform.tag == "SpeedExp" && currentState == PlayerState.Alive)
+        {
+            speedLevel++;
+            SetStatus();
+            SoundManager.PlaySE("PowerUp");
+            Destroy(other.gameObject);
+            addReward(DataBase.Instance.getExp);
+            playerUI.addSpeed(1);
+        }
+        if (other.transform.tag == "RangeExp" && currentState == PlayerState.Alive)
+        {
+            bombRangeLevel++;
+            SetStatus();
+            SoundManager.PlaySE("PowerUp");
+            Destroy(other.gameObject);
+            addReward(DataBase.Instance.getExp);
+            playerUI.addBombRange(1);
+        }
+        if (other.transform.tag == "CountExp" && currentState == PlayerState.Alive)
+        {
+            bombCntLevel++;
+            SetStatus();
+            SoundManager.PlaySE("PowerUp");
+            Destroy(other.gameObject);
             addReward(DataBase.Instance.getExp);
         }
     }
