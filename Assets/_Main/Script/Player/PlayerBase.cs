@@ -80,6 +80,19 @@ public class PlayerBase : MonoBehaviour
 
     protected bool anifirst = false;
 
+    Transform purple;
+    Transform cyan;
+
+    Transform activeChild = null;
+
+
+
+    // Face, Body, Hair のRendererを取得
+    Renderer faceRenderer;
+    Renderer bodyRenderer;
+    Renderer hairRenderer;
+    Renderer hatRenderer;
+
     /// <summary>
     /// 自身のチーム名を返す関数
     /// </summary>
@@ -344,10 +357,22 @@ public class PlayerBase : MonoBehaviour
         Invincibility();
     }
     public bool isInvincibility = false;
+    protected Coroutine blinkCoroutine;
+    protected Coroutine InvincibilityCoroutine;
     public void Invincibility()
     {
-        StartCoroutine(InvincibilityTimer());
-        //StartCoroutine(BlinkCoroutine(5f, 0.2f));
+        if (InvincibilityCoroutine != null)
+        {
+            StopCoroutine(InvincibilityCoroutine);
+            InvincibilityCoroutine = null;
+        }
+        InvincibilityCoroutine = StartCoroutine(InvincibilityTimer());
+        if (blinkCoroutine != null)
+        {
+            StopCoroutine(blinkCoroutine);
+            blinkCoroutine = null;
+        }
+        blinkCoroutine = StartCoroutine(BlinkCoroutine(4.75f, 0.2f));
     }
 
     IEnumerator InvincibilityTimer()
@@ -358,14 +383,37 @@ public class PlayerBase : MonoBehaviour
         isInvincibility = false;
         Debug.Log("無敵化解除！！");
     }
-    private IEnumerator BlinkCoroutine(float duration, float interval)
+    protected IEnumerator BlinkCoroutine(float duration, float interval)
     {
         float timer = 0f;
-        Renderer objRenderer = this.gameObject.GetComponent<Renderer>();
+        // 子オブジェクトを名前で取得
+        purple = transform.Find("purpleChan");
+        cyan = transform.Find("cyanChan");
+        // どちらがアクティブか判定
+        if (purple != null && purple.gameObject.activeInHierarchy)
+        {
+            activeChild = purple;
+            hatRenderer = activeChild.Find("Root/J_Bip_C_Hips/J_Bip_C_Spine/straw hat")?.GetComponentInChildren<Renderer>(true);
+        }
+        else if (cyan != null && cyan.gameObject.activeInHierarchy)
+        {
+            activeChild = cyan;
+            hatRenderer = activeChild.Find("Root/J_Bip_C_Hips/J_Bip_C_Spine/silk_hat")?.GetComponentInChildren<Renderer>(true);
+        }
+
+        faceRenderer = activeChild.Find("Face")?.GetComponent<Renderer>();
+        bodyRenderer = activeChild.Find("Body")?.GetComponent<Renderer>();
+        hairRenderer = activeChild.Find("Hair")?.GetComponent<Renderer>();
+
+        yield return null;
+
         while (timer < duration)
         {
             // 表示/非表示を切り替え
-            objRenderer.enabled = !objRenderer.enabled;
+            faceRenderer.enabled = !faceRenderer.enabled;
+            bodyRenderer.enabled = !bodyRenderer.enabled;
+            hairRenderer.enabled = !hairRenderer.enabled;
+            hatRenderer.enabled = !hatRenderer.enabled;
 
             // interval秒待機
             yield return new WaitForSeconds(interval);
@@ -374,7 +422,10 @@ public class PlayerBase : MonoBehaviour
         }
 
         // 最後に必ず表示状態に戻す
-        objRenderer.enabled = true;
+        faceRenderer.enabled = true;
+        bodyRenderer.enabled = true;
+        hairRenderer.enabled = true;
+        hatRenderer.enabled = true;
     }
 
     public void WarpPosition(Vector3 warpPos)

@@ -798,19 +798,19 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 4088146656630275150}
+    m_TransformParent: {fileID: 6808647993495810917}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: c8c6b1b2238520940a06b3cd412452f1, type: 3}
       propertyPath: m_LocalScale.x
-      value: 150
+      value: 149.99998
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c8c6b1b2238520940a06b3cd412452f1, type: 3}
       propertyPath: m_LocalScale.y
-      value: 149.99998
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c8c6b1b2238520940a06b3cd412452f1, type: 3}
       propertyPath: m_LocalScale.z
-      value: 149.99998
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c8c6b1b2238520940a06b3cd412452f1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -818,11 +818,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c8c6b1b2238520940a06b3cd412452f1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.8642316
+      value: 0.8206563
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c8c6b1b2238520940a06b3cd412452f1, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.016001273
+      value: -0.027443565
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: c8c6b1b2238520940a06b3cd412452f1, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1886,8 +1886,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: -1873615475184717925, guid: 008a28553de84064993fc07d3c96ca06, type: 3}
-      insertIndex: 3
+    - targetCorrespondingSourceObject: {fileID: -8989542914146492240, guid: 008a28553de84064993fc07d3c96ca06, type: 3}
+      insertIndex: -1
       addedObject: {fileID: 3041496191567464885}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: -1728013695380148634, guid: 008a28553de84064993fc07d3c96ca06, type: 3}
@@ -1922,9 +1922,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentState: 0
---- !u!4 &4088146656630275150 stripped
+--- !u!4 &6808647993495810917 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: -1873615475184717925, guid: 008a28553de84064993fc07d3c96ca06, type: 3}
+  m_CorrespondingSourceObject: {fileID: -8989542914146492240, guid: 008a28553de84064993fc07d3c96ca06, type: 3}
   m_PrefabInstance: {fileID: 6720381230947587029}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8782667089867109370
