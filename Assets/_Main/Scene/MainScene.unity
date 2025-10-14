@@ -2995,9 +2995,9 @@ MonoBehaviour:
   _speedItemPrefab: {fileID: 2468505861401802279, guid: acb35cf4942cbaa49bef746ad3747c7d, type: 3}
   _rangeItemPrefab: {fileID: 2468505861401802279, guid: e46e730993e6e434ebe5e1da55cbc001, type: 3}
   _countItemPrefab: {fileID: 2468505861401802279, guid: 4b44e8a3f16413a448e2bf8bd9472746, type: 3}
-  speedItemCnt: 12
+  speedItemCnt: 14
   rangeItemCnt: 10
-  countItemCnt: 8
+  countItemCnt: 6
   _debugSeed: 0
   _boxCount: 0
   _mapManager: {fileID: 1243405410}
