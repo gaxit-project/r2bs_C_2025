@@ -43,7 +43,10 @@ public class BloomTile : MonoBehaviour
                 // à·Ç§êFÇ»ÇÁè¡Ç∑
                 else if (renderer.gameObject.layer == LayerMask.NameToLayer("TeamTwoTile"))
                 {
-                    GameObject.Destroy(TF.GetChild(0).gameObject);
+                    for (int i = 0; i < TF.childCount; i++)
+                    {
+                        GameObject.Destroy(TF.GetChild(i).gameObject);
+                    }
                 }
                 rnd = Random.Range(0, TeamOneTile.Length);
                 obj = Instantiate(TeamOneTile[rnd], spawnPos, Quaternion.identity, TF);
@@ -55,7 +58,10 @@ public class BloomTile : MonoBehaviour
                 // à·Ç§êFÇ»ÇÁè¡Ç∑
                 if (renderer.gameObject.layer == LayerMask.NameToLayer("TeamOneTile"))
                 {
-                    GameObject.Destroy(TF.GetChild(0).gameObject);
+                    for (int i = 0; i < TF.childCount; i++)
+                    {
+                        GameObject.Destroy(TF.GetChild(i).gameObject);
+                    }
                 }
                 // ìØÇ∂êFÇ»ÇÁâΩÇ‡ÇµÇ»Ç¢
                 else if (renderer.gameObject.layer == LayerMask.NameToLayer("TeamTwoTile"))
