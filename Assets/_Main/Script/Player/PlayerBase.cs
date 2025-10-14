@@ -74,6 +74,10 @@ public class PlayerBase : MonoBehaviour
     protected int bombRangeLevel = 1; // ボムの爆発範囲
     protected int bombCntLevel = 1;   // ボムの所持数 
 
+    protected int speedExp = 0;
+    protected int bombRangeExp = 0; // ボムの爆発範囲
+    protected int bombCntExp = 0;   // ボムの所持数 
+
     [SerializeField]
     protected PlayerUI playerUI;
     private int NowBombCnt;
@@ -521,27 +525,55 @@ public class PlayerBase : MonoBehaviour
         }*/
         if (other.transform.tag == "SpeedExp" && currentState == PlayerState.Alive)
         {
-            speedLevel++;
-            SetStatus();
-            SoundManager.PlaySE("PowerUp");
+            speedExp++;
+            if (speedExp >= speedLevel)
+            {
+                speedLevel++;
+                speedExp = 0;
+                SetStatus();
+                SoundManager.PlaySE("PowerUp");
+                playerUI.addSpeed(1);
+            }
+            else
+            {
+                SoundManager.PlaySE("getxp");
+            }
             Destroy(other.gameObject);
             addReward(DataBase.Instance.getExp);
-            playerUI.addSpeed(1);
+            
         }
         if (other.transform.tag == "RangeExp" && currentState == PlayerState.Alive)
         {
-            bombRangeLevel++;
-            SetStatus();
-            SoundManager.PlaySE("PowerUp");
+            bombRangeExp++;
+            if (bombRangeExp >= bombRangeLevel)
+            {
+                bombRangeLevel++;
+                bombRangeExp = 0;
+                SetStatus();
+                SoundManager.PlaySE("PowerUp");
+                playerUI.addBombRange(1);
+            }
+            else
+            {
+                SoundManager.PlaySE("getxp");
+            }
             Destroy(other.gameObject);
             addReward(DataBase.Instance.getExp);
-            playerUI.addBombRange(1);
         }
         if (other.transform.tag == "CountExp" && currentState == PlayerState.Alive)
         {
-            bombCntLevel++;
-            SetStatus();
-            SoundManager.PlaySE("PowerUp");
+            bombCntExp++;
+            if (bombCntExp >= bombCntLevel)
+            {
+                bombCntLevel++;
+                bombCntExp = 0;
+                SetStatus();
+                SoundManager.PlaySE("PowerUp");
+            }
+            else
+            {
+                SoundManager.PlaySE("getxp");
+            }
             Destroy(other.gameObject);
             addReward(DataBase.Instance.getExp);
         }

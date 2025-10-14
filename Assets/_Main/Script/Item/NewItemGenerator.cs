@@ -91,7 +91,7 @@ public class NewItemGenerator : MonoBehaviour
     public void DropExp(Vector3 position, int playerLevel)
     {
         // （仮の経験値計算）
-        int exp = playerLevel / 10;
+        int exp = playerLevel / 5;
         Debug.Log("経験値獲得: " + exp);
         Debug.Log("経験値をここに生成"+position);
         // positionを受け取って、その場に生成する（同じアイテムを生成するかは未定）
