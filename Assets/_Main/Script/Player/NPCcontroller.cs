@@ -5,16 +5,12 @@ using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.InputSystem;
-using static UnityEngine.GraphicsBuffer;
 
 public class NPCcontroller : NPCBase
 {
     public bool[] pastIsWall = new bool[4] {false,false,false,false};
     private NavMeshAgent agent;
     Vector3 targetPos = new Vector3(0, 0, 0);
-    bool foundTarget = false;
-
-    private NPCState state;
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
@@ -57,12 +53,10 @@ public class NPCcontroller : NPCBase
         base.Start();
         //StartCoroutine(LoopBomb());
         //NPCMove(new Vector2(teamLocal, 0));
-
     }
 
     bool a = false;
     int reCnt = 0;
-
 
     protected new void FixedUpdate()
     {
@@ -79,26 +73,14 @@ public class NPCcontroller : NPCBase
                 agent.updateRotation = false;
             }
 
-            reCnt++;
-
-
-
 
             // 目的地に到達した、またはまだパスがない場合に、次の目的地を設定する
-            if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance || reCnt >= 400)
+            if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance || reCnt >= 200)
             {
-                MoveToNextRandomPoint();
                 Debug.Log("ポジ損修正");
-                
+                MoveToNextRandomPoint();
                 reCnt = 0;
             }
-
-            NPCMoveAgent();
-
-
-
-
-
         }
         Vector3 velocity = agent.velocity;
 
@@ -136,62 +118,48 @@ public class NPCcontroller : NPCBase
     {
         //Vector3 targetPos = transform.position;
         //int tries = 0;
-        foundTarget = false;
+        bool foundTarget = false;
 
         // chase処理
         if (currentNPCState == NPCState.chase)
         {
-            state = NPCState.chase;
+            currentNPCState = NPCState.chase;
             targetPos = GetPosition("chase");
             foundTarget = true;
-            Debug.Log(state);
+        }
+
+        // escape処理
+        else if (currentNPCState == NPCState.escapeT)
+        {
+            currentNPCState = NPCState.escapeT;
+            targetPos = GetPosition("escapeT");
+            foundTarget = true;
         }
 
 
         // escape処理
         else if (currentNPCState == NPCState.escape)
         {
-            state = NPCState.escape;
+            currentNPCState = NPCState.escape;
             targetPos = GetPosition("escape");
             foundTarget = true;
-            NPCBomb();
-            Debug.Log(state);
-        }
-
-        else if (currentNPCState == NPCState.escapeT)
-        {
-            state = NPCState.escapeT;
-            targetPos = GetPosition("escapeT");
-            foundTarget = true;
-            Debug.Log(state);
-        }
-
-        // exp処理
-        else if (currentNPCState == NPCState.expP)
-        {
-            state = NPCState.expP;
-            targetPos = GetPosition("expP");
-            foundTarget = true;
-            Debug.Log(state);
         }
 
 
         // exp処理
         else if (currentNPCState == NPCState.exp)
         {
-            state = NPCState.exp;
+            currentNPCState = NPCState.exp;
             targetPos = GetPosition("exp");
             foundTarget = true;
-            Debug.Log(state);
         }
 
         // area処理
-        else if(currentNPCState == NPCState.area)
+        else
         {
-            state = NPCState.area;
+            currentNPCState = NPCState.area;
             targetPos = GetPosition("area");
             foundTarget = true;
-            Debug.Log(state);
         }
 
 
@@ -205,58 +173,31 @@ public class NPCcontroller : NPCBase
         //    targetPos = transform.position + new Vector3(x, 0, z);
 
         //} while (!NavMesh.SamplePosition(targetPos, out var hit, 0.5f, NavMesh.AllAreas) && tries < 10);
+        float threshold = 0.78f; 
 
-
-    }
-
-    protected void NPCMoveAgent()
-    {
-        float threshold = 0.78f;
-        if (state == NPCState.expP || state == NPCState.area)
-        {
-            threshold = 0.5f;
-        }
         if (foundTarget)
         {
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(targetPos, out hit, 1f, NavMesh.AllAreas))
+            { 
                 if (Vector3.Distance(transform.position, targetPos) > threshold)
                 {
                     agent.SetDestination(targetPos);
                 }
                 else
                 {
-
-                    Debug.Log("stop");
-                    if (state == NPCState.chase)
-                    {
-                        NPCBomb();
-                    }
-
-                    // exp処理
-                    else if (state == NPCState.expP)
-                    {
-
-                    }
-
-
-                    // exp処理
-                    else if (state == NPCState.exp)
-                    {
-                        NPCBomb();
-                    }
-
-                    // area処理
-                    else if (state == NPCState.area)
+                    // ほぼ座標が同じなので歩行アニメ止めて待機
+                    animator.SetBool("isWalking", false);
+                    if (currentNPCState == NPCState.exp || currentNPCState == NPCState.area || currentNPCState == NPCState.escape)
                     {
                         NPCBomb();
                     }
 
                 }
-            
+            }
         }
+
     }
-
-
-
 
 
 
@@ -429,7 +370,7 @@ public class NPCcontroller : NPCBase
     private IEnumerator LoopBomb()
     {
         yield return new WaitForSeconds(1f);
-        if(NowBombCnt > 1) NPCBomb();
+        NPCBomb();
         StartCoroutine(LoopBomb());
     }
 }
