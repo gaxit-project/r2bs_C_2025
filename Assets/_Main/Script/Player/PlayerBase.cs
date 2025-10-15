@@ -80,7 +80,7 @@ public class PlayerBase : MonoBehaviour
 
     [SerializeField]
     protected PlayerUI playerUI;
-    private int NowBombCnt;
+    protected int NowBombCnt;
 
     protected bool anifirst = false;
 

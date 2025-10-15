@@ -682,12 +682,21 @@ MonoBehaviour:
   playerUI: {fileID: 7644725420724393715}
   isInvincibility: 0
   enemy: []
+  team: []
   expSearchRange: 5
   expLayer:
     serializedVersion: 2
     m_Bits: 0
+  expPSearchRange: 4
+  expPLayer:
+    serializedVersion: 2
+    m_Bits: 0
   enemySearchRange: 5
   enemyLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  teamSearchRange: 0.01
+  teamLayer:
     serializedVersion: 2
     m_Bits: 0
   currentNPCState: 0
@@ -701,7 +710,7 @@ NavMeshAgent:
   m_GameObject: {fileID: 9212116415459464979}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 1
+  m_Radius: 0.5
   m_Speed: 1
   m_Acceleration: 4
   avoidancePriority: 50
@@ -710,10 +719,10 @@ NavMeshAgent:
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
-  m_Height: 3
+  m_Height: 2
   m_BaseOffset: 0.49999997
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_WalkableMask: 1
+  m_ObstacleAvoidanceType: 1
 --- !u!1001 &295970442143984293
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -777,6 +786,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 220b7ec1cf3a9424ab6bb49542cb4433, type: 3}
       propertyPath: m_Name
       value: silk_hat
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 220b7ec1cf3a9424ab6bb49542cb4433, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 220b7ec1cf3a9424ab6bb49542cb4433, type: 3}
       propertyPath: m_IsActive
@@ -899,11 +912,11 @@ PrefabInstance:
     - target: {fileID: 2991272234786249953, guid: d88985cf3317f63499a98fcf5cc4b332, type: 3}
       propertyPath: bombCnt
       value: 
-      objectReference: {fileID: 8094739466442665022}
+      objectReference: {fileID: 4673785019020118773}
     - target: {fileID: 2991272234786249953, guid: d88985cf3317f63499a98fcf5cc4b332, type: 3}
       propertyPath: nowBombCnt
       value: 
-      objectReference: {fileID: 4673785019020118773}
+      objectReference: {fileID: 8094739466442665022}
     - target: {fileID: 3831795525179528140, guid: d88985cf3317f63499a98fcf5cc4b332, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -2776,13 +2789,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -259972160606440404, guid: f6a945bf1e691694c9fd7c4725b0d5fe, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: f6a945bf1e691694c9fd7c4725b0d5fe, type: 3}
       propertyPath: m_Name
       value: straw hat kabo
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: f6a945bf1e691694c9fd7c4725b0d5fe, type: 3}
+      propertyPath: m_Layer
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f6a945bf1e691694c9fd7c4725b0d5fe, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1513525632003074863, guid: f6a945bf1e691694c9fd7c4725b0d5fe, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -2865,6 +2890,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: c8c6b1b2238520940a06b3cd412452f1, type: 3}
       propertyPath: m_Name
       value: straw hat
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: c8c6b1b2238520940a06b3cd412452f1, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: c8c6b1b2238520940a06b3cd412452f1, type: 3}
       propertyPath: m_IsActive

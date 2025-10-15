@@ -6,21 +6,36 @@ public class NPCBase : PlayerBase
 {
     // 敵を取得
     public List<GameObject> enemy = new List<GameObject>();
+    // 敵を取得
+    public List<GameObject> team = new List<GameObject>();
 
     // 経験値をサーチする者たち
     float expSearchInterval = 0.5f;
     float expTimer = 0f;
     GameObject expTargets;
-    [SerializeField] private float expSearchRange = 4f;      // 経験値を探す範囲
+    [SerializeField] private float expSearchRange = 10f;      // 経験値を探す範囲
     [SerializeField] private LayerMask expLayer;             // 経験値のレイヤー
-   
+
+    float expPSearchInterval = 0.5f;
+    float expPTimer = 0f;
+    GameObject expPTargets;
+    [SerializeField] private float expPSearchRange = 10f;      // 経験値を探す範囲
+    [SerializeField] private LayerMask expPLayer;             // 経験値のレイヤー
+
 
     // 敵をサーチする者たち
     float enemySearchInterval = 0.3f;
     float enemyTimer = 0f;
     GameObject nearestEnemy;
-    [SerializeField] private float enemySearchRange = 4f;
+    [SerializeField] private float enemySearchRange = 2f;
     [SerializeField] private LayerMask enemyLayer;
+
+    // 味方をサーチする者たち
+    float teamSearchInterval = 0.3f;
+    float teamTimer = 0f;
+    GameObject nearestTeam;
+    [SerializeField] private float teamSearchRange = 2f;
+    [SerializeField] private LayerMask teamLayer;
 
 
     // エリアをサーチする者たち
@@ -38,7 +53,9 @@ public class NPCBase : PlayerBase
         paint,     // 色塗り(基本使わん)
         area,      // エリア取り
         exp,       // 経験値あつめ
+        expP,
         escape,    // 逃げ
+        escapeT,
     }
 
     public NPCState currentNPCState;
@@ -55,18 +72,25 @@ public class NPCBase : PlayerBase
             if (player != this && player.CurrentTeamName != this.CurrentTeamName)
             {
                 enemy.Add(player.gameObject);
+            }else if(player != this && player.CurrentTeamName == this.CurrentTeamName)
+            {
+                team.Add(player.gameObject);
             }
         }
         enemyLayer = 1 << LayerMask.NameToLayer("Player");
+        teamLayer = 1 << LayerMask.NameToLayer("Player");
         expLayer = 1 << LayerMask.NameToLayer("Exp");
+        expPLayer = 1 << LayerMask.NameToLayer("ExpP");
 
 
         _startTimer = GameTimer.instance.StartTime;
-        _waveTimer = _startTimer * 0.2f;
+        _waveTimer = _startTimer * 0.6f;
 
         SearchArea();
         SearchEnemy();
+        SearchTeam();
         SearchEXP();
+        SearchEXPP();
     }
 
 
@@ -74,7 +98,9 @@ public class NPCBase : PlayerBase
     {
         // インターバル時間を計算
         expTimer += Time.deltaTime;
+        expPTimer += Time.deltaTime;
         enemyTimer += Time.deltaTime;
+        teamTimer += Time.deltaTime;
         areaTimer += Time.deltaTime;
     }
 
@@ -89,11 +115,25 @@ public class NPCBase : PlayerBase
             expTimer = 0f;
         }
 
+        // 経験値の場所をサーチ
+        if (expPTimer >= expPSearchInterval)
+        {
+            SearchEXPP();
+            expPTimer = 0f;
+        }
+
         // 敵の場所をサーチ
-        if(enemyTimer >= enemySearchInterval)
+        if (enemyTimer >= enemySearchInterval)
         {
             SearchEnemy();
             enemyTimer = 0f;
+        }
+
+        // 味方の場所をサーチ
+        if (teamTimer >= teamSearchInterval)
+        {
+            SearchTeam();
+            teamTimer = 0f;
         }
 
         // エリアの場所をサーチ
@@ -104,10 +144,12 @@ public class NPCBase : PlayerBase
         }
 
 
-        if (GameTimer.instance.CurrentTime >= _waveTimer && expSearchRange == 5f)
+        if (GameTimer.instance.CurrentTime >= _waveTimer && expSearchRange != 1f)
         {
-            expSearchRange = 2f;
+            expSearchRange = 1f;
             expSearchInterval = 2f;
+            expPSearchRange = 1f;
+            expPSearchInterval = 2f;
             areaSearchInterval = 0.5f;
             Debug.Log("変更！！！");
         }
@@ -120,12 +162,16 @@ public class NPCBase : PlayerBase
     protected void StateChange()
     {
         // 敵が近くにいたらchase(あとからレベル差も考慮出来たらおもしろそう)
-        if (nearestEnemy != null /*&& bombs > 0*/)
+        //if (nearestEnemy != null /*&& bombs > 0*/)
+        //{
+        //currentNPCState = NPCState.chase;
+        //Debug.Log("チェイスに移動");
+        //}
+        if (nearestTeam != null /*&& bombs == 0*/)
         {
-            currentNPCState = NPCState.chase;
-            Debug.Log("チェイスに移動");
+            currentNPCState = NPCState.escapeT;
+            Debug.Log("逃げるT");
         }
-
 
         // 敵が近くにいて爆弾を持ってなければescape
         else if (nearestEnemy != null /*&& bombs == 0*/)
@@ -136,6 +182,12 @@ public class NPCBase : PlayerBase
 
 
         // 一定の範囲かつガチエリアにいないとき or 最初の1分くらいはexp
+        else if (expPTargets != null)
+        {
+            currentNPCState = NPCState.expP;
+            Debug.Log("経験値稼ぎP");
+        }
+
         else if (expTargets != null)
         {
             currentNPCState = NPCState.exp;
@@ -143,7 +195,7 @@ public class NPCBase : PlayerBase
         }
 
         // 基本はarea
-        else
+        else if(goArea != null) 
         {
             currentNPCState = NPCState.area;
             Debug.Log("エリア塗り");
@@ -168,6 +220,30 @@ public class NPCBase : PlayerBase
             .FirstOrDefault();
 
         expTargets = found;
+    }
+
+    /// <summary>
+    /// 経験値をサーチ
+    /// </summary>
+    void SearchEXPP()
+    {
+        Collider[] results = Physics.OverlapSphere(transform.position, expPSearchRange, expPLayer);
+        foreach (var c in results)
+        {
+            Debug.Log($"HitExpP: {c.name}");
+        }
+        GameObject found = results
+            .Select(c => c.gameObject)
+            .OrderBy(go => Vector3.Distance(transform.position, go.transform.position))
+            .FirstOrDefault();
+        if(found != null && Vector3.Distance(transform.position, found.transform.position) > 0.5)
+        {
+            expPTargets = found;
+        }
+        else
+        {
+            expPTargets = null;
+        }
     }
 
 
@@ -203,10 +279,41 @@ public class NPCBase : PlayerBase
             .First();
     }
 
+    /// <summary>
+    /// 味方をサーチ
+    /// </summary>
+    void SearchTeam()
+    {
+        Collider[] results = Physics.OverlapSphere(transform.position, teamSearchRange, teamLayer);
+        if (results.Length == 0)
+        {
+            nearestTeam = null;
+            return;
+        }
+
+
+        // teamだけを取得する
+        var filtered = results
+            .Select(c => c.gameObject)
+            .Where(go => team.Contains(go))
+            .ToList();
+
+        if (filtered.Count == 0)
+        {
+            nearestTeam = null;
+            return;
+        }
+
+        // 一番近いものを選ぶ
+        nearestTeam = filtered
+            .OrderBy(go => Vector3.Distance(transform.position, go.transform.position))
+            .First();
+    }
+
 
 
     /// <summary>
-    /// 敵をサーチ
+    /// エリアをサーチ
     /// </summary>
     void SearchArea()
     {
@@ -314,11 +421,21 @@ public class NPCBase : PlayerBase
             case "escape":
                 Vector3 dir = (nearestEnemy.transform.position - transform.position).normalized;
                 //Debug.Log(transform.position - dir * 3f);
-                return transform.position - dir * 3f;
+                return transform.position - dir * 2f;
+
+            case "escapeT":
+                Vector3 dirT = (nearestTeam.transform.position - transform.position).normalized;
+                //Debug.Log(transform.position - dir * 3f);
+                return transform.position - dirT * 2f;
 
             case "exp":
                 ///Debug.Log(expTargets.transform.position);
                 return expTargets.transform.position;
+
+            case "expP":
+                ///Debug.Log(expPTargets.transform.position);
+                return expPTargets.transform.position;
+
 
             case "area":
                 return goArea.transform.position;

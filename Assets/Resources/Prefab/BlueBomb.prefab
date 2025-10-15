@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5787572718978771501}
   - component: {fileID: 3664247177527913733}
   - component: {fileID: 975297682850383964}
+  - component: {fileID: 3090737010591409982}
   m_Layer: 0
   m_Name: BlueBomb
   m_TagString: FlowerBomb
@@ -122,5 +123,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hitObject: {fileID: 0}
+  _teamName: 0
   _spreadTime: 0.2
   _startSpreadTime: 2.5
+  PB: {fileID: 0}
+--- !u!208 &3090737010591409982
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7203167513803814419}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 0.009, y: 0.014, z: 0.009}
+  m_MoveThreshold: 1
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
