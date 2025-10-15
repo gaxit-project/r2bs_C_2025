@@ -143,6 +143,7 @@ public class NPCcontroller : NPCBase
             currentNPCState = NPCState.escape;
             targetPos = GetPosition("escape");
             foundTarget = true;
+            NPCBomb();
         }
 
 
@@ -188,7 +189,7 @@ public class NPCcontroller : NPCBase
                 {
                     // ほぼ座標が同じなので歩行アニメ止めて待機
                     animator.SetBool("isWalking", false);
-                    if (currentNPCState == NPCState.exp || currentNPCState == NPCState.area || currentNPCState == NPCState.escape)
+                    if (currentNPCState == NPCState.exp || currentNPCState == NPCState.area)
                     {
                         NPCBomb();
                     }
