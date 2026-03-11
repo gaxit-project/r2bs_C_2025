@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -26,9 +27,14 @@ public class GatiArea: MonoBehaviour
     public Sprite redF;
 
 
+    private int GatiAreaCnt;
+
     public Team[] currentAreaTeam = new Team[] { Team.No, Team.No, Team.No, Team.No, Team.No, Team.No, Team.No, Team.No, Team.No, Team.No};
 
     public static GatiArea Instance;
+
+
+
     private void Awake()
     {
         Instance = this;
@@ -38,7 +44,8 @@ public class GatiArea: MonoBehaviour
 
     private void Start()
     {
-        for(int i = 0; i < GatiAreaGenerate.Length; i++)
+        GatiAreaCnt = 0;
+        for (int i = 0; i < GatiAreaGenerate.Length; i++)
         {
             teamOneAreaCnt[i] = 0;
             teamTwoAreaCnt[i] = 0;
@@ -48,6 +55,10 @@ public class GatiArea: MonoBehaviour
             areaTileMaxCnt[i] = GatiAreaGenerate[i].childCount;
             areaSecuredCnt[i] = (int)(areaTileMaxCnt[i] * GATIAREA_PERCE);
             areaHalfCnt[i] = (int)(areaTileMaxCnt[i] * GATIAREA_HALFPERCE);
+            if (GatiAreaGenerate[i] != null && GatiAreaGenerate[i].childCount > 0)
+            {
+                GatiAreaCnt++;
+            }
         }
     }
 
@@ -65,7 +76,7 @@ public class GatiArea: MonoBehaviour
     /// 塗られていないエリアを塗る
     /// </summary>
     /// <param name="teamName"></param>
-    public void AddGatiArea(Team teamName, Color bombColor, int type)
+    public void AddGatiArea(Team teamName, Color bombColor, int type, string playerID)
     {
         switch (teamName)
         {
@@ -76,7 +87,7 @@ public class GatiArea: MonoBehaviour
                 teamTwoAreaCnt[type]++;
                 break;
         }
-        SecuredGatiAreaJudge(teamName, bombColor, type);
+        SecuredGatiAreaJudge(teamName, bombColor, type, playerID);
     }
 
 
@@ -85,7 +96,7 @@ public class GatiArea: MonoBehaviour
     /// エリアを上書きする
     /// </summary>
     /// <param name="teamName"></param>
-    public void RemoveGatiArea(Team teamName, Color bombColor, int type)
+    public void RemoveGatiArea(Team teamName, Color bombColor, int type, string playerID)
     {
         switch (teamName)
         {
@@ -98,7 +109,7 @@ public class GatiArea: MonoBehaviour
                 teamOneAreaCnt[type]--;
                 break;
         }
-        SecuredGatiAreaJudge(teamName, bombColor, type);
+        SecuredGatiAreaJudge(teamName, bombColor, type, playerID);
     }
 
 
@@ -108,7 +119,7 @@ public class GatiArea: MonoBehaviour
     /// エリアの塗が一定の値を超えたか確認+色の付与
     /// </summary>
     /// <param name="teamName"></param>
-    private void SecuredGatiAreaJudge(Team teamName, Color bombColor, int type)
+    private void SecuredGatiAreaJudge(Team teamName, Color bombColor, int type, string playerID)
     {
         int areaTileCnt = 0;
         // チームごとのタイルの取得数の取得
@@ -133,7 +144,7 @@ public class GatiArea: MonoBehaviour
             {
                 pb.gameObject.GetComponent<PlayerBase>().addReward(DataBase.Instance.getErea);
             }
-            BloomAllArea(teamName, _bombColor, type);
+            BloomAllArea(teamName, _bombColor, type, playerID);
         }
         // もしエリア取得済の場合
         else if (isAreaObtained[type])
@@ -176,9 +187,8 @@ public class GatiArea: MonoBehaviour
     /// <summary>
     /// エリアをすべて塗る
     /// </summary>
-    private void BloomAllArea(Team teamName, Color bombColor, int type)
+    private void BloomAllArea(Team teamName, Color bombColor, int type, string playerID)
     {
-
         isAreaObtained[type] = true;
         Vector3 center = new Vector3((GatiAreaGenerate[type].GetChild(0).gameObject.transform.position.x + GatiAreaGenerate[type].GetChild(areaTileMaxCnt[type] - 1).gameObject.transform.position.x) / 2, 0.5f, (GatiAreaGenerate[type].GetChild(0).gameObject.transform.position.z + GatiAreaGenerate[type].GetChild(areaTileMaxCnt[type] - 1).gameObject.transform.position.z) / 2);
         for (int i = 0; i < areaTileMaxCnt[type]; i++)
@@ -223,6 +233,13 @@ public class GatiArea: MonoBehaviour
                 break;
         }
         CurrentSecuredGatiArea(teamName, type);
+
+        PlayerBase targetPlayer = Object.FindObjectsByType<PlayerBase>(FindObjectsSortMode.None)
+        .FirstOrDefault(p => (p.CharacterType.ToString() + p.playerID.ToString()) == playerID);
+        // ログを送信
+        NewLog.Instance.SendLog(EventType.GetArea.ToString(), targetPlayer.transform.position,
+        teamName.ToString(), playerID, "", "",
+        targetPlayer.GetBombCntLevel(), targetPlayer.GetBombRangeLevel(), targetPlayer.GetSpeedLevel(), GetCurrentAreaState());
     }
 
 
@@ -254,5 +271,25 @@ public class GatiArea: MonoBehaviour
             }
         }
         return areaCnt;
+    }
+
+
+    // 現在のエリアを取得
+    public string GetCurrentAreaState()
+    {
+        string log = "";
+
+        for (int i = 0; i < GatiAreaGenerate.Length; i++)
+        {
+            if (GatiAreaGenerate[i] == null || GatiAreaGenerate[i].childCount == 0)
+                continue;
+
+            if (log != "")
+                log += "-";
+
+            log += currentAreaTeam[i];
+        }
+
+        return log;
     }
 }

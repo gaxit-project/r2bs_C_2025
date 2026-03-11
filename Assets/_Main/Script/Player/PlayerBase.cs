@@ -1,9 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
+using Unity.VisualScripting;
+using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static MapManager;
+using static UnityEditor.Searcher.Searcher.AnalyticsEvent;
 using static UnityEngine.GraphicsBuffer;
 
 public class PlayerBase : MonoBehaviour
@@ -97,6 +100,17 @@ public class PlayerBase : MonoBehaviour
     Renderer hairRenderer;
     Renderer hatRenderer;
 
+    // プレイヤーかNPCかを判別する変数
+    public CharacterType CharacterType { get; private set; }
+
+    public int GetBombCntLevel() => bombCntLevel;
+    public int GetBombRangeLevel() => bombRangeLevel;
+    public int GetSpeedLevel() => speedLevel;
+    public string GetTeamName() => TeamName.ToString();
+    private string speedItem = "speed";
+    private string bombCntItem = "bombCnt";
+    private string bombRangeItem = "bombRng";
+
     /// <summary>
     /// 自身のチーム名を返す関数
     /// </summary>
@@ -108,6 +122,8 @@ public class PlayerBase : MonoBehaviour
         //_levelManager = GetComponent<LevelManager>();
         SetStatus();
         playerID = playerIndex;
+        CharacterType = this is NPCcontroller ? CharacterType.NPC : CharacterType.Player;
+        Debug.Log($"<color=blue>プレイヤーID：{playerID}</color>");
     }
 
     protected virtual void Update()
@@ -304,61 +320,70 @@ public class PlayerBase : MonoBehaviour
     /// </summary>
     protected virtual IEnumerator StartRespawnRoutine()
     {
-        // 動けなくする（死亡）
-        currentState = PlayerState.Death;
-        animator.SetBool("isDeath", true);
-        SoundManager.PlaySE("death");
-        //Vector2 gridPos = MapManager.Instance.WorldToGridPosition(this.transform.position); 
-        Vector2Int pos = MapManager.Instance.GetBlockData((int)this.transform.position.x, (int)this.transform.position.z).gridPosition;
-        Vector3 newPos = new Vector3(pos.x, 0f, pos.y);
-        NewItemGenerator.Instance.DropExp(newPos, speedLevel+bombRangeLevel+bombCntLevel);
-        // フェードイン処理（仮）
-        Debug.Log("Fade In Start");
-        Rigidbody rb = GetComponent<Rigidbody>();
-        float duration = 4f;
-        float timer = 0f;
-        Vector3 flyDirection = (-transform.right + Vector3.up * 1.2f).normalized;
-        switch (TeamName)
+        if (currentState != PlayerState.Death)
         {
-            case Team.TeamOne:
-                flyDirection = (-transform.right + Vector3.up * 1.2f).normalized; // 左上
-                break;
-            case Team.TeamTwo:
-                flyDirection = (transform.right + Vector3.up * 1.2f).normalized; // 右上
-                break;
+
+            // スプレットシートへログ送信
+            NewLog.Instance.SendLog(EventType.Death.ToString(), this.transform.position,
+                TeamName.ToString(), CharacterType.ToString()+playerID.ToString(), "", "",
+                bombCntLevel, bombRangeLevel, speedLevel, GatiArea.Instance.GetCurrentAreaState());
+
+            // 動けなくする（死亡）
+            currentState = PlayerState.Death;
+            animator.SetBool("isDeath", true);
+            SoundManager.PlaySE("death");
+            //Vector2 gridPos = MapManager.Instance.WorldToGridPosition(this.transform.position); 
+            Vector2Int pos = MapManager.Instance.GetBlockData((int)this.transform.position.x, (int)this.transform.position.z).gridPosition;
+            Vector3 newPos = new Vector3(pos.x, 0f, pos.y);
+            NewItemGenerator.Instance.DropExp(newPos, speedLevel + bombRangeLevel + bombCntLevel, CharacterType.ToString() + playerID.ToString());
+            // フェードイン処理（仮）
+            Debug.Log("Fade In Start");
+            Rigidbody rb = GetComponent<Rigidbody>();
+            float duration = 4f;
+            float timer = 0f;
+            Vector3 flyDirection = (-transform.right + Vector3.up * 1.2f).normalized;
+            switch (TeamName)
+            {
+                case Team.TeamOne:
+                    flyDirection = (-transform.right + Vector3.up * 1.2f).normalized; // 左上
+                    break;
+                case Team.TeamTwo:
+                    flyDirection = (transform.right + Vector3.up * 1.2f).normalized; // 右上
+                    break;
+            }
+            float forcePower = 100f;
+            rb.constraints &= ~RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotation;
+
+            while (timer < duration)
+            {
+                rb.AddForce(flyDirection * forcePower, ForceMode.Force);
+                timer += Time.deltaTime;
+                yield return null;
+            }
+            // 4秒間待機
+            //yield return new WaitForSeconds(4f);
+
+            // フェードアウト処理（仮）
+            Debug.Log("Fade Out Start");
+
+            // リスポーン処理（仮）
+            switch (TeamName)
+            {
+                case Team.TeamOne:
+                    transform.position = StartPosition;
+                    break;
+                case Team.TeamTwo:
+                    transform.position = StartPosition;
+                    break;
+            }
+            rb.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotation;
+
+
+            // 動けるようにする（生存）
+            currentState = PlayerState.Alive;
+            animator.SetBool("isDeath", false);
+            Invincibility();
         }
-        float forcePower = 100f;
-        rb.constraints &= ~RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotation;
-
-        while (timer < duration)
-        {
-            rb.AddForce(flyDirection * forcePower, ForceMode.Force);
-            timer += Time.deltaTime;
-            yield return null;
-        }
-        // 4秒間待機
-        //yield return new WaitForSeconds(4f);
-
-        // フェードアウト処理（仮）
-        Debug.Log("Fade Out Start");
-
-        // リスポーン処理（仮）
-        switch (TeamName)
-        {
-            case Team.TeamOne:
-                transform.position = StartPosition;
-                break;
-            case Team.TeamTwo:
-                transform.position = StartPosition;
-                break;
-        }
-        rb.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotation;
-
-
-        // 動けるようにする（生存）
-        currentState = PlayerState.Alive;
-        animator.SetBool("isDeath", false);
-        Invincibility();
     }
     public bool isInvincibility = false;
     protected Coroutine blinkCoroutine;
@@ -454,6 +479,10 @@ public class PlayerBase : MonoBehaviour
             {
                 return;
             }
+            // スプレットシートへログ送信
+            NewLog.Instance.SendLog(EventType.SetBomb.ToString(), this.transform.position,
+                TeamName.ToString(), CharacterType.ToString() + playerID.ToString(), "", "",
+                bombCntLevel, bombRangeLevel, speedLevel, GatiArea.Instance.GetCurrentAreaState());
             SoundManager.PlaySE("bloom");
             addReward(DataBase.Instance.placeBomb);
             // ここでリセット！
@@ -463,8 +492,8 @@ public class PlayerBase : MonoBehaviour
             obj.SetActive(true); // 再利用だから必ず有効化
             obj.tag = "FlowerBomb";
             BombProcess BP = obj.GetComponent<BombProcess>();
-            BP.VarSetting(BombRange + SpecialBombRange, BombColor, blockData, TeamName);
-            BP.StartBombCoutDownCoroutine(BombRange + SpecialBombRange, BombColor, blockData, TeamName);
+            BP.VarSetting(BombRange + SpecialBombRange, BombColor, blockData, TeamName, CharacterType.ToString() + playerID.ToString());
+            BP.StartBombCoutDownCoroutine(BombRange + SpecialBombRange, BombColor, blockData, TeamName, CharacterType.ToString() + playerID.ToString());
             MapManager.Instance.GetBlockData(blockData.gridPosition.x, blockData.gridPosition.y).isBomb = true;
         }
     }
@@ -526,6 +555,7 @@ public class PlayerBase : MonoBehaviour
         if (other.transform.tag == "SpeedExp" && currentState == PlayerState.Alive)
         {
             speedExp++;
+            ItemGetLog(EventType.GetItem, speedItem);
             if (speedExp >= speedLevel)
             {
                 speedLevel++;
@@ -533,6 +563,7 @@ public class PlayerBase : MonoBehaviour
                 SetStatus();
                 SoundManager.PlaySE("PowerUp");
                 playerUI.addSpeed(1);
+                ItemGetLog(EventType.LevelUp, speedItem);
             }
             else
             {
@@ -545,6 +576,7 @@ public class PlayerBase : MonoBehaviour
         if (other.transform.tag == "RangeExp" && currentState == PlayerState.Alive)
         {
             bombRangeExp++;
+            ItemGetLog(EventType.GetItem, bombRangeItem);
             if (bombRangeExp >= bombRangeLevel)
             {
                 bombRangeLevel++;
@@ -552,6 +584,7 @@ public class PlayerBase : MonoBehaviour
                 SetStatus();
                 SoundManager.PlaySE("PowerUp");
                 playerUI.addBombRange(1);
+                ItemGetLog(EventType.LevelUp, bombRangeItem);
             }
             else
             {
@@ -563,12 +596,14 @@ public class PlayerBase : MonoBehaviour
         if (other.transform.tag == "CountExp" && currentState == PlayerState.Alive)
         {
             bombCntExp++;
+            ItemGetLog(EventType.GetItem, bombCntItem);
             if (bombCntExp >= bombCntLevel)
             {
                 bombCntLevel++;
                 bombCntExp = 0;
                 SetStatus();
                 SoundManager.PlaySE("PowerUp");
+                ItemGetLog(EventType.LevelUp, bombCntItem);
             }
             else
             {
@@ -577,6 +612,14 @@ public class PlayerBase : MonoBehaviour
             Destroy(other.gameObject);
             addReward(DataBase.Instance.getExp);
         }
+    }
+
+    void ItemGetLog(EventType eventType, string getItem)
+    {
+        // スプレットシートへログ送信
+        NewLog.Instance.SendLog(eventType.ToString(), this.transform.position,
+            TeamName.ToString(), CharacterType.ToString() + playerID.ToString(), getItem, "",
+            bombCntLevel, bombRangeLevel, speedLevel, GatiArea.Instance.GetCurrentAreaState());
     }
 
     /// <summary>

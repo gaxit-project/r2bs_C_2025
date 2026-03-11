@@ -1,5 +1,6 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 public class NewItemGenerator : MonoBehaviour
 {
@@ -25,7 +26,9 @@ public class NewItemGenerator : MonoBehaviour
     public int[] _dropFlags; // 出現判定の配列
     private int _currentDropIndex = 0; // TryDropExpが呼ばれた回数をカウント
 
-
+    private string speedItem = "speed";
+    private string bombCntItem = "bombCnt";
+    private string bombRangeItem = "bombRng";
 
     public static NewItemGenerator Instance;
     /// <summary>
@@ -53,7 +56,7 @@ public class NewItemGenerator : MonoBehaviour
     /// ブロックを壊したときにアイテムをランダムで生成する
     /// 出現数は固定し、位置だけがランダムになる
     /// </summary>
-    public void TryDropExp(Vector3 position)
+    public void TryDropExp(Vector3 position, string playerID)
     {
         
 
@@ -70,12 +73,15 @@ public class NewItemGenerator : MonoBehaviour
         {
             case 1:
                 Instantiate(_speedItemPrefab, position + new Vector3(0, 0.7f, 0), Quaternion.Euler(0, 228, 0));
+                SendItemLog(playerID, speedItem, position + new Vector3(0, 0.7f, 0), EventType.GetBoxItemDrop);
                 break;
             case 2:
                 Instantiate(_rangeItemPrefab, position + new Vector3(0, 0.7f, 0), Quaternion.Euler(0, 228, 0));
+                SendItemLog(playerID, bombRangeItem, position + new Vector3(0, 0.7f, 0), EventType.GetBoxItemDrop);
                 break;
             case 3:
                 Instantiate(_countItemPrefab, position + new Vector3(0, 0.7f, 0), Quaternion.Euler(0, 228, 0));
+                SendItemLog(playerID, bombCntItem, position + new Vector3(0, 0.7f, 0), EventType.GetBoxItemDrop);
                 break;
             default:
                 break;
@@ -88,7 +94,7 @@ public class NewItemGenerator : MonoBehaviour
     /// 敵を倒したときにアイテムを確定で生成する
     /// （後に経験値計算などに拡張可能な設計）
     /// </summary>
-    public void DropExp(Vector3 position, int playerLevel)
+    public void DropExp(Vector3 position, int playerLevel, string playerID)
     {
         // （仮の経験値計算）
         int exp = playerLevel / 5;
@@ -103,12 +109,15 @@ public class NewItemGenerator : MonoBehaviour
             {
                 case 1:
                     Instantiate(_speedItemPrefab, position + new Vector3(0, 0.7f, 0), Quaternion.Euler(0, 228, 0));
+                    SendItemLog(playerID, speedItem, position + new Vector3(0, 0.7f, 0), EventType.GetKillItemDrop);
                     break;
                 case 2:
                     Instantiate(_rangeItemPrefab, position + new Vector3(0, 0.7f, 0), Quaternion.Euler(0, 228, 0));
+                    SendItemLog(playerID, bombRangeItem, position + new Vector3(0, 0.7f, 0), EventType.GetKillItemDrop);
                     break;
                 case 3:
                     Instantiate(_countItemPrefab, position + new Vector3(0, 0.7f, 0), Quaternion.Euler(0, 228, 0));
+                    SendItemLog(playerID, bombCntItem, position + new Vector3(0, 0.7f, 0), EventType.GetKillItemDrop);
                     break;
             }
         }
@@ -154,4 +163,14 @@ public class NewItemGenerator : MonoBehaviour
             TryDropExp(new Vector3(0, 0, 0));
         }
     }*/
+
+    void SendItemLog(string playerID, string ItemName, Vector3 position, EventType eventType)
+    {
+        // ログを送信
+        PlayerBase targetPlayer = Object.FindObjectsByType<PlayerBase>(FindObjectsSortMode.None)
+              .FirstOrDefault(p => (p.CharacterType.ToString() + p.playerID.ToString()) == playerID);
+        NewLog.Instance.SendLog(eventType.ToString(), position,
+        targetPlayer.GetTeamName(), playerID, ItemName, "",
+        targetPlayer.GetBombCntLevel(), targetPlayer.GetBombRangeLevel(), targetPlayer.GetSpeedLevel(), GatiArea.Instance.GetCurrentAreaState());
+    }
 }

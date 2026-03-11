@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dd5ff4a43ef69748a867d127a94fc8d, type: 3}
   m_Name: ResultData
   m_EditorClassIdentifier: 
-  blueTile: 67
-  redTile: 152
-  blueArea: 1
-  redArea: 2
+  blueTile: 70
+  redTile: 118
+  blueArea: 0
+  redArea: 3

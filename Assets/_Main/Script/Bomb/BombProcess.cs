@@ -14,6 +14,7 @@ public class BombProcess : MonoBehaviour
     private bool isUpPaint = true;    // 上終了フラグ
     private bool isDownPaint = true;  // 下終了フラグ
 
+
     [SerializeField] private GameObject _hitObject;     // 当たり判定オブジェくト
     private GameObject _hitJudgementObj;// 当たり判定オブジェクトの生成先のオブジェクト
     private Transform _hitObjectParent; // 当たり判定オブジェクトの生成先オブジェクト
@@ -27,6 +28,7 @@ public class BombProcess : MonoBehaviour
     private Color _bombColor; // 爆弾の色
     private MapBlockData _blockData; // 座標
     public Team _teamName;        // チーム名
+    private string _ownerPlayerID;
 
     [SerializeField] private float _spreadTime = 0.2f;       // 起爆範囲が1マス広がるまでの秒数
     [SerializeField] private float _startSpreadTime = 2.5f;  // 起爆開始までの秒数
@@ -76,9 +78,9 @@ public class BombProcess : MonoBehaviour
     /// <summary>
     /// コルーチン呼び出し関数
     /// </summary>
-    public void StartBombCoutDownCoroutine(int bombRange, Color BombColor, MapBlockData blockData, Team teamName)
+    public void StartBombCoutDownCoroutine(int bombRange, Color BombColor, MapBlockData blockData, Team teamName, string playerID)
     {
-        VarSetting(bombRange, BombColor, blockData, teamName);
+        VarSetting(bombRange, BombColor, blockData, teamName, playerID);
         _currentCoroutine = StartCoroutine(StartBombCountDown());
     }
 
@@ -205,7 +207,7 @@ public class BombProcess : MonoBehaviour
                 MapManager.Instance.ChangeBlock(targetX, targetY);
 
                 Vector3 dropPosition = MapManager.Instance.GetBlockData(targetX, targetY).tilePosition;
-                NewItemGenerator.Instance.TryDropExp(dropPosition);
+                NewItemGenerator.Instance.TryDropExp(dropPosition, _ownerPlayerID);
 
 
                 break;
@@ -255,9 +257,9 @@ public class BombProcess : MonoBehaviour
                 if (MapManager.Instance.GetBlockData(x, y).name == "GatiAreaObject")
                 {
                     // レンダーが違うときに塗り割合を変更する
-                    if (renderer.gameObject.layer == LayerMask.NameToLayer("TeamTwoTile")) { GatiArea.Instance.RemoveGatiArea(_teamName, _bombColor, MapManager.Instance.GetBlockData(x, y).type); PB.addReward(DataBase.Instance.paintErea); }
+                    if (renderer.gameObject.layer == LayerMask.NameToLayer("TeamTwoTile")) { GatiArea.Instance.RemoveGatiArea(_teamName, _bombColor, MapManager.Instance.GetBlockData(x, y).type, _ownerPlayerID); PB.addReward(DataBase.Instance.paintErea); }
                     // 白紙の時は塗り割合を加算する
-                    else if (renderer.gameObject.layer != LayerMask.NameToLayer("TeamOneTile")) { GatiArea.Instance.AddGatiArea(_teamName, _bombColor, MapManager.Instance.GetBlockData(x, y).type); PB.addReward(DataBase.Instance.paintErea); }
+                    else if (renderer.gameObject.layer != LayerMask.NameToLayer("TeamOneTile")) { GatiArea.Instance.AddGatiArea(_teamName, _bombColor, MapManager.Instance.GetBlockData(x, y).type, _ownerPlayerID); PB.addReward(DataBase.Instance.paintErea); }
                 }
                 // レンダーが違うときに塗り割合を変更する
                 if (renderer.gameObject.layer == LayerMask.NameToLayer("TeamTwoTile")) { BloomJudgement.Instance.RemoveBloomJudgement(_teamName); PB.addReward(DataBase.Instance.paintTile); }
@@ -273,9 +275,9 @@ public class BombProcess : MonoBehaviour
                 if (MapManager.Instance.GetBlockData(x, y).name == "GatiAreaObject")
                 {
                     // レンダーが違うときに塗り割合を変更する
-                    if (renderer.gameObject.layer == LayerMask.NameToLayer("TeamOneTile")) { GatiArea.Instance.RemoveGatiArea(_teamName, _bombColor, MapManager.Instance.GetBlockData(x, y).type); PB.addReward(DataBase.Instance.paintErea); }
+                    if (renderer.gameObject.layer == LayerMask.NameToLayer("TeamOneTile")) { GatiArea.Instance.RemoveGatiArea(_teamName, _bombColor, MapManager.Instance.GetBlockData(x, y).type, _ownerPlayerID); PB.addReward(DataBase.Instance.paintErea); }
                     // 白紙の時は塗り割合を加算する
-                    else if (renderer.gameObject.layer != LayerMask.NameToLayer("TeamTwoTile")) { GatiArea.Instance.AddGatiArea(_teamName, _bombColor, MapManager.Instance.GetBlockData(x, y).type); PB.addReward(DataBase.Instance.paintErea); }
+                    else if (renderer.gameObject.layer != LayerMask.NameToLayer("TeamTwoTile")) { GatiArea.Instance.AddGatiArea(_teamName, _bombColor, MapManager.Instance.GetBlockData(x, y).type, _ownerPlayerID); PB.addReward(DataBase.Instance.paintErea); }
                 }
                 // レンダーが違うときに塗り割合を変更する
                 if (renderer.gameObject.layer == LayerMask.NameToLayer("TeamOneTile")){ BloomJudgement.Instance.RemoveBloomJudgement(_teamName); PB.addReward(DataBase.Instance.paintTile); }
@@ -298,12 +300,13 @@ public class BombProcess : MonoBehaviour
     /// <param name="BombColor"></param>
     /// <param name="blockData"></param>
     /// <param name="teamName"></param>
-    public void VarSetting(int bombRange, Color BombColor, MapBlockData blockData, Team teamName)
+    public void VarSetting(int bombRange, Color BombColor, MapBlockData blockData, Team teamName, string playerID)
     {
         _bombRange = bombRange;
         _bombColor = BombColor;
         _blockData = blockData;
         _teamName = teamName;
+        _ownerPlayerID = playerID;
     }
 
 

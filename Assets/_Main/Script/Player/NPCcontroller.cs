@@ -204,64 +204,71 @@ public class NPCcontroller : NPCBase
 
     protected override IEnumerator StartRespawnRoutine()
     {
-        // 動けなくする（死亡）
-        if (agent != null) agent.enabled = false;
-        currentState = PlayerState.Death;
-        animator.SetBool("isDeath", true);
-        SoundManager.PlaySE("death");
-        //Vector2 gridPos = MapManager.Instance.WorldToGridPosition(this.transform.position); 
-        Vector2Int pos = MapManager.Instance.GetBlockData((int)this.transform.position.x, (int)this.transform.position.z).gridPosition;
-        Vector3 newPos = new Vector3(pos.x, 0f, pos.y);
-        NewItemGenerator.Instance.DropExp(newPos, speedLevel + bombRangeLevel + bombCntLevel);
-        // フェードイン処理（仮）
-        Debug.Log("Fade In Start");
-        Rigidbody rb = GetComponent<Rigidbody>();
-        float duration = 4f;
-        float timer = 0f;
-        Vector3 flyDirection = (-transform.right + Vector3.up * 1.2f).normalized;
-        switch (TeamName)
+        if (currentState != PlayerState.Death)
         {
-            case Team.TeamOne:
-                flyDirection = (-transform.right + Vector3.up * 1.2f).normalized; // 左上
-                break;
-            case Team.TeamTwo:
-                flyDirection = (transform.right + Vector3.up * 1.2f).normalized; // 右上
-                break;
-        }
-        float forcePower = 100f;
-        rb.constraints &= ~RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotation;
+            // スプレットシートへログ送信
+            NewLog.Instance.SendLog(EventType.Death.ToString(), this.transform.position,
+            TeamName.ToString(), CharacterType.ToString() + playerID.ToString(), "", "",
+            bombCntLevel, bombRangeLevel, speedLevel, GatiArea.Instance.GetCurrentAreaState());
+            // 動けなくする（死亡）
+            if (agent != null) agent.enabled = false;
+            currentState = PlayerState.Death;
+            animator.SetBool("isDeath", true);
+            SoundManager.PlaySE("death");
+            //Vector2 gridPos = MapManager.Instance.WorldToGridPosition(this.transform.position); 
+            Vector2Int pos = MapManager.Instance.GetBlockData((int)this.transform.position.x, (int)this.transform.position.z).gridPosition;
+            Vector3 newPos = new Vector3(pos.x, 0f, pos.y);
+            NewItemGenerator.Instance.DropExp(newPos, speedLevel + bombRangeLevel + bombCntLevel, CharacterType.ToString() + playerID.ToString());
+            // フェードイン処理（仮）
+            Debug.Log("Fade In Start");
+            Rigidbody rb = GetComponent<Rigidbody>();
+            float duration = 4f;
+            float timer = 0f;
+            Vector3 flyDirection = (-transform.right + Vector3.up * 1.2f).normalized;
+            switch (TeamName)
+            {
+                case Team.TeamOne:
+                    flyDirection = (-transform.right + Vector3.up * 1.2f).normalized; // 左上
+                    break;
+                case Team.TeamTwo:
+                    flyDirection = (transform.right + Vector3.up * 1.2f).normalized; // 右上
+                    break;
+            }
+            float forcePower = 100f;
+            rb.constraints &= ~RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotation;
 
-        while (timer < duration)
-        {
-            rb.AddForce(flyDirection * forcePower, ForceMode.Force);
-            timer += Time.deltaTime;
+            while (timer < duration)
+            {
+                rb.AddForce(flyDirection * forcePower, ForceMode.Force);
+                timer += Time.deltaTime;
+                yield return null;
+            }
+            // 4秒間待機
+            //yield return new WaitForSeconds(4f);
+
+            // フェードアウト処理（仮）
+            Debug.Log("Fade Out Start");
+
+            // リスポーン処理（仮）
+            switch (TeamName)
+            {
+                case Team.TeamOne:
+                    transform.position = StartPosition;
+                    break;
+                case Team.TeamTwo:
+                    transform.position = StartPosition;
+                    break;
+            }
+            rb.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotation;
+
+
             yield return null;
+            // 動けるようにする（生存）
+            if (agent != null) agent.enabled = true;
+            currentState = PlayerState.Alive;
+            animator.SetBool("isDeath", false);
+            Invincibility();
         }
-        // 4秒間待機
-        //yield return new WaitForSeconds(4f);
-
-        // フェードアウト処理（仮）
-        Debug.Log("Fade Out Start");
-
-        // リスポーン処理（仮）
-        switch (TeamName)
-        {
-            case Team.TeamOne:
-                transform.position = StartPosition;
-                break;
-            case Team.TeamTwo:
-                transform.position = StartPosition;
-                break;
-        }
-        rb.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotation;
-
-
-        yield return null;
-        // 動けるようにする（生存）
-        if (agent != null) agent.enabled = true;
-        currentState = PlayerState.Alive;
-        animator.SetBool("isDeath", false);
-        Invincibility();
     }
 
     // =======================================================================================
