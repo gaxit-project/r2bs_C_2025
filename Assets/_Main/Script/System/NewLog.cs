@@ -23,27 +23,19 @@ public class NewLog : MonoBehaviour
         else { Destroy(gameObject); }
     }
 
-    async void Start() // asyncを付ける
+    async void Start()
     {
-        // 1. まずはサーバーから一意のカウントアップIDを取得する
+        // サーバーから一意のカウントアップIDを取得する
         StartCoroutine(FetchNextSessionId());
 
-        // 2. ログ送信ループを開始
+        // ログ送信ループを開始
         StartCoroutine(LogUploadRoutine());
 
-        // 💡 IDが初期化されるまで待つ
+        // IDが初期化されるまで待つ
         while (!_isInitialized)
         {
             await System.Threading.Tasks.Task.Yield();
         }
-
-        // ID確定後にテストログを発生させる
-        //Debug.Log("ID確定後のテストログ生成を開始します");
-        //for (int i = 0; i < 100; i++)
-        //{
-        //    // テスト用：座標ゼロで送信
-        //    SendLog("BurstTest", Vector3.zero, "Red", "TestPlayer", "None", $"Memo_{i}");
-        //}
     }
 
     private void Update()
@@ -84,7 +76,7 @@ public class NewLog : MonoBehaviour
     /// </summary>
     public void SendLog(
         string eventType,
-        Vector3 pos,          // 各プレイヤーの現在座標
+        Vector3 pos,         
         string team = "None",
         string pName = null,
         string eventID = "None",
@@ -99,25 +91,25 @@ public class NewLog : MonoBehaviour
 
         string playerName = string.IsNullOrEmpty(pName) ? SystemInfo.deviceName : pName;
 
-        // ★修正点1: GameTimer.instance から正確なタイマー値を取得
+        // ゲーム時間の取得
         float gameTime = 0f;
         if (GameTimer.instance != null)
         {
             gameTime = GameTimer.instance.CurrentTime;
         }
 
-        // ★修正点2: ToString()によるフル精度での格納
+       
         string[] row = new string[] {
             _sessionId,                                     // A: SessionID
             _currentStageName,                              // B: StageID
             DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss.fff"), // C: RealTime
-            gameTime.ToString(),                            // D: GameTime (GameTimerの生の値)
+            gameTime.ToString(),                            // D: GameTime
             playerName,                                     // E: PlayerID
             team,                                           // F: Team
             eventType,                                      // G: EventType
             eventID,                                        // H: EventID
-            pos.x.ToString(),                               // I: PosX (フル精度)
-            pos.z.ToString(),                               // J: PosZ (フル精度)
+            pos.x.ToString(),                               // I: PosX
+            pos.z.ToString(),                               // J: PosZ
             itemBomb.ToString(),                            // K: Item_bomb
             itemRange.ToString(),                           // L: Item_Range
             itemSpeed.ToString(),                           // M: Item_Speed
@@ -187,7 +179,6 @@ public static class JsonHelper
             sb.Append("[");
             for (int j = 0; j < list[i].Length; j++)
             {
-                // エスケープ処理をしてダブルクォーテーションで囲む
                 sb.Append("\"" + list[i][j].Replace("\"", "\\\"") + "\"");
                 if (j < list[i].Length - 1) sb.Append(",");
             }
