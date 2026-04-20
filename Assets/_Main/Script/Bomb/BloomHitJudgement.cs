@@ -30,21 +30,38 @@ public class BloomHitJudgment : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "TeamOne" && _teamName == Team.TeamTwo && !other.gameObject.GetComponent<PlayerBase>().isInvincibility)
+        if (other.tag == "TeamOne" && _teamName == Team.TeamTwo && !other.gameObject.GetComponent<PlayerBase>().isInvincibility)
         {
+            // 相手がすでに死亡状態なら無視する
             GameObject obj = other.gameObject;
             PlayerBase PC = obj.GetComponent<PlayerBase>();
+            if (PC.currentState == PlayerBase.PlayerState.Death) return;
+
+
+            int killID = NewLog.Instance.GetKillEventID();
             PC.InitSpecialStatus();
-            PC.RespawnPlayer();
+            PC.RespawnPlayer(killID);
             PB.addReward(DataBase.Instance.attackEnemy);
+            // スプレットシートへログ送信
+            NewLog.Instance.SendLog(EventType.Kill.ToString(), this.transform.position,
+                PB.GetTeamName().ToString(), PB.CharacterType.ToString() + PB.playerID.ToString(), killID.ToString(), "",
+                PB.GetBombCntLevel(), PB.GetBombRangeLevel(), PB.GetSpeedLevel(), GatiArea.Instance.GetCurrentAreaState());
         }
         else if (other.tag == "TeamTwo" && _teamName == Team.TeamOne&& !other.gameObject.GetComponent<PlayerBase>().isInvincibility)
         {
+            // 相手がすでに死亡状態なら無視する
             GameObject obj = other.gameObject;
             PlayerBase PC = obj.GetComponent<PlayerBase>();
+            if (PC.currentState == PlayerBase.PlayerState.Death) return;
+
+            int killID = NewLog.Instance.GetKillEventID();
             PC.InitSpecialStatus();
-            PC.RespawnPlayer();
+            PC.RespawnPlayer(killID);
             PB.addReward(DataBase.Instance.attackEnemy);
+            // スプレットシートへログ送信
+            NewLog.Instance.SendLog(EventType.Kill.ToString(), this.transform.position,
+                PB.GetTeamName().ToString(), PB.CharacterType.ToString() + PB.playerID.ToString(), killID.ToString(), "",
+                PB.GetBombCntLevel(), PB.GetBombRangeLevel(), PB.GetSpeedLevel(), GatiArea.Instance.GetCurrentAreaState());
         }
         if (other.tag == "FlowerBomb")
         {

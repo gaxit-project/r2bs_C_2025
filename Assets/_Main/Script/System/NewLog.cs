@@ -17,17 +17,23 @@ public class NewLog : MonoBehaviour
     private string _currentStageName = "Stage_01";
     private bool _isInitialized = false; // IDが確定したか
 
+    private int _killEventID = 0;
+
+    //void Awake()
+    //{
+    //    if (Instance == null) { Instance = this; DontDestroyOnLoad(gameObject); }
+    //    else { Destroy(gameObject); }
+
+    //}
     void Awake()
     {
-        if (Instance == null) { Instance = this; DontDestroyOnLoad(gameObject); }
-        else { Destroy(gameObject); }
+        Instance = this;
+
+        ResetSession();
     }
 
     async void Start()
     {
-        // サーバーから一意のカウントアップIDを取得する
-        StartCoroutine(FetchNextSessionId());
-
         // ログ送信ループを開始
         StartCoroutine(LogUploadRoutine());
 
@@ -44,6 +50,13 @@ public class NewLog : MonoBehaviour
         {
             SendLog("BurstTest", Vector3.zero, "Red", "TestPlayer", "None", $"Memo_");
         }
+    }
+
+    public void ResetSession()
+    {
+        _isInitialized = false; // 初期化待ち状態に戻す
+        ResetEventID();         // キルIDを0に戻す
+        StartCoroutine(FetchNextSessionId()); // GASに新しいIDを取りに行く
     }
 
     /// <summary>
@@ -164,6 +177,20 @@ public class NewLog : MonoBehaviour
             else
                 Debug.Log($"[GAS] {data.Count}件のログを送信しました (ID: {_sessionId})");
         }
+    }
+
+
+    // 試合開始時にリセット
+    public void ResetEventID()
+    {
+        _killEventID = 0;
+    }
+
+    // 新しいイベントIDを発行
+    public int GetKillEventID()
+    {
+        _killEventID++;
+        return _killEventID;
     }
 }
 

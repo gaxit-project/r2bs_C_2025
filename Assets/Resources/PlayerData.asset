@@ -15,12 +15,12 @@ MonoBehaviour:
   PlayerTable:
   - controlScheme: Keyboard&Mouse
     devices:
-    - descriptionJson: "{\n    \"interface\": \"RawInput\",\n    \"type\": \"Mouse\",\n   
-        \"product\": \"\",\n    \"serial\": \"\",\n    \"version\": \"\",\n    \"manufacturer\":
-        \"\",\n    \"capabilities\": \"\"\n}"
-      sessionDeviceId: 2
     - descriptionJson: "{\n    \"interface\": \"RawInput\",\n    \"type\": \"Keyboard\",\n   
         \"product\": \"\",\n    \"serial\": \"\",\n    \"version\": \"\",\n    \"manufacturer\":
         \"\",\n    \"capabilities\": \"\"\n}"
       sessionDeviceId: 1
+    - descriptionJson: "{\n    \"interface\": \"RawInput\",\n    \"type\": \"Mouse\",\n   
+        \"product\": \"\",\n    \"serial\": \"\",\n    \"version\": \"\",\n    \"manufacturer\":
+        \"\",\n    \"capabilities\": \"\"\n}"
+      sessionDeviceId: 2
     Team: TeamTwo

@@ -8,7 +8,7 @@ public class CollisionDeath : MonoBehaviour
         if(collision.gameObject.tag == "TeamOne" || collision.gameObject.tag == "TeamTwo")
         {
             Debug.Log("bbb");
-            collision.gameObject.GetComponent<PlayerController>().RespawnPlayer();
+            //collision.gameObject.GetComponent<PlayerController>().RespawnPlayer();
         }
     }
 }

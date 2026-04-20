@@ -39,9 +39,10 @@ public class FBSceneManager : MonoBehaviour
         if(gameset == false)
         {
             SoundManager.PlaySE("gameset");
+            StartCoroutine(ToResultScene());
         }
         MapManager.Instance.DontDest();
-        StartCoroutine(ToResultScene());
+       
     }
 
     /// <summary>
@@ -51,6 +52,7 @@ public class FBSceneManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         StartCoroutine(LoadSceneAsync());
+        NewLog.Instance.ResetSession();
     }
 
     /// <summary>
@@ -87,7 +89,12 @@ public class FBSceneManager : MonoBehaviour
     IEnumerator ToResultScene()
     {
         gameset = true;
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(2f);
+        NewLog.Instance.SendLog(EventType.Result.ToString(), this.transform.position,
+            "System", "System", "", "",
+            0, 0, 0, GatiArea.Instance.GetCurrentAreaState());
+
+        yield return new WaitForSeconds(2f);
         gameset = false;
         SceneManager.LoadScene("ResultScene");
     }

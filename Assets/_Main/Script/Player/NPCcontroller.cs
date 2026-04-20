@@ -202,13 +202,13 @@ public class NPCcontroller : NPCBase
 
 
 
-    protected override IEnumerator StartRespawnRoutine()
+    protected override IEnumerator StartRespawnRoutine(int killID)
     {
         if (currentState != PlayerState.Death)
         {
             // スプレットシートへログ送信
             NewLog.Instance.SendLog(EventType.Death.ToString(), this.transform.position,
-            TeamName.ToString(), CharacterType.ToString() + playerID.ToString(), "", "",
+            TeamName.ToString(), CharacterType.ToString() + playerID.ToString(), killID.ToString(), "",
             bombCntLevel, bombRangeLevel, speedLevel, GatiArea.Instance.GetCurrentAreaState());
             // 動けなくする（死亡）
             if (agent != null) agent.enabled = false;
@@ -261,6 +261,10 @@ public class NPCcontroller : NPCBase
             }
             rb.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotation;
 
+            // スプレットシートへログ送信
+            NewLog.Instance.SendLog(EventType.Spawn.ToString(), this.transform.position,
+                TeamName.ToString(), CharacterType.ToString() + playerID.ToString(), killID.ToString(), "",
+                bombCntLevel, bombRangeLevel, speedLevel, GatiArea.Instance.GetCurrentAreaState());
 
             yield return null;
             // 動けるようにする（生存）

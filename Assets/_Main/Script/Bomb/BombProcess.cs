@@ -186,22 +186,59 @@ public class BombProcess : MonoBehaviour
     IEnumerator PaintJudge(Vector2Int direction)
     {
         Vector2Int pos = _blockData.gridPosition;
-        // 右を確かめる
+
         for (int i = 0; i <= _bombRange; i++)
         {
             int targetX = pos.x + direction.x * i;
             int targetY = pos.y + direction.y * i;
+            Vector3 targetPos = MapManager.Instance.GetBlockData(targetX, targetY).tilePosition;
 
             if (i != 0 && MapManager.Instance.GetBlockData(targetX, targetY).isHitJudge)
             {
                 break;
             }
-            else if (MapManager.Instance.GetBlockData(targetX, targetY).name == "GroundObject" || MapManager.Instance.GetBlockData(targetX, targetY).name == "GatiAreaObject" || MapManager.Instance.GetBlockData(targetX, targetY).name == "GatiHokoObject")
+            else if (MapManager.Instance.GetBlockData(targetX, targetY).name == "GroundObject" ||
+                     MapManager.Instance.GetBlockData(targetX, targetY).name == "GatiAreaObject" ||
+                     MapManager.Instance.GetBlockData(targetX, targetY).name == "GatiHokoObject")
             {
+                // 中心点(i=0)の重複を防ぎ、爆風が届いた全マスをPaintイベントとして記録
+                if (i > 0 || (i == 0 && direction == Vector2Int.up))
+                {
+                    NewLog.Instance.SendLog(
+                        EventType.Paint.ToString(),
+                        targetPos,
+                        _teamName.ToString(),
+                        _ownerPlayerID,
+                        "",
+                        "",
+                        PB.GetBombCntLevel(),
+                        PB.GetBombRangeLevel(),
+                        PB.GetSpeedLevel(),
+                        GatiArea.Instance.GetCurrentAreaState()
+                    );
+                }
+
                 PaintMap(targetX, targetY);
             }
             else if (MapManager.Instance.GetBlockData(targetX, targetY).name == "BreakWallObject")
             {
+                // 壁破壊ログ（ここでもi=0の重複を防止）
+                if (i > 0 || (i == 0 && direction == Vector2Int.up))
+                {
+                    NewLog.Instance.SendLog(
+                        EventType.BoxBreak.ToString(),
+                        targetPos,
+                        _teamName.ToString(),
+                        _ownerPlayerID,
+                        "",
+                        "",
+                        PB.GetBombCntLevel(),
+                        PB.GetBombRangeLevel(),
+                        PB.GetSpeedLevel(),
+                        GatiArea.Instance.GetCurrentAreaState()
+                    );
+                }
+
                 // 破壊処理＋床生成処理
                 yield return new WaitForSeconds(_spreadTime);
                 MapManager.Instance.ChangeBlock(targetX, targetY);
@@ -209,17 +246,18 @@ public class BombProcess : MonoBehaviour
                 Vector3 dropPosition = MapManager.Instance.GetBlockData(targetX, targetY).tilePosition;
                 NewItemGenerator.Instance.TryDropExp(dropPosition, _ownerPlayerID);
 
-
                 break;
             }
             else
             {
                 break;
             }
+
             if (i != 0 && MapManager.Instance.GetBlockData(targetX, targetY).isBomb)
             {
                 break;
             }
+
             yield return new WaitForSeconds(_spreadTime);
         }
 
@@ -230,7 +268,7 @@ public class BombProcess : MonoBehaviour
         else if (direction == Vector2Int.down) isDownPaint = false;
     }
 
-  
+
     /// <summary>
     /// マップに色を付ける
     /// </summary>

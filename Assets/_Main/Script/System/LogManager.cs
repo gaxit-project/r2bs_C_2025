@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
-using static UnityEditor.Searcher.Searcher.AnalyticsEvent;
 
 public class LogManager : MonoBehaviour
 {

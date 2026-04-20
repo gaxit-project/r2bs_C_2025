@@ -16,7 +16,7 @@ public enum GameMode
 
 public enum EventType
 {
-    Arrive,
+    Walk,
     Spawn,
     ItemDrop,
     GetBoxItemDrop,
@@ -27,7 +27,9 @@ public enum EventType
     Death,
     BoxBreak,
     SetBomb,
-    GetArea
+    GetArea,
+    Paint,
+    Result
 }
 
 

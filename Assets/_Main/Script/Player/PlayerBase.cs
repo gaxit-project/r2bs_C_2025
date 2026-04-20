@@ -1,13 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Globalization;
-using Unity.VisualScripting;
-using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static MapManager;
-using static UnityEditor.Searcher.Searcher.AnalyticsEvent;
-using static UnityEngine.GraphicsBuffer;
 
 public class PlayerBase : MonoBehaviour
 {
@@ -124,6 +119,11 @@ public class PlayerBase : MonoBehaviour
         playerID = playerIndex;
         CharacterType = this is NPCcontroller ? CharacterType.NPC : CharacterType.Player;
         Debug.Log($"<color=blue>プレイヤーID：{playerID}</color>");
+        // スプレットシートへログ送信
+        NewLog.Instance.SendLog(EventType.Spawn.ToString(), this.transform.position,
+            TeamName.ToString(), CharacterType.ToString() + playerID.ToString(), "", "",
+            bombCntLevel, bombRangeLevel, speedLevel, GatiArea.Instance.GetCurrentAreaState());
+        StartCoroutine(PositionRoutine()); // 移動ログ
     }
 
     protected virtual void Update()
@@ -310,22 +310,22 @@ public class PlayerBase : MonoBehaviour
     /// <summary>
     /// プレイヤーのリスポーンを開始する
     /// </summary>
-    protected void Respawn()
+    protected void Respawn(int killID)
     {
-        StartCoroutine(StartRespawnRoutine());
+        StartCoroutine(StartRespawnRoutine(killID));
     }
 
     /// <summary>
     /// リスポーン処理を行うコルーチン
     /// </summary>
-    protected virtual IEnumerator StartRespawnRoutine()
+    protected virtual IEnumerator StartRespawnRoutine(int killID)
     {
         if (currentState != PlayerState.Death)
         {
 
             // スプレットシートへログ送信
             NewLog.Instance.SendLog(EventType.Death.ToString(), this.transform.position,
-                TeamName.ToString(), CharacterType.ToString()+playerID.ToString(), "", "",
+                TeamName.ToString(), CharacterType.ToString()+playerID.ToString(), killID.ToString(), "",
                 bombCntLevel, bombRangeLevel, speedLevel, GatiArea.Instance.GetCurrentAreaState());
 
             // 動けなくする（死亡）
@@ -378,7 +378,10 @@ public class PlayerBase : MonoBehaviour
             }
             rb.constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezeRotation;
 
-
+            // スプレットシートへログ送信
+            NewLog.Instance.SendLog(EventType.Spawn.ToString(), this.transform.position,
+                TeamName.ToString(), CharacterType.ToString() + playerID.ToString(), killID.ToString(), "",
+                bombCntLevel, bombRangeLevel, speedLevel, GatiArea.Instance.GetCurrentAreaState());
             // 動けるようにする（生存）
             currentState = PlayerState.Alive;
             animator.SetBool("isDeath", false);
@@ -543,6 +546,48 @@ public class PlayerBase : MonoBehaviour
 
     #endregion
 
+
+
+    // 移動ログを定期的に送るコルーチン
+    private IEnumerator PositionRoutine()
+    {
+        // ゲーム開始を待つ
+        yield return new WaitUntil(() => GameTimer.instance.IsGameStart());
+
+        while (true)
+        {
+            // プレイヤーが生存している時だけログを送る
+            if (currentState == PlayerState.Alive)
+            {
+                SendMoveLog();
+            }
+
+            // 0.5秒待機
+            yield return new WaitForSeconds(0.5f);
+        }
+    }
+
+    // 移動のログ送信
+    private void SendMoveLog()
+    {
+        string myID = CharacterType.ToString() + playerID.ToString();
+
+        // ログ送信
+        NewLog.Instance.SendLog(
+            EventType.Walk.ToString(),
+            this.transform.position,
+            TeamName.ToString(),
+            myID,
+            "",
+            "",
+            bombCntLevel,
+            bombRangeLevel,
+            speedLevel,
+            GatiArea.Instance.GetCurrentAreaState()
+        );
+    }
+
+
     private void OnTriggerEnter(Collider other)
     {
         /*if(collision.transform.tag == "Exp" && currentState == PlayerState.Alive)
@@ -641,11 +686,11 @@ public class PlayerBase : MonoBehaviour
         SpecialPlayerSpeed = 1f;
     }
 
-    public void RespawnPlayer()
+    public void RespawnPlayer(int killID)
     {
         //isFirst = true;
         addReward(DataBase.Instance.death);
-        Respawn();
+        Respawn(killID);
     }
 
     public void addReward(float point)
