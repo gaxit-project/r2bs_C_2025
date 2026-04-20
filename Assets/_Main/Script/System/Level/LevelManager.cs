@@ -1,0 +1,96 @@
+using UnityEngine;
+
+public class LevelManager : MonoBehaviour
+{
+    private string _expName = "Natural";
+    private string _jobName = "Natural";
+
+    public int CurrentLevel = 1;    //初期レベル 1Lv
+    public int CurrentExp = 0;      //初期EXP
+
+    [Header("PlayerStatus")]
+    [SerializeField] private PlayerStatus _status;
+
+    [Header("JobPattern")]
+    [SerializeField] private JobLevelPattern _pattern;
+
+    [Header("LevelData")]
+    [SerializeField] private LevelExpData _expData;
+
+    [SerializeField] PlayerBase PlayerBase;
+
+
+    [SerializeField] PlayerUI PlayerUI;
+
+    private void Start()
+    {
+        _status = GetComponent<PlayerStatus>();
+        PlayerBase = GetComponent<PlayerBase>();
+        _pattern = Resources.Load<JobLevelPattern>("GameData/JobExpData/"+_jobName);
+        _expData = Resources.Load<LevelExpData>("GameData/ExpData/" + _expName);
+    }
+
+    /// <summary>
+    /// Expを渡すコード
+    /// </summary>
+    /// <param name="amount"></param>
+    public void AddExp(int amount)
+    {
+        CurrentExp += amount;
+        Debug.Log($"経験値ゲット 現在のExp : {CurrentExp}");
+        PlayerUI.addCurrentExp(CurrentExp);
+        TryLevelUp();
+    }
+
+    /// <summary>
+    /// レベル条件を満たしていたら、レベルアップ、そうでなければbreak
+    /// </summary>
+    private void TryLevelUp()
+    {
+        while (true)
+        {
+            if (CurrentLevel >= 10) return;
+            //必要経験値取得
+            var exp = _expData.ExpTable.Find(e => e.Level == CurrentLevel);
+            PlayerUI.addNeedExp(exp.ExpToNextLevel);
+
+            //レベル条件に満たしていない場合break
+            if (exp == null || CurrentExp < exp.ExpToNextLevel) break;
+
+            //レベルアップ
+            PlayerBase.addReward(DataBase.Instance.upLevel);
+            CurrentExp -= exp.ExpToNextLevel;
+            CurrentLevel++;
+            PlayerUI.addCurrentExp(0);
+            PlayerUI.addLevel(CurrentLevel);
+            SoundManager.PlaySE("PowerUp");
+            Debug.Log($"レベルアップ! 現在のレベル:{CurrentLevel}");
+
+            UpStatus(CurrentLevel);
+        }
+    }
+
+    /// <summary>
+    /// レベルが上がったとき決めていた固定ステータスを上昇させる
+    /// </summary>
+    /// <param name="level"></param>
+    private void UpStatus(int level)
+    {
+        var growth = _pattern.GrowthTable.Find(g => g.Level == level);
+        if (growth != null)
+        {
+            foreach(var stat in growth.LevelStats)
+            {
+                _status.Add(stat, 1);
+                PlayerUI.addStatusUp(stat, 1);
+            }
+        }
+        else
+        {
+            Debug.Log("正しく成長設定してください");
+        }
+
+        //playerに反映
+        PlayerBase.SetStatus();
+    }
+}

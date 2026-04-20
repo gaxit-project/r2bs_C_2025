@@ -1,0 +1,241 @@
+using UnityEngine;
+
+public class BloomEffect : MonoBehaviour
+{
+    public Material[] flowerMaterial;
+    [Header("爆発エフェクト")]
+    public float bloomDuration;
+    public float bloomSpeed;
+    public float bloomSize;
+    public int bloomPetals;
+    [Space(10)]
+
+    [Header("ワープゲートエフェクト")]
+    public float warpDuration;
+    public float warpSpeed;
+    public float warpSize;
+    public int warpPetals;
+    [Space(10)]
+
+    [Header("死亡エフェクト")]
+    public float deadDuration;
+    public float deadSpeed;
+    public float deadSize;
+    public int deadPetals;
+    [Space(10)]
+
+
+
+    Material selectMaterial;
+
+
+    public static BloomEffect Instance;
+    private void Awake()
+    {
+        Instance = this;
+    }
+
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.K))
+        {
+            CreateSpiralEffect(this.transform.position);
+        }
+        
+    }
+
+
+
+    /// <summary>
+    /// 爆発エフェクトを再生
+    /// </summary>
+    /// <param name="position"></param>
+    public void CreateFlowerEffect(Vector3 position, Team teamName)
+    {
+        GameObject bloomObj = new GameObject("FlowerBloom");
+        bloomObj.transform.position = position;
+
+        ParticleSystem ps = bloomObj.AddComponent<ParticleSystem>();
+
+        var main = ps.main;
+        main.startLifetime = bloomDuration;         // 粒子の寿命
+        main.startSpeed = bloomSpeed;          // 飛ぶスピード
+        main.startSize = bloomSize;                 // 粒子の大きさ
+        main.loop = false;                     // ループさせず、1回だけ出す
+        main.maxParticles = bloomPetals;            // 最大粒子数
+        main.simulationSpace = ParticleSystemSimulationSpace.World; // ワールド座標で表示
+        main.playOnAwake = false;              // 自動再生しない（自分でEmitする）
+
+
+        // 形状設定
+        var shape = ps.shape;
+        shape.shapeType = ParticleSystemShapeType.Cone; // 放射形状を円錐に
+        shape.radius = 0.1f;                             // 放射の始点サイズ（小さく絞る）
+        shape.arc = 360f;                                // 全方向に開く（半球的に）
+        shape.angle = 20f;       // 完全に真上だけに出す（超直進）
+
+
+        // 見た目の設定
+        var renderer = ps.GetComponent<ParticleSystemRenderer>();
+        renderer.material = ChangeMaterial(teamName, flowerMaterial); // 使用するマテリアル（色・画像）
+        renderer.renderMode = ParticleSystemRenderMode.Billboard; // 常にカメラに正面を向ける
+        shape.rotation = new Vector3(-90f, 0f, 0f);
+
+
+        // 実際に粒子を出す
+        ps.Emit(bloomPetals);
+
+        // エフェクトを一定時間後に削除
+        Destroy(bloomObj,bloomDuration);
+    }
+
+
+    /// <summary>
+    /// やられふっとびエフェクトを再生
+    /// </summary>
+    /// <param name="position"></param>
+    public void CreateDethEffect(Vector3 position, Team teamName)
+    {
+        GameObject bloomObj = new GameObject("FlowerBloom");
+        bloomObj.transform.position = position;
+        ParticleSystem ps = bloomObj.AddComponent<ParticleSystem>();
+        var main = ps.main;
+        main.startLifetime = deadDuration;
+        main.startSpeed = deadSpeed;
+        main.startSize = 0.4f;
+        main.loop = false;
+        main.maxParticles = deadPetals;
+        main.simulationSpace = ParticleSystemSimulationSpace.World;
+        main.playOnAwake = false;
+
+        var shape = ps.shape;
+        shape.shapeType = ParticleSystemShapeType.Circle;
+        shape.radius = 0.1f;
+        shape.arc = 360f;
+
+        var renderer = ps.GetComponent<ParticleSystemRenderer>();
+        renderer.material = ChangeMaterial(teamName, flowerMaterial);
+        renderer.renderMode = ParticleSystemRenderMode.Billboard;
+        shape.rotation = new Vector3(-90f, 0f, 0f);
+
+
+        ps.Emit(deadPetals);
+        Destroy(bloomObj, deadDuration + 1f); // 自動破棄
+    }
+
+
+    public void CreateSpiralEffect(Vector3 position)
+    {
+        GameObject spiral = new GameObject("SpiralEffect");
+        spiral.transform.position = position;
+
+        var ps = spiral.AddComponent<ParticleSystem>();
+        var main = ps.main;
+        main.startLifetime = 2f;
+        main.startSpeed = warpSpeed;
+        main.startSize = warpSize;
+        main.loop = false;
+        main.maxParticles = warpPetals;
+        main.simulationSpace = ParticleSystemSimulationSpace.World;
+        main.playOnAwake = false;
+
+        // 外周から発生
+        var shape = ps.shape;
+        shape.shapeType = ParticleSystemShapeType.Circle;
+        shape.radius = 2f;
+        shape.arc = 360f;
+
+        // 回転運動
+        var velocity = ps.velocityOverLifetime;
+        velocity.enabled = true;
+        velocity.orbitalY = 2f; // ぐるぐる回る（中心軸：Y）
+
+        // 吸い込む力
+        var force = ps.forceOverLifetime;
+        force.enabled = true;
+        force.x = new ParticleSystem.MinMaxCurve(-position.x * 0.5f);
+        force.z = new ParticleSystem.MinMaxCurve(-position.z * 0.5f);
+
+        var renderer = ps.GetComponent<ParticleSystemRenderer>();
+        renderer.material = flowerMaterial[2];
+
+        ps.Emit(warpPetals);
+        Destroy(spiral, warpDuration);
+    }
+
+
+
+
+    /// <summary>
+    /// 真上にくるくる舞う花びらエフェクト
+    /// </summary>
+    public void CreateSpiralEffect2(Vector3 position, int typeID)
+    {
+        GameObject spiral = new GameObject("FloatingPetalsEffect");
+        spiral.transform.position = position + new Vector3(0, 0, 0); // 頭上で発生
+
+        var ps = spiral.AddComponent<ParticleSystem>();
+        var main = ps.main;
+        main.startLifetime = 3f;
+        main.startSpeed = new ParticleSystem.MinMaxCurve(warpSpeed * 0.5f); // ゆっくり浮遊
+        main.startSize = new ParticleSystem.MinMaxCurve(warpSize * 0.5f);
+        main.loop = false;
+        main.maxParticles = warpPetals;
+        main.simulationSpace = ParticleSystemSimulationSpace.World;
+        main.playOnAwake = false;
+        main.gravityModifier = new ParticleSystem.MinMaxCurve(-0.1f); // ふわっと浮く
+
+        // 小さな空間から発生
+        var shape = ps.shape;
+        shape.shapeType = ParticleSystemShapeType.Sphere;
+        shape.radius = 0.3f;
+
+        // 回転運動と上昇（MinMaxCurveでモード統一）
+        var velocity = ps.velocityOverLifetime;
+        velocity.enabled = true;
+        velocity.space = ParticleSystemSimulationSpace.World;
+        velocity.orbitalY = new ParticleSystem.MinMaxCurve(warpSpeed);   // Y軸回転
+        velocity.y = new ParticleSystem.MinMaxCurve(0.5f);               // 上昇
+
+        // ランダムな風のような動き
+        var force = ps.forceOverLifetime;
+        force.enabled = true;
+        force.x = new ParticleSystem.MinMaxCurve(-0.3f, 0.3f);
+        force.z = new ParticleSystem.MinMaxCurve(-0.3f, 0.3f);
+
+        // 描画設定
+        var renderer = ps.GetComponent<ParticleSystemRenderer>();
+        if (typeID == 0)
+        {
+            renderer.material = flowerMaterial != null && flowerMaterial.Length > 2 ? flowerMaterial[2] : null;
+        }
+        else
+        {
+            renderer.material = flowerMaterial != null && flowerMaterial.Length > 2 ? flowerMaterial[3] : null;
+        }
+        renderer.renderMode = ParticleSystemRenderMode.Billboard;
+
+        ps.Emit(warpPetals);
+        Destroy(spiral, warpDuration);
+    }
+
+
+
+
+
+    private Material ChangeMaterial(Team teamName, Material[] materialSet)
+    {
+        
+        switch (teamName)
+        {
+            case Team.TeamOne:
+                selectMaterial = materialSet[0];
+                break;
+            case Team.TeamTwo:
+                selectMaterial = materialSet[1];
+                break;
+        }
+        return selectMaterial;
+    }
+}

@@ -1,0 +1,13 @@
+﻿key,type,file,channel
+tekkit,bgm,tekkit,0
+StageSelect,bgm,StageSelect,0
+ponkotsu,bgm,ponkotsu,0
+cook,bgm,cook,0
+bloom,se,bloom,0
+PowerUp,se,PowerUp,1
+getxp,se,getxp,2
+openbl,se,openbl,3
+death,se,death,4
+gameset,se,gameset,5
+DrumRoll,se,DrumRoll,1
+start,se,start,6

@@ -1,0 +1,167 @@
+//#if UNITY_EDITOR
+using System.Collections;
+using System.Threading;
+//using TMPro.EditorUtilities;
+//#endif
+using UnityEngine;
+
+public class GameTimer : MonoBehaviour
+{
+    [SerializeField] private bool _isActiveTime = false; //タイマーを進めるかどうか判断する
+    [SerializeField] private float _startTime = 65; //制限時間
+    [SerializeField] private float _countDownTime = 3; //プレイ開始時のカウントダウン用
+
+    public static GameTimer instance;
+
+    private float _timer; //プライベートタイマー
+    public float CurrentTime { get { return _timer; } } //現在の時間を返す(読み取り専用)
+
+    public float StartTime { get { return _startTime; } } //最初の時間を返す(読み取り専用)
+
+    private float _mapTimer; //カウントダウン用のタイマー
+    public float CountDownTime { get { return _countDownTime; } }
+
+    public float meltTime;
+
+    public bool _isGameStart = false; //カウントダウンが終わったらプレイ可能にするbool変数 
+    public bool _isrule = true; //ルール説明終わったらカウントダウンするコード 
+
+    [SerializeField] GameObject rule1;
+    [SerializeField] GameObject rule2;
+
+
+    public bool isLastUI = false;
+    public GameObject uiPrefab;         // インスペクターでUIプレファブを指定
+    public Transform canvasTransform;   // キャンバスのTransform
+
+    private void Awake()
+    {
+        instance = this;
+       
+        _mapTimer = _startTime; //マップタイマーの初期値を代入
+    }
+    private void Update()
+    {
+        
+        if(!_isrule)
+        {
+            _countDownTime -= Time.deltaTime;
+        }
+
+        if (_isActiveTime)
+        {
+            _timer += Time.deltaTime;
+        }
+        if ((_startTime - _timer) <= 60f && !isLastUI)
+        {
+            isLastUI = true;
+            GameObject instance = Instantiate(uiPrefab, canvasTransform);
+        }
+        
+        
+    }
+
+    private void Start()
+    {
+        Rule();
+    }
+
+    public void Rule()
+    {
+        _countDownTime = 3;
+        SoundManager.PlaySE("start");
+        _isrule = true;
+        rule1.SetActive(true);
+        StartCoroutine(RuleStop());
+    }
+    IEnumerator RuleStop()
+    {
+        yield return new WaitForSeconds(5f);
+        rule1.SetActive(false);
+        _isrule = false;
+    }
+
+    /// <summary>
+    /// タイマーを動かす
+    /// </summary>
+    public void StartTimer()
+    {
+        _isActiveTime = true;
+        _isGameStart = true;
+    }
+
+    /// <summary>
+    /// タイマーを止める
+    /// </summary>
+    public void StopTimer()
+    {
+        _isActiveTime = false;
+        _isGameStart = false;
+    }
+
+    public void SStopTimerr()
+    {
+        _isGameStart = false;
+    }
+
+    /// <summary>
+    /// タイマーをリセットする
+    /// </summary>
+    public void ResetTimer()
+    {
+        _timer = 0f;
+        StopTimer();
+    }
+
+    /// <summary>
+    /// マップタイマーの減ってる比率を返す
+    /// </summary>
+    public float MeltTimer()
+    {
+        if (_isActiveTime) { 
+            _mapTimer -= Time.deltaTime;
+        }
+        meltTime = _mapTimer / _startTime;
+        return meltTime;
+    }
+
+    /// <summary>
+    /// マップタイマーの状態を取得
+    /// </summary>
+    /// <returns></returns>
+    public bool IsMapTimer0()
+    {
+        if(_mapTimer <= 0)
+        {
+            _mapTimer = 0;
+            return true;
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// 操作可能かどうか
+    /// </summary>
+    /// <returns></returns>
+    public bool IsGameStart()
+    {
+        return _isGameStart;
+    }
+
+    /// <summary>
+    /// カウントダウンが終わったらtrueを返してプレイ可能にする
+    /// </summary>
+    public void MainGameStart()
+    {
+        if (_isActiveTime)
+        {
+            _isGameStart = true;
+        }
+    }
+
+    public float GetTime()
+    {
+        return _startTime - _timer;
+    }
+}

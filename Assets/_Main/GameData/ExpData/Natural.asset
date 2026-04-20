@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fdb16db6cb01da45908add5265fc4ba, type: 3}
+  m_Name: Natural
+  m_EditorClassIdentifier: 
+  ExpTable:
+  - Level: 1
+    ExpToNextLevel: 1
+  - Level: 2
+    ExpToNextLevel: 2
+  - Level: 3
+    ExpToNextLevel: 3
+  - Level: 4
+    ExpToNextLevel: 4
+  - Level: 5
+    ExpToNextLevel: 5
+  - Level: 6
+    ExpToNextLevel: 6
+  - Level: 7
+    ExpToNextLevel: 7
+  - Level: 8
+    ExpToNextLevel: 8
+  - Level: 9
+    ExpToNextLevel: 9
